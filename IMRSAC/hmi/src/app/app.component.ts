@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 import { HeaderComponent } from './header/header.component';
-import { NbButtonModule, NbLayoutModule, NbSidebarModule, NbSidebarService } from '@nebular/theme';
-import { RouterModule } from '@angular/router';
+import { NbLayoutModule, NbSidebarModule } from '@nebular/theme';
+import { MapComponent } from './map/map.component';
 
 @Component({
   imports: [
     HeaderComponent,
+    MapComponent,
     NbLayoutModule,
     NbSidebarModule,
-    NbButtonModule,
   ],
   standalone: true,
   selector: 'app-root',
@@ -17,10 +17,4 @@ import { RouterModule } from '@angular/router';
 })
 export class AppComponent {
   title = 'hmi';
-
-  constructor(private sidebarService: NbSidebarService) {}
-
-  toggle() {
-    this.sidebarService.toggle();
-  }
 }

@@ -1,15 +1,12 @@
-
 <nb-layout>
   <nb-layout-header fixed>
     <app-header></app-header>
   </nb-layout-header>
 
   <nb-sidebar>Sidebar Content</nb-sidebar>
-  
-  <nb-layout-column>
-    Page Content <button nbButton (click)="toggle()">Hello World</button>
+
+  <nb-layout-column class="no-padding">
+    <app-map></app-map>
   </nb-layout-column>
-  <nb-layout-footer>
-    Footer
-  </nb-layout-footer>
+  <nb-layout-footer> Footer </nb-layout-footer>
 </nb-layout>
