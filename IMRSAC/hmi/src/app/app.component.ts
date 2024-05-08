@@ -2,13 +2,15 @@ import { Component } from '@angular/core';
 import { HeaderComponent } from './header/header.component';
 import { NbLayoutModule, NbSidebarModule } from '@nebular/theme';
 import { MapComponent } from './map/map.component';
+import { MenuComponent } from './menu/menu.component';
 
 @Component({
   imports: [
     HeaderComponent,
+    MenuComponent,
     MapComponent,
     NbLayoutModule,
-    NbSidebarModule,
+    NbSidebarModule
   ],
   standalone: true,
   selector: 'app-root',

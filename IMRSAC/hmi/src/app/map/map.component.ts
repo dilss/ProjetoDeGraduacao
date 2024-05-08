@@ -18,7 +18,7 @@ export class MapComponent {
         attribution: '&amp;copy; OpenStreetMap contributors'
       })
     ],
-    zoom: 7,
-    center: latLng([ 46.879966, -121.726909 ])
+    zoom: 18,
+    center: latLng([ -23.010426715414685, -45.57926527454545 ])
   };
 }
