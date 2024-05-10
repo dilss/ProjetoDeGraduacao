@@ -1,1 +1,5 @@
-<p-menu [model]="items" />
+<!-- <div class="card flex justify-content-center" style="border: 0;">
+    <p-menu styleClass="no-border" [model]="items" />
+</div> -->
+
+<p-sidebar [(visible)]="display" [closeOnEscape]="true" (onHide)="menuClosed()"> Content </p-sidebar>

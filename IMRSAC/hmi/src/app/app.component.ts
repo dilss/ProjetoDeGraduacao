@@ -1,17 +1,11 @@
 import { Component } from '@angular/core';
 import { HeaderComponent } from './header/header.component';
-import { NbLayoutModule, NbSidebarModule } from '@nebular/theme';
 import { MapComponent } from './map/map.component';
 import { MenuComponent } from './menu/menu.component';
+import { FooterComponent } from './footer/footer.component';
 
 @Component({
-  imports: [
-    HeaderComponent,
-    MenuComponent,
-    MapComponent,
-    NbLayoutModule,
-    NbSidebarModule
-  ],
+  imports: [HeaderComponent, MenuComponent, MapComponent, FooterComponent],
   standalone: true,
   selector: 'app-root',
   templateUrl: './app.component.html',
