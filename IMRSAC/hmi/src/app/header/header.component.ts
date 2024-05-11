@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
-import { CrossComunicationService } from '../services/cross-comunication.service';
+import { CrossCommunicationService } from '../services/cross-communication.service';
 
 @Component({
   imports: [ButtonModule],
@@ -9,9 +9,9 @@ import { CrossComunicationService } from '../services/cross-comunication.service
   templateUrl: './header.component.html',
 })
 export class HeaderComponent {
-  constructor(private crossComunicationService: CrossComunicationService) {}
+  constructor(private crossCommunicationService: CrossCommunicationService) {}
 
   toggleSideMenu(): void {
-    this.crossComunicationService.toggleSideMenu();
+    this.crossCommunicationService.toggleSideMenu();
   }
 }

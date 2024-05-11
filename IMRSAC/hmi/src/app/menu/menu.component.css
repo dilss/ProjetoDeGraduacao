@@ -1,3 +1,93 @@
-.no-border {
-  border: 0;
+.p-menu {
+  border: unset;
+  width: 100%;
+}
+
+li.p-element.p-submenu-header span {
+  color: green;
+  font-size: 1.1rem;
+}
+
+.crop-icon {
+  width: 2rem;
+  height: 2rem;
+  content: url("../../assets/images/icons/menu/crop.png");
+}
+
+.seeds-icon {
+  width: 2rem;
+  height: 2rem;
+  content: url("../../assets/images/icons/menu/seeds.png");  
+}
+
+.watering-icon {
+  width: 2rem;
+  height: 2rem;
+  content: url("../../assets/images/icons/menu/watering.png");  
+}
+
+.field-icon {
+  width: 2rem;
+  height: 2rem;
+  content: url("../../assets/images/icons/menu/field.png");  
+}
+
+.new-field-icon {
+  width: 2rem;
+  height: 2rem;
+  content: url("../../assets/images/icons/menu/field-new.png");  
+}
+
+.soil-sensor-icon {
+  width: 2rem;
+  height: 2rem;
+  content: url("../../assets/images/icons/menu/soil-sensor.png");  
+}
+
+.plus-icon {
+  width: 2rem;
+  height: 2rem;
+  content: url("../../assets/images/icons/menu/plus.png");  
+}
+
+.soil-moisture-sensor-icon {
+  width: 2rem;
+  height: 2rem;
+  content: url("../../assets/images/icons/menu/soil-moisture-sensor.png");  
+}
+
+.soil-icon {
+  width: 2rem;
+  height: 2rem;
+  content: url("../../assets/images/icons/menu/soil.png");  
+}
+
+.soil-sample-icon {
+  width: 2rem;
+  height: 2rem;
+  content: url("../../assets/images/icons/menu/soil-sample.png");  
+}
+
+.vegetables-icon {
+  width: 2rem;
+  height: 2rem;
+  content: url("../../assets/images/icons/menu/vegetables.png");  
+}
+
+.growing-plant-icon {
+  width: 2rem;
+  height: 2rem;
+  content: url("../../assets/images/icons/menu/growing-plant.png");  
+}
+
+.water-drop-icon {
+  width: 2rem;
+  height: 2rem;
+  content: url("../../assets/images/icons/menu/water-drop.png");  
+}
+
+.spinkler-icon {
+  width: 2rem;
+  height: 2rem;
+  content: url("../../assets/images/icons/menu/sprinkler.png");  
 }

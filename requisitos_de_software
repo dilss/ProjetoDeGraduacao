@@ -61,7 +61,7 @@
 		
 		Status hídrico da área
 		
-1 - Cada envio de dados dos sensores de uma determinada àrea dispara o cálculo de lâmina d'água faltante para a CC
+1 - Cada envio de dados dos sensores de uma determinada àrea dispara o cálculo de lâmina de água faltante para a CC
 2 - O status hídrico (composto por percentual hídrico da área e timestamp) é persistido em um banco de dados
 
 		
