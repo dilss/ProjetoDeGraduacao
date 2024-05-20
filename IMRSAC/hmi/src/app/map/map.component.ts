@@ -1,27 +1,22 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
-import {
-  Icon,
-  Layer,
-  MapOptions,
-  latLng,
-  tileLayer,
-} from 'leaflet';
+import { Icon, Layer, MapOptions, latLng, tileLayer } from 'leaflet';
 import { AreaService } from '../services/map/area.service';
 import { AreaMenuDirective } from '../area/area-menu/area-menu.directive';
 import { Subscription } from 'rxjs';
+import { ToastModule } from 'primeng/toast';
 
 Icon.Default.imagePath = 'leaflet/';
 @Component({
-  imports: [LeafletModule, AreaMenuDirective],
+  imports: [LeafletModule, AreaMenuDirective, ToastModule],
   standalone: true,
   selector: 'app-map',
   templateUrl: './map.component.html',
   styleUrl: './map.component.css',
 })
 export class MapComponent implements OnInit, OnDestroy {
-
-  @ViewChild(AreaMenuDirective, { static: true }) areaMenuHost: AreaMenuDirective;
+  @ViewChild(AreaMenuDirective, { static: true })
+  areaMenuHost: AreaMenuDirective;
 
   subscriptions: Subscription[] = [];
 
@@ -43,11 +38,13 @@ export class MapComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.layers = this.areaService.getAreas(this.areaMenuHost);
-    let sub = this.areaService.areasListChanged$.subscribe( _areas => this.layers = this.areaService.getAreas(this.areaMenuHost));
+    let sub = this.areaService.areasListChanged$.subscribe(
+      (_areas) => (this.layers = this.areaService.getAreas(this.areaMenuHost))
+    );
     this.subscriptions.push(sub);
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.forEach( sub => sub.unsubscribe());
+    this.subscriptions.forEach((sub) => sub.unsubscribe());
   }
 }

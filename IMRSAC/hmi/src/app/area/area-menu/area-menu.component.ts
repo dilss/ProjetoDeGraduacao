@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { MenuItem, PrimeIcons } from 'primeng/api';
 import { MenuModule } from 'primeng/menu';
 import { AreaService } from '../../services/map/area.service';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   imports: [MenuModule],
@@ -14,7 +15,7 @@ export class AreaMenuComponent implements OnInit {
   @Input() title: string;
   items: MenuItem[] = [];
 
-  constructor(private areaService: AreaService, private cd: ChangeDetectorRef) {}
+  constructor(private areaService: AreaService, private toastService: ToastService, private cd: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.items.push({
@@ -28,5 +29,6 @@ export class AreaMenuComponent implements OnInit {
 
   private deleteClick(areaName: string): void {
     this.areaService.deleteArea(areaName);
+    this.toastService.showSuccess("Area excluida com sucesso!");
   }
 }

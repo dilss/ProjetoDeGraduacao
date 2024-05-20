@@ -18,7 +18,7 @@
 		
 1 - Adicionar criação de uma área demarcada no mapa(polígono) as entradas serão as coordenadas dos vértices
 2 - Adicionar edição de área
-3 - Adicionar exclusão da área
+3 - Adicionar exclusão da área - check
 4 - Associar a área criada a um tipo de solo (tabela área relacionamento many-to-one com a tabela solo)
 5 - Abrir o context menu da área (clique direito do mouse) apresenta entre outras opções criar sensores naquela coordenada clicada (tabela área realacionamento one-to-many com a tabela sensor)
 6 - Caso a área seja criada ao redor de um sensor existente mostrar a mensagem: "O sensor <nome do sensor> foi adicionado à área <nome da área>"
