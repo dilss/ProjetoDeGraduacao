@@ -1,7 +1,7 @@
 		Gerenciamento de sensores
 
-1 - Criar frame da aplicação com menus
-2 - Incluir leaflet map
+1 - Criar frame da aplicação com menus - check
+2 - Incluir leaflet map - check
 3 - Adicionar marcadores de sensores no mapa (criar com entradas por coordenadas)
 4 - Adicionar funcionalidade de edição de sensores
 5 - Adicionar funcionalidade de exclusão de sensores
