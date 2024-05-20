@@ -33,11 +33,11 @@ export class AreaService {
   areasListChanged$: Subject<Area[]> = new Subject<Area[]>();
 
   getAreas(areaMenu: AreaMenuDirective): Polygon[] {
-    return  this.areas.map((area) => {
+    return this.areas.map((area) => {
       let polygon: Polygon = new Polygon(
         this.getLatLongFromAreaCoordinates(area)
       )
-        .bindPopup(this.buildAreaMenuComponent(areaMenu, area))
+        .bindPopup(this.buildAreaMenuComponent(areaMenu, area), { interactive: true })
         .bindTooltip(area.name)
         .clearAllEventListeners()
         .addEventListener('contextmenu', (event: LeafletMouseEvent) =>
@@ -46,6 +46,8 @@ export class AreaService {
         .addEventListener('click', (event: LeafletMouseEvent) =>
           polygon.openTooltip(event.latlng)
         );
+        // .addEventListener('remove', (_event) => polygon.closePopup()); // close with event from the polygon on which the popup is on
+        polygon.getPopup().addEventListener('mouseup', _event => polygon.closePopup()); // Close with event from the popup itself
       return polygon;
     });
   }

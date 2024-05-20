@@ -29,6 +29,6 @@ export class AreaMenuComponent implements OnInit {
 
   private deleteClick(areaName: string): void {
     this.areaService.deleteArea(areaName);
-    this.toastService.showSuccess("Area excluida com sucesso!");
+    this.toastService.showSuccess("Área excluída com sucesso!");
   }
 }
