@@ -27,7 +27,6 @@ export class AreaMenuComponent implements OnInit {
   }
 
   private deleteClick(areaName: string): void {
-    console.log('clicked');
     this.areaService.deleteArea(areaName);
   }
 }

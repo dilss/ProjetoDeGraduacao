@@ -1,15 +1,15 @@
-import { Injectable, ViewContainerRef } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Area } from '../../models/area.model';
 import { LatLng, LeafletMouseEvent, Polygon } from 'leaflet';
 import { AreaMenuDirective } from '../../area/area-menu/area-menu.directive';
 import { AreaMenuComponent } from '../../area/area-menu/area-menu.component';
-import { Observable, Subject, of } from 'rxjs';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AreaService {
-  private areas: Array<Area> = [
+  private areas: Area[] = [
     {
       name: 'Área Teste',
       points: [
@@ -30,9 +30,9 @@ export class AreaService {
     },
   ];
 
-  areas$: Observable<Array<Area>> = of(this.areas);
+  areasListChanged$: Subject<Area[]> = new Subject<Area[]>();
 
-  getAreas(areaMenu: AreaMenuDirective): Array<Polygon> {
+  getAreas(areaMenu: AreaMenuDirective): Polygon[] {
     return  this.areas.map((area) => {
       let polygon: Polygon = new Polygon(
         this.getLatLongFromAreaCoordinates(area)
@@ -47,14 +47,13 @@ export class AreaService {
           polygon.openTooltip(event.latlng)
         );
       return polygon;
-    })
+    });
   }
 
   deleteArea(areaName: string): void {
-    console.log(this.areas.length);
     let index = this.areas.findIndex((area) => area.name === areaName);
     this.areas.splice(index, 1);
-    console.log(this.areas.length);
+    this.areasListChanged$.next(this.areas.slice());
   }
 
   private getLatLongFromAreaCoordinates(area: Area): Array<LatLng> {
