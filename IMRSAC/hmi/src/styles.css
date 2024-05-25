@@ -5,3 +5,9 @@
 @import "primeng/resources/primeng.css";
 @import "primeicons/primeicons.css";
 @import "leaflet/dist/leaflet.css";
+
+/* Eliminates the tip of the leaflet popup on the map layers */
+.leaflet-popup-tip {
+    width: 0px;
+    height: 0px;
+}

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { Icon, Layer, MapOptions, latLng, tileLayer } from 'leaflet';
 import { AreaService } from '../services/map/area.service';
@@ -30,12 +30,12 @@ export class MapComponent implements OnInit, OnDestroy {
 
   layers: Layer[] = [];
 
-  constructor(private areaService: AreaService, public viewContainerRef: ViewContainerRef) {}
+  constructor(private areaService: AreaService) {}
 
   ngOnInit(): void {
-    this.layers = this.areaService.getAreas(this.viewContainerRef);
+    this.layers = this.areaService.getAreas();
     let sub = this.areaService.areasListChanged$.subscribe(
-      (_areas) => (this.layers = this.areaService.getAreas(this.viewContainerRef))
+      (_areas) => (this.layers = this.areaService.getAreas())
     );
     this.subscriptions.push(sub);
   }

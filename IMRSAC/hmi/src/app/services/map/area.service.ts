@@ -1,8 +1,13 @@
-import { Injectable, ViewContainerRef } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import { Area } from '../../models/area.model';
 import { LatLng, LeafletMouseEvent, Polygon, Popup } from 'leaflet';
 import { AreaMenuComponent } from '../../area/area-menu/area-menu.component';
 import { Subject } from 'rxjs';
+import {
+  NgElement,
+  WithProperties,
+  createCustomElement,
+} from '@angular/elements';
 
 @Injectable({
   providedIn: 'root',
@@ -31,23 +36,32 @@ export class AreaService {
     },
   ];
 
+  constructor(injector: Injector) {
+    const AreaMenuElement = createCustomElement(AreaMenuComponent, {
+      injector: injector,
+    });
+    customElements.define('area-menu-element', AreaMenuElement);
+  }
+
   areasListChanged$: Subject<Area[]> = new Subject<Area[]>();
 
-  getAreas(viewContainerRef: ViewContainerRef): Polygon[] {
+  getAreas(): Polygon[] {
     return this.areas.map((area) => {
       let polygon: Polygon = new Polygon(
         this.getLatLongFromAreaCoordinates(area)
       )
-        .bindPopup(new Popup(), {interactive: true})
+        .bindPopup(new Popup(), { interactive: true })
         .bindTooltip(area.name)
         .clearAllEventListeners()
         .addEventListener('contextmenu', (event: LeafletMouseEvent) => {
-          polygon.openPopup(event.latlng);
+          const areaMenuElement: NgElement & WithProperties<AreaMenuComponent> =
+            document.createElement('area-menu-element') as any;
+          areaMenuElement.title = area.name;
+          polygon.setPopupContent(areaMenuElement).openPopup(event.latlng);
         })
         .addEventListener('click', (event: LeafletMouseEvent) =>
           polygon.openTooltip(event.latlng)
         );
-      // .addEventListener('remove', (_event) => polygon.closePopup()); // close with event from the polygon on which the popup is on
       polygon
         .getPopup()
         .addEventListener('mouseup', (_event) => polygon.closePopup()); // Close with event from the popup itself
@@ -65,11 +79,5 @@ export class AreaService {
     return area.points.map(
       (point) => new LatLng(point.latitude, point.longitude)
     );
-  }
-  private getAreaPopupContent(ref: ViewContainerRef, area: Area): HTMLElement {
-    let component = ref.createComponent(AreaMenuComponent);
-    component.instance.title = area.name;
-    let element: HTMLElement = component.location.nativeElement;
-    return element;
   }
 }
