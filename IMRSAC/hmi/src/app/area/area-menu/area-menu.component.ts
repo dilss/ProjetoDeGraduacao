@@ -15,7 +15,7 @@ export class AreaMenuComponent implements OnInit {
   @Input() title: string;
   items: MenuItem[] = [];
 
-  constructor(private areaService: AreaService, private toastService: ToastService, private cd: ChangeDetectorRef) {}
+  constructor(private areaService: AreaService, private toastService: ToastService) {}
 
   ngOnInit(): void {
     this.items.push({
