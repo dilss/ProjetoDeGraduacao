@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MenuItem, PrimeIcons } from 'primeng/api';
 import { MenuModule } from 'primeng/menu';
 import { AreaService } from '../../services/map/area.service';
