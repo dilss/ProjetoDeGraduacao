@@ -1,1 +1,69 @@
-<div class="create-area"></div>
+<div class="container">
+  <h3 style="margin-top: 20px">Cadastrar Nova Área</h3>
+  <hr />
+  <form [formGroup]="createAreaForm" (ngSubmit)="onSubmit()">
+    <div class="row mb-5">
+      <div class="col-6">
+        <div class="row"><label for="name">Nome da Área: </label></div>
+        <div class="row ms-24">
+          <input
+            pInputText
+            id="name"
+            formControlName="name"
+            style="margin-left: 12px"
+          />
+        </div>
+        <div class="row">
+          <small id="name-help"> Digite um nome para a nova área </small>
+        </div>
+      </div>
+    </div>
+
+    <div formArrayName="coordinates">
+      <div *ngFor="let coordinateForm of coordinates.controls; let i = index">
+        <!-- The repeated coordinate template -->
+        <div
+          class="row"
+          [formGroup]="castCoordinateFormToFormGroup(coordinateForm)"
+        >
+          <p-divider>
+            <label for="coordinate-{{ i }}">Coordenada {{ i + 1 }} </label>
+          </p-divider>
+          <div class="col-3">
+            <label for="latitude">Latitude</label>
+            <br />
+            <p-inputNumber inputId="latitude" formControlName="latitude" />
+          </div>
+          <div class="col-3 offset-2">
+            <label for="longitude">Longitude</label>
+            <br />
+            <p-inputNumber inputId="longitude" formControlName="longitude" />
+          </div>
+          <div class="col">
+            <br>
+            <p-button
+              icon="pi pi-trash"
+              [rounded]="true"
+              [text]="true"
+              severity="danger"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-5">
+      <div class="col-3">
+        <p-button (click)="addCoordinate()"> Adicionar Coordenada </p-button>
+      </div>
+      <div class="col-3 offset-2">
+        <p-button
+          type="submit"
+          [disabled]="!createAreaForm.valid"
+          severity="success"
+          >Salvar</p-button
+        >
+      </div>
+    </div>
+  </form>
+</div>

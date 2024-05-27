@@ -1,5 +1,4 @@
 import { Injectable, Injector } from '@angular/core';
-import { Area } from '../../models/area.model';
 import { LatLng, LeafletMouseEvent, Polygon, Popup } from 'leaflet';
 import { AreaMenuComponent } from '../../area/area-menu/area-menu.component';
 import { Subject } from 'rxjs';
@@ -8,6 +7,7 @@ import {
   WithProperties,
   createCustomElement,
 } from '@angular/elements';
+import { Area } from '../../models/area/area.model';
 
 @Injectable({
   providedIn: 'root',
@@ -18,20 +18,20 @@ export class AreaService {
       id: 'area1',
       name: 'Área Teste',
       points: [
-        { latitude: -23.01082457568464, longitude: -45.58001532145514 },
-        { latitude: -23.011684034982196, longitude: -45.57952137576746 },
-        { latitude: -23.010980275238868, longitude: -45.577408009971315 },
-        { latitude: -23.01022461172214, longitude: -45.57812524617534 },
+        { id: 1, order: 1,  latitude: -23.01082457568464, longitude: -45.58001532145514 },
+        { id: 2, order: 2,  latitude: -23.011684034982196, longitude: -45.57952137576746 },
+        { id: 3, order: 3,  latitude: -23.010980275238868, longitude: -45.577408009971315 },
+        { id: 4, order: 4,  latitude: -23.01022461172214, longitude: -45.57812524617534 },
       ],
     },
     {
       id: 'area2',
       name: 'Área ao lado da área teste',
       points: [
-        { latitude: -23.010197983178035, longitude: -45.57976592565331 },
-        { latitude: -23.01060533452893, longitude: -45.579696188224624 },
-        { latitude: -23.009980728621294, longitude: -45.57776768010066 },
-        { latitude: -23.009565968950607, longitude: -45.577920566002 },
+        { id: 5, order: 1, latitude: -23.010197983178035, longitude: -45.57976592565331 },
+        { id: 6, order: 2, latitude: -23.01060533452893, longitude: -45.579696188224624 },
+        { id: 7, order: 3, latitude: -23.009980728621294, longitude: -45.57776768010066 },
+        { id: 8, order: 4, latitude: -23.009565968950607, longitude: -45.577920566002 },
       ],
     },
   ];
