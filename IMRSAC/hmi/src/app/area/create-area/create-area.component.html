@@ -32,20 +32,37 @@
           <div class="col-3">
             <label for="latitude">Latitude</label>
             <br />
-            <p-inputNumber inputId="latitude" formControlName="latitude" />
+            <p-inputNumber
+              inputId="latitude"
+              formControlName="latitude"
+              mode="decimal"
+              locale="en-US"
+              [useGrouping]="false"
+              [minFractionDigits]="2"
+              [maxFractionDigits]="14"
+            />
           </div>
           <div class="col-3 offset-2">
             <label for="longitude">Longitude</label>
             <br />
-            <p-inputNumber inputId="longitude" formControlName="longitude" />
+            <p-inputNumber
+              inputId="longitude"
+              formControlName="longitude"
+              mode="decimal"
+              locale="en-US"
+              [useGrouping]="false"
+              [minFractionDigits]="2"
+              [maxFractionDigits]="14"
+            />
           </div>
           <div class="col">
-            <br>
+            <br />
             <p-button
               icon="pi pi-trash"
               [rounded]="true"
               [text]="true"
               severity="danger"
+              (onClick)="deleteCoordinate(i)"
             />
           </div>
         </div>

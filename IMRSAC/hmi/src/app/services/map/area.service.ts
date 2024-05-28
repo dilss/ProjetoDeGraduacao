@@ -8,6 +8,7 @@ import {
   createCustomElement,
 } from '@angular/elements';
 import { Area } from '../../models/area/area.model';
+import { Coordinate } from '../../models/area/coordinate.model';
 
 @Injectable({
   providedIn: 'root',
@@ -18,22 +19,22 @@ export class AreaService {
       id: 'area1',
       name: 'Área Teste',
       points: [
-        { id: 1, order: 1,  latitude: -23.01082457568464, longitude: -45.58001532145514 },
-        { id: 2, order: 2,  latitude: -23.011684034982196, longitude: -45.57952137576746 },
-        { id: 3, order: 3,  latitude: -23.010980275238868, longitude: -45.577408009971315 },
-        { id: 4, order: 4,  latitude: -23.01022461172214, longitude: -45.57812524617534 },
+        { id: 1, order: 1,  latitude: -23.01082457568464, longitude: -45.58001532145514 } as Coordinate,
+        { id: 2, order: 2,  latitude: -23.011684034982196, longitude: -45.57952137576746 } as Coordinate,
+        { id: 3, order: 3,  latitude: -23.010980275238868, longitude: -45.577408009971315 } as Coordinate,
+        { id: 4, order: 4,  latitude: -23.01022461172214, longitude: -45.57812524617534 } as Coordinate,
       ],
-    },
+    } as Area,
     {
       id: 'area2',
       name: 'Área ao lado da área teste',
       points: [
-        { id: 5, order: 1, latitude: -23.010197983178035, longitude: -45.57976592565331 },
-        { id: 6, order: 2, latitude: -23.01060533452893, longitude: -45.579696188224624 },
-        { id: 7, order: 3, latitude: -23.009980728621294, longitude: -45.57776768010066 },
-        { id: 8, order: 4, latitude: -23.009565968950607, longitude: -45.577920566002 },
+        { id: 5, order: 1, latitude: -23.010197983178035, longitude: -45.57976592565331 } as Coordinate,
+        { id: 6, order: 2, latitude: -23.01060533452893, longitude: -45.579696188224624 } as Coordinate,
+        { id: 7, order: 3, latitude: -23.009980728621294, longitude: -45.57776768010066 } as Coordinate,
+        { id: 8, order: 4, latitude: -23.009565968950607, longitude: -45.577920566002 } as Coordinate,
       ],
-    },
+    } as Area,
   ];
 
   constructor(injector: Injector) {
@@ -45,7 +46,7 @@ export class AreaService {
 
   areasListChanged$: Subject<Area[]> = new Subject<Area[]>();
 
-  getAreas(): Polygon[] {
+  drawAreas(): Polygon[] {
     return this.areas.map((area) => {
       let polygon: Polygon = new Polygon(
         this.getLatLongFromAreaCoordinates(area)
@@ -67,6 +68,15 @@ export class AreaService {
         .addEventListener('mouseup', (_event) => polygon.closePopup()); // Close with event from the popup itself
       return polygon;
     });
+  }
+
+  getAreas(): Area[] {
+    return [...this.areas];
+  }
+
+  createArea(area: Area): void {
+    this.areas.push(area);
+    this.areasListChanged$.next(this.areas.slice());
   }
 
   deleteArea(areaName: string): void {

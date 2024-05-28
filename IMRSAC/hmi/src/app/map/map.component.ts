@@ -33,9 +33,9 @@ export class MapComponent implements OnInit, OnDestroy {
   constructor(private areaService: AreaService) {}
 
   ngOnInit(): void {
-    this.layers = this.areaService.getAreas();
+    this.layers = this.areaService.drawAreas();
     let sub = this.areaService.areasListChanged$.subscribe(
-      (_areas) => (this.layers = this.areaService.getAreas())
+      (_areas) => (this.layers = this.areaService.drawAreas())
     );
     this.subscriptions.push(sub);
   }
