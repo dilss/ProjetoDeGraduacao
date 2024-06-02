@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   hmi:
     build: ./hmi
@@ -10,7 +8,9 @@ services:
       - '4200:4200'
 
   backend:
-    build: ./backend
+    build:
+      context: ./backend/app
+      dockerfile: src/main/docker/Dockerfile.jvm
     container_name: backend
     depends_on:
       - db
