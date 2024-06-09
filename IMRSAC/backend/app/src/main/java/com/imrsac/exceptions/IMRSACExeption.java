@@ -1,5 +1,8 @@
 package com.imrsac.exceptions;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties({"stackTrace", "cause", "suppressed"})
 public class IMRSACExeption extends AppException {
     private final IAppError appErrorImpl;
 

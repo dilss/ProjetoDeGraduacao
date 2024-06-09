@@ -1,22 +1,25 @@
 package com.imrsac.api;
 
+import org.junit.jupiter.api.function.ThrowingSupplier;
+
 import com.imrsac.exceptions.IMRSACExeption;
 
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.Status;
 
 public interface GenerateResponse {
-    
-    public static Response run(Object response) {
-        return Response.status(getCode(response)).entity(response).build();
-    }
 
-    private static int getCode(Object response) {
-        if (response.getClass().equals(IMRSACExeption.class)) {
-            return ((IMRSACExeption) response).getStatusCode();
+    public static  Response run(ThrowingSupplier<Object> supplier) {
+
+        try {
+            Object result = supplier.get();
+            return Response.status(Status.OK).entity(result).build();           
+        } catch (Throwable e) {
+            if (e.getClass().equals(IMRSACExeption.class)) {
+                IMRSACExeption exception = (IMRSACExeption) e;
+                return Response.status(exception.getStatusCode()).entity(exception).build(); 
+            }
+            return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e).build(); 
         }
-        if (response instanceof Exception) {
-            return Response.Status.INTERNAL_SERVER_ERROR.getStatusCode();
-        }
-        return Response.Status.OK.getStatusCode();
     }
 }
