@@ -4,9 +4,10 @@ import { MapComponent } from './map/map.component';
 import { MenuComponent } from './menu/menu.component';
 import { FooterComponent } from './footer/footer.component';
 import { RouterModule } from '@angular/router';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
-  imports: [HeaderComponent, MenuComponent, MapComponent, FooterComponent, RouterModule],
+  imports: [HeaderComponent, MenuComponent, MapComponent, FooterComponent, RouterModule, ToastModule],
   standalone: true,
   selector: 'app-root',
   templateUrl: './app.component.html',

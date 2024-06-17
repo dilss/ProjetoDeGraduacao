@@ -18,6 +18,9 @@ public class Coordinate extends PanacheEntity {
     @Column(nullable = false, precision = 21, scale = 18)
     public BigDecimal longitude;
 
+    @Column(name = "node_order", nullable = false)
+    public Integer nodeOrder;
+
     @Column(name = "created_at", nullable = false)
     public Instant createdAt = Instant.now();
 }

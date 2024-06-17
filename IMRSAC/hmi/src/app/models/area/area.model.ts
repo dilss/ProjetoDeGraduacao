@@ -1,7 +1,7 @@
 import { Coordinate } from "./coordinate.model";
 
 export class Area {
-    id: string;
+    id?: number;
     name: string;
-    points: Array<Coordinate> = [];
+    coordinates: Array<Coordinate> = [];
 }

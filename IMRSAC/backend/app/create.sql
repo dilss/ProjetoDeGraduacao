@@ -15,6 +15,7 @@
     create table coordinates (
         latitude decimal(21,18) not null,
         longitude decimal(21,18) not null,
+        node_order integer not null,
         area_id bigint,
         created_at datetime(6) not null,
         id bigint not null,

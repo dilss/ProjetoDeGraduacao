@@ -11,6 +11,7 @@ public interface CoordinateMapper {
         Coordinate coordinate = new Coordinate();
         coordinate.latitude = request.getLatitude();
         coordinate.longitude = request.getLongitude();
+        coordinate.nodeOrder = request.getNodeOrder();
         return coordinate;
     }
     

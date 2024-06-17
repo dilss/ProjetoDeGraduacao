@@ -59,7 +59,6 @@ export class CreateAreaComponent implements OnInit {
 
   addCoordinate() {
     const coordinateForm = this.formBuilder.group({
-      order: [0, Validators.required],
       latitude: [0, Validators.required],
       longitude: [0, Validators.required],
     });
@@ -71,25 +70,17 @@ export class CreateAreaComponent implements OnInit {
   }
 
   onSubmit() {
-    // TODO: Use EventEmitter with form value
-    console.warn(this.createAreaForm.value);
-
     let area: Area = new Area();
     area.name = this.createAreaForm.value.name;
-    area.id = "area3"
-
-    area.points = this.createAreaForm.value.coordinates.map(
-      (coordinate: { order: number; latitude: number; longitude: number }) => {
-        let point: Coordinate = new Coordinate();
-        point.id = 0;
-        point.order = 0;
-        point.latitude = coordinate.latitude;
-        point.longitude = coordinate.longitude;
-        return point;
-      }
+    let index: number = 0;
+    this.createAreaForm.value.coordinates.forEach(
+      (value: { latitude: number; longitude: number }) =>
+        area.coordinates.push({
+          latitude: value.latitude,
+          longitude: value.longitude,
+          nodeOrder: ++index,
+        } as Coordinate)
     );
     this.areaService.createArea(area);
-    console.log("==================== Areas ===================");
-    console.log(this.areaService.getAreas());
   }
 }

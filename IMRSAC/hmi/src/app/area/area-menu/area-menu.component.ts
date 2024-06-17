@@ -13,22 +13,23 @@ import { ToastService } from '../../services/toast.service';
 })
 export class AreaMenuComponent implements OnInit {
   @Input() title: string;
+  @Input() id: string;
   items: MenuItem[] = [];
 
   constructor(private areaService: AreaService, private toastService: ToastService) {}
 
   ngOnInit(): void {
     this.items.push({
+      id: this.id,
       label: this.title,
       items: [
         { label: 'Editar área', icon: PrimeIcons.PENCIL },
-        { label: 'Excluir área', icon: PrimeIcons.TRASH, command: () => this.deleteClick(this.title)},
+        { label: 'Excluir área', icon: PrimeIcons.TRASH, command: () => this.deleteClick(this.id)},
       ],
     });
   }
 
-  private deleteClick(areaName: string): void {
-    this.areaService.deleteArea(areaName);
-    this.toastService.showSuccess("Área excluída com sucesso!");
+  private deleteClick(id: string): void {
+    this.areaService.deleteArea(parseInt(id));
   }
 }

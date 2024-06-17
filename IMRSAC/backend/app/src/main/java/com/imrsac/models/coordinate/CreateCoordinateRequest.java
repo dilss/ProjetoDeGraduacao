@@ -11,5 +11,6 @@ import lombok.Setter;
 @Setter
 public class CreateCoordinateRequest implements Serializable {
     private BigDecimal latitude;
-    private BigDecimal longitude;            
+    private BigDecimal longitude;
+    private Integer nodeOrder;            
 }

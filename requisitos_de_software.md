@@ -14,7 +14,7 @@
 
 # Gerenciamento de Áreas
 
-- [ ] 1 - Adicionar criação de uma área demarcada no mapa(polígono) as entradas serão as coordenadas dos vértices (nome, lista de coordenandas);
+- [x] 1 - Adicionar criação de uma área demarcada no mapa(polígono) as entradas serão as coordenadas dos vértices (nome, lista de coordenandas);
 - [ ] 2 - (não é urgente) Adicionar edição de área;
 - [x] 3 - Adicionar exclusão da área;
 - [ ] 4 - Associar a área criada a um tipo de solo (tabela área relacionamento many-to-one com a tabela solo);

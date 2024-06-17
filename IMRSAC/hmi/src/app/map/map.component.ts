@@ -7,7 +7,7 @@ import { ToastModule } from 'primeng/toast';
 
 Icon.Default.imagePath = 'leaflet/';
 @Component({
-  imports: [LeafletModule, ToastModule],
+  imports: [LeafletModule],
   standalone: true,
   selector: 'app-map',
   templateUrl: './map.component.html',
@@ -33,6 +33,7 @@ export class MapComponent implements OnInit, OnDestroy {
   constructor(private areaService: AreaService) {}
 
   ngOnInit(): void {
+    this.areaService.fetchAreas();
     this.layers = this.areaService.drawAreas();
     let sub = this.areaService.areasListChanged$.subscribe(
       (_areas) => (this.layers = this.areaService.drawAreas())
