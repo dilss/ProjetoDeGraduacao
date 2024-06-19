@@ -10,3 +10,7 @@
     drop table if exists coordinates;
 
     drop table if exists coordinates_SEQ;
+
+    drop table if exists soil;
+
+    drop table if exists soil_SEQ;

@@ -28,6 +28,21 @@
 
     insert into coordinates_SEQ values ( 1 );
 
+    create table soil (
+        cc float(23) not null,
+        density float(23) not null,
+        pmp float(23) not null,
+        id bigint not null,
+        name varchar(100) not null,
+        primary key (id)
+    ) engine=InnoDB;
+
+    create table soil_SEQ (
+        next_val bigint
+    ) engine=InnoDB;
+
+    insert into soil_SEQ values ( 1 );
+
     alter table coordinates 
        add constraint FK2frw33nj716h51lchwga63yqy 
        foreign key (area_id) 
