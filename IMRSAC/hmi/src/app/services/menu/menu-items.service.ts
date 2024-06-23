@@ -1,13 +1,14 @@
 import { MenuItem } from 'primeng/api/menuitem';
 import { CrossCommunicationService } from '../cross-communication.service';
 import { Injectable } from '@angular/core';
+import { SoilService } from '../soil/soil.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class MenuItemService {
 
-    constructor(private crossCommunicationService: CrossCommunicationService) {}
+    constructor(private crossCommunicationService: CrossCommunicationService, private soilService: SoilService) {}
 
     public MENU_ITEMS: MenuItem[] = [
         {
@@ -82,7 +83,8 @@ export class MenuItemService {
                 },
                 {
                     label: 'Cadastrar novo tipo de solo',
-                    icon: 'soil-sample-icon'
+                    icon: 'soil-sample-icon',
+                    command: _event => this.soilService.openCreateSoilDialog()
                 }
             ]
         },

@@ -36,6 +36,7 @@ public class SoilService {
             return soil.id;
         } catch (Exception e) {
             LOG.debug(e.getMessage());
+            System.out.println(e.getMessage());
             throw new IMRSACExeption(IMRSACErrorEnum.ERROR_PERSISTING_SOIL);
         }
     }

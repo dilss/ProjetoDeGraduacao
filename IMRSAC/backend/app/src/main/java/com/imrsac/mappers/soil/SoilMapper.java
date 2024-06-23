@@ -8,7 +8,7 @@ public interface SoilMapper {
         Soil soil = new Soil();
         soil.name = request.getName();
         soil.fieldCapacity = request.getFieldCapacity();
-        soil.permanentWiltingPoint = request.getPermanentWitingPoint();
+        soil.permanentWiltingPoint = request.getPermanentWiltingPoint();
         soil.density = request.getDensity();
         return soil;
     }    

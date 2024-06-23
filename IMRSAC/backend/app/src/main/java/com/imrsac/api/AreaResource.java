@@ -34,7 +34,7 @@ public class AreaResource {
     @Transactional(Transactional.TxType.REQUIRED)
     public Response createArea(CreateAreaRequest request, @Context UriInfo uriInfo) throws IMRSACExeption {
         Area area = AreaMapper.toAreaEntity(request);
-        return GenerateResponse.run( () -> areaService.createArea(area) );
+        return GenerateResponse.run( () -> this.areaService.createArea(area) );
     }
 
     @GET

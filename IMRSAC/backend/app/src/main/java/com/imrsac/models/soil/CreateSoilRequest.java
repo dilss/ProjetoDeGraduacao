@@ -10,6 +10,6 @@ import lombok.Setter;
 public class CreateSoilRequest implements Serializable {
     private String name;
     private Float fieldCapacity;
-    private Float permanentWitingPoint;
+    private Float permanentWiltingPoint;
     private Float density;    
 }
