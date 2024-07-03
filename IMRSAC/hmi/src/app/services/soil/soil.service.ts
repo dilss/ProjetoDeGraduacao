@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { Soil } from '../../models/soil/soil.model';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { ToastService } from '../toast.service';
@@ -14,7 +14,9 @@ export class SoilService {
 
   soilsListChanged$: Subject<Soil[]> = new Subject<Soil[]>();
 
-  dialogOpen$: Subject<boolean> = new Subject<boolean>();
+  createSoilDialogOpen$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
+  showSoilsDialogOpen$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   constructor(private http: HttpClient, private toastService: ToastService) {}
 
@@ -62,6 +64,10 @@ export class SoilService {
   }
 
   openCreateSoilDialog(): void {
-    this.dialogOpen$.next(true);
+    this.createSoilDialogOpen$.next(true);
+  }
+
+  openShowSoilsDialog(): void {
+    this.showSoilsDialogOpen$.next(true);
   }
 }

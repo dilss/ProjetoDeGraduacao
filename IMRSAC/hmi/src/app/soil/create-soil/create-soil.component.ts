@@ -3,10 +3,11 @@ import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputNumberModule } from 'primeng/inputnumber';
-import { SoilService } from '../services/soil/soil.service';
 import { Subscription } from 'rxjs';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Soil } from '../models/soil/soil.model';
+import { SoilService } from '../../services/soil/soil.service';
+import { Soil } from '../../models/soil/soil.model';
+
 
 @Component({
   imports: [DialogModule, ButtonModule, InputTextModule, InputNumberModule, ReactiveFormsModule],
@@ -40,7 +41,7 @@ export class CreateSoilComponent implements OnInit, OnDestroy {
   constructor(private soilService: SoilService) {}
 
   ngOnInit(): void {
-    const subscription = this.soilService.dialogOpen$.subscribe(
+    const subscription = this.soilService.createSoilDialogOpen$.subscribe(
       (isVisible) => (this.visible = isVisible)
     );
     this.subscriptions.push(subscription);

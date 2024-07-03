@@ -25,8 +25,9 @@
 ## Gerenciamento de Solos
 
 - [x] 1 - Cadastrar tipo de solo - parâmetros do solo -> **CC** = Capacidade de Campo e **PMP** = Ponto de Murcha Permanente ambos em  % ou cm³/cm³ (água/solo) **d<sub>a</sub>** = densidade do solo em g/cm³
-- [ ] 2 - Editar tipo de solo
-- [x] 3 - Excluir tipo de solo
+- [x] 2 - Listar solos cadastrados
+- [ ] 3 - Editar tipo de solo
+- [x] 4 - Excluir tipo de solo
 
 ## Gerenciamento de Culturas
 
@@ -34,6 +35,7 @@
 - [ ] 2 - Editar cultura
 - [ ] 3 - Excluir cultura
 - [ ] 4 - A necessidade hídrica da cultura é a umidade ideal do solo (capacidade de campo)
+- [ ] 5 - Listar culturas cadastradas
 
 ## Gerenciamento de Plantações
 

@@ -79,7 +79,8 @@ export class MenuItemService {
             items: [
                 {
                     label: 'Meus solos',
-                    icon: 'soil-icon'
+                    icon: 'soil-icon',
+                    command: _event => this.soilService.openShowSoilsDialog()
                 },
                 {
                     label: 'Cadastrar novo tipo de solo',

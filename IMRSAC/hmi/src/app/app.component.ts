@@ -5,8 +5,10 @@ import { MenuComponent } from './menu/menu.component';
 import { FooterComponent } from './footer/footer.component';
 import { RouterModule } from '@angular/router';
 import { ToastModule } from 'primeng/toast';
-import { CreateSoilComponent } from './soil/create-soil.component';
 import { SpinnerComponent } from './spinner/spinner.component';
+import { CreateSoilComponent } from './soil/create-soil/create-soil.component';
+import { ShowSoilsComponent } from './soil/show-soils/show-soils.component';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @Component({
   imports: [
@@ -14,10 +16,12 @@ import { SpinnerComponent } from './spinner/spinner.component';
     MenuComponent,
     MapComponent,
     CreateSoilComponent,
+    ShowSoilsComponent,
     SpinnerComponent,
     FooterComponent,
     RouterModule,
     ToastModule,
+    ConfirmDialogModule,
   ],
   standalone: true,
   selector: 'app-root',
