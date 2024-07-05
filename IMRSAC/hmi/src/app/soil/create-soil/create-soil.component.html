@@ -1,9 +1,22 @@
 <p-dialog
-  header="Cadastar Solo"
   [modal]="true"
   [(visible)]="visible"
   [style]="{ width: '40rem' }"
-  ><form [formGroup]="soilForm" (ngSubmit)="onSubmit()">
+  >
+  <ng-template pTemplate="header">
+    <div class="inline-flex align-items-center justify-content-center gap-2">
+      <div class="d-flex align-items-center">
+        <img
+          src="../../../assets/images/icons/menu/soil-sample.png"
+          alt="soil sample icon"
+          width="30"
+          height="30"
+        />
+        <span class="fw-bold header-text ms-3"> {{title}} </span>
+      </div>
+    </div>
+  </ng-template>
+  <form [formGroup]="soilForm" (ngSubmit)="onSubmit()">
     <span class="p-text-secondary d-block mb-5"
       >Digite os parâmetros do novo tipo de solo.</span
     >

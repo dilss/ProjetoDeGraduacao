@@ -12,6 +12,7 @@ import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
@@ -46,6 +47,13 @@ public class SoilResource {
     @Path("{id}")
     public Response getSoil(@PathParam("id") Long soilId) throws IMRSACExeption {
         return GenerateResponse.run(() -> this.soilService.findSoilById(soilId));
+    }
+
+    @PUT
+    @Path("{id}")
+    @Transactional(Transactional.TxType.REQUIRED)
+    public Response editSoil(@PathParam("id") Long soilId, Soil request) throws IMRSACExeption {
+        return GenerateResponse.run(() -> this.soilService.editSoil(request));
     }
 
     @DELETE

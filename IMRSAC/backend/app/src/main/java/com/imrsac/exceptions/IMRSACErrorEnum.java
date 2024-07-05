@@ -17,6 +17,7 @@ public enum IMRSACErrorEnum implements IAppError {
     ERROR_PERSISTING_SOIL("008", "An error occurred while persisting the soil parameters",
             Status.INTERNAL_SERVER_ERROR),
     ERROR_FETCHING_SOILS("009", "An error occurred while fetching the soils", Status.INTERNAL_SERVER_ERROR),
+    ERROR_UPDATING_SOIL("009", "An error occurred while updating the soil", Status.INTERNAL_SERVER_ERROR),
     ERROR_REMOVING_SOIL("010", "An error occurred while deleting the soil", Status.INTERNAL_SERVER_ERROR);
 
     private final String code;

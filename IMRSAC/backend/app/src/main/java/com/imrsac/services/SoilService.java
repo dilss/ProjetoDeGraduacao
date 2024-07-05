@@ -1,6 +1,7 @@
 package com.imrsac.services;
 
 import java.util.List;
+import java.util.Map;
 
 import org.jboss.logging.Logger;
 
@@ -9,6 +10,7 @@ import com.imrsac.dao.repositories.SoilRepository;
 import com.imrsac.exceptions.IMRSACErrorEnum;
 import com.imrsac.exceptions.IMRSACExeption;
 
+import io.quarkus.panache.common.Parameters;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 
@@ -20,9 +22,8 @@ public class SoilService {
 
     private static final Logger LOG = Logger.getLogger(SoilService.class);
 
-
     public List<Soil> getAllSoils() throws IMRSACExeption {
-         try {
+        try {
             return this.soilRepository.listAll();
         } catch (Exception e) {
             LOG.debug(e.getMessage());
@@ -30,7 +31,7 @@ public class SoilService {
         }
     }
 
-     public Long createSoil(Soil soil) throws IMRSACExeption {
+    public Long createSoil(Soil soil) throws IMRSACExeption {
         try {
             this.soilRepository.persist(soil);
             return soil.id;
@@ -48,6 +49,18 @@ public class SoilService {
         } catch (Exception e) {
             LOG.debug(e.getMessage());
             throw e;
+        }
+    }
+
+    public Integer editSoil(Soil soil) throws IMRSACExeption {
+        Map<String, Object> params = Parameters.with("name", soil.name).and("cc", soil.fieldCapacity)
+                .and("pmp", soil.permanentWiltingPoint).and("density", soil.density).and("id", soil.id).map();
+        String query = "update Soil s set s.name = :name, s.fieldCapacity = :cc, s.permanentWiltingPoint = :pmp, s.density = :density where s.id = :id";
+        try {
+            return this.soilRepository.update(query, params);
+        } catch (Exception e) {
+            LOG.debug(e.getMessage());
+            throw new IMRSACExeption(IMRSACErrorEnum.ERROR_UPDATING_SOIL);
         }
     }
 

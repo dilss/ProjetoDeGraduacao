@@ -56,6 +56,10 @@ export class ShowSoilsComponent implements OnInit, OnDestroy {
     });
   }
 
+  editSoil(soil: Soil): void {
+    this.soilService.openEditSoilDialog(soil);
+  }
+
   ngOnDestroy(): void {
     this.subscriptions.forEach((sub) => sub.unsubscribe());
   }

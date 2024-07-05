@@ -14,7 +14,9 @@ export class SoilService {
 
   soilsListChanged$: Subject<Soil[]> = new Subject<Soil[]>();
 
-  createSoilDialogOpen$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  createSoilDialogOpen$: Subject<void> = new Subject();
+
+  editSoilDialogOpen$: Subject<Soil> = new Subject<Soil>();
 
   showSoilsDialogOpen$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
@@ -63,8 +65,27 @@ export class SoilService {
     });
   }
 
+  editSoil(soil: Soil): void {
+    this.http
+    .put(`${this.baseUrl}/${soil.id}`, soil, { responseType: 'json' })
+    .subscribe({
+      next: (_soilId: number) => {
+        this.fetchSoils();
+        this.toastService.showSuccess(
+          `As altearções no solo "${soil.name}" foram salvas.`
+        );
+      },
+      error: (errorResponse: HttpErrorResponse) =>
+        this.toastService.showError(errorResponse.error.message),
+    });  
+  }
+
+  openEditSoilDialog(soil: Soil): void {
+    this.editSoilDialogOpen$.next(soil);
+  }
+
   openCreateSoilDialog(): void {
-    this.createSoilDialogOpen$.next(true);
+    this.createSoilDialogOpen$.next();
   }
 
   openShowSoilsDialog(): void {

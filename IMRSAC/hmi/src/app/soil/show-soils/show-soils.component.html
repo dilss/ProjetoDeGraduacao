@@ -1,17 +1,29 @@
 <p-dialog
-  header="Solos Cadastrados"
   [modal]="true"
   [(visible)]="visible"
   [style]="{ width: '60rem', height: '30rem' }"
 >
+  <ng-template pTemplate="header">
+    <div class="inline-flex align-items-center justify-content-center gap-2">
+      <div class="d-flex align-items-center">
+        <img
+          src="../../../assets/images/icons/menu/soil.png"
+          alt="soil icon"
+          width="30"
+          height="30"
+        />
+        <span class="fw-bold header-text ms-3"> Solos Cadastrados </span>
+      </div>
+    </div>
+  </ng-template>
   <p-dataView [value]="soils">
     <ng-template let-soil pTemplate="list">
       <div *ngFor="let soil of soils" class="container">
         <div class="row mb-5">
-          <div class="row">
-            <strong>{{ soil.name }}</strong>
-            <hr />
+          <div class="fw-bold soil-name">
+            {{ soil.name }}
           </div>
+          <hr />
           <div class="col-10">
             <b>Capacidade de Campo (CC):</b> {{ soil.fieldCapacity }} cm³/cm³
             <br />
@@ -20,7 +32,15 @@
             <br />
             <b>Densidade (d<sub>a</sub>):</b> {{ soil.density }} g/cm³
           </div>
-          <div class="col-2">
+          <div class="col-1">
+            <p-button
+              icon="pi pi-pencil"
+              severity="info"
+              [outlined]="true"
+              (onClick)="editSoil(soil)"
+            />
+          </div>
+          <div class="col-1">
             <p-button
               icon="pi pi-trash"
               severity="danger"
