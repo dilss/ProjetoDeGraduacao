@@ -50,6 +50,8 @@ public class AreaService {
 
     public boolean deleteArea(Long areaId) throws IMRSACExeption {
         try {
+            Area area =  this.areaRepository.findById(areaId);
+            area.soil = null;
             return this.areaRepository.deleteById(areaId);
         } catch (Exception e) {
             LOG.debug(e.getMessage());

@@ -8,7 +8,7 @@ public interface AreaMapper {
     public static Area toAreaEntity(CreateAreaRequest request) {
         Area area = new Area();
         area.name = request.getName();
-        area.coordinates = CoordinateMapper.toCoordinateEntityList(request.getCoordinates());
+        area.coordinates = CoordinateMapper.toCoordinateEntitySet(request.getCoordinates());
         return area;
     }
 }

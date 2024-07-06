@@ -65,12 +65,13 @@ public class SoilService {
     }
 
     public boolean deleteSoil(Long soilId) throws IMRSACExeption {
+        Soil soil = this.soilRepository.findById(soilId);
+        soil.associatedAreas.forEach(area -> area.soil = null);
         try {
-            return this.soilRepository.deleteById(soilId);
+           return this.soilRepository.deleteById(soilId);
         } catch (Exception e) {
             LOG.debug(e.getMessage());
             throw new IMRSACExeption(IMRSACErrorEnum.ERROR_REMOVING_SOIL);
         }
     }
-
 }

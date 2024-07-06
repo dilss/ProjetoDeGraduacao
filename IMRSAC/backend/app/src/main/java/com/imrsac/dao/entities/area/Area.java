@@ -1,14 +1,18 @@
 package com.imrsac.dao.entities.area;
 
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.imrsac.dao.entities.soil.Soil;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -20,8 +24,12 @@ public class Area extends PanacheEntity {
     public String name;
 
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    @JoinColumn(name = "area_id")
-    public List<Coordinate> coordinates = new ArrayList<>();
+    public Set<Coordinate> coordinates = new HashSet<>();
+
+    @ManyToOne
+    @JoinColumn(name = "soil_id")
+    @JsonIgnoreProperties({"associatedAreas"})
+    public Soil soil;
 
     @Column(name = "created_at", nullable = false)
     public Instant createdAt = Instant.now();

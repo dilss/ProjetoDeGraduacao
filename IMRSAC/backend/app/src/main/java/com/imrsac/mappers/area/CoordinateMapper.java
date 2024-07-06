@@ -1,7 +1,8 @@
 package com.imrsac.mappers.area;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.imrsac.dao.entities.area.Coordinate;
 import com.imrsac.models.coordinate.CreateCoordinateRequest;
@@ -15,9 +16,9 @@ public interface CoordinateMapper {
         return coordinate;
     }
     
-    public static List<Coordinate> toCoordinateEntityList(List<CreateCoordinateRequest> requestList) {
-        List<Coordinate> list = new ArrayList<>();
-        requestList.forEach( element -> list.add(toCoordinateEntity(element)));    
-        return list;
+    public static Set<Coordinate> toCoordinateEntitySet(List<CreateCoordinateRequest> requestList) {
+        Set<Coordinate> set = new HashSet<>();
+        requestList.forEach( element -> set.add(toCoordinateEntity(element)));    
+        return set;
     }
 }
