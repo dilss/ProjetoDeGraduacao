@@ -4,7 +4,9 @@ import java.util.List;
 import org.jboss.logging.Logger;
 
 import com.imrsac.dao.entities.area.Area;
+import com.imrsac.dao.entities.soil.Soil;
 import com.imrsac.dao.repositories.AreaRepository;
+import com.imrsac.dao.repositories.SoilRepository;
 import com.imrsac.exceptions.IMRSACErrorEnum;
 import com.imrsac.exceptions.IMRSACExeption;
 
@@ -17,6 +19,9 @@ public class AreaService {
     @Inject
     private AreaRepository areaRepository;
 
+    @Inject
+    private SoilRepository soilRepository;
+
     private static final Logger LOG = Logger.getLogger(AreaService.class);
 
     public List<Area> getAllAreas() throws IMRSACExeption {
@@ -28,9 +33,13 @@ public class AreaService {
         }
     }
 
-    public Long createArea(Area area) throws IMRSACExeption {
+    public Long createArea(Area area, Long soilId) throws IMRSACExeption {
         try {
             this.areaRepository.persist(area);
+            if (soilId != null) {
+                Soil soil = this.soilRepository.findById(soilId);
+                area.soil = soil;
+            }
             return area.id;
         } catch (Exception e) {
             LOG.debug(e.getMessage());
@@ -50,7 +59,7 @@ public class AreaService {
 
     public boolean deleteArea(Long areaId) throws IMRSACExeption {
         try {
-            Area area =  this.areaRepository.findById(areaId);
+            Area area = this.areaRepository.findById(areaId);
             area.soil = null;
             return this.areaRepository.deleteById(areaId);
         } catch (Exception e) {

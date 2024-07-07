@@ -12,5 +12,6 @@ import lombok.Setter;
 @Setter
 public class CreateAreaRequest implements Serializable {
     private String name;
+    private Long soilId;
     private List<CreateCoordinateRequest> coordinates;    
 }

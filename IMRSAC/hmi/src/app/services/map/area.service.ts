@@ -1,5 +1,11 @@
 import { Injectable, Injector } from '@angular/core';
-import { LatLng, LeafletMouseEvent, Polygon, Popup } from 'leaflet';
+import {
+  LatLng,
+  LeafletMouseEvent,
+  Polygon,
+  PolylineOptions,
+  Popup,
+} from 'leaflet';
 import { AreaMenuComponent } from '../../area/area-menu/area-menu.component';
 import { Subject } from 'rxjs';
 import {
@@ -11,6 +17,7 @@ import { Area } from '../../models/area/area.model';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { ToastService } from '../toast.service';
 import { Router } from '@angular/router';
+import { Coordinate } from '../../models/area/coordinate.model';
 
 @Injectable({
   providedIn: 'root',
@@ -36,8 +43,13 @@ export class AreaService {
 
   drawAreas(): Polygon[] {
     return this.areas.map((area) => {
+      let color: string = 'grey';
+      if (area.soil) {
+        color = 'brown';
+      }
       let polygon: Polygon = new Polygon(
-        this.getLatLongFromAreaCoordinates(area)
+        this.getLatLongFromAreaCoordinates(area),
+        { fillColor: color, color: color, fillOpacity: 0.6 }
       )
         .bindPopup(new Popup(), { interactive: true })
         .bindTooltip(area.name)
@@ -105,7 +117,10 @@ export class AreaService {
   }
 
   private getLatLongFromAreaCoordinates(area: Area): Array<LatLng> {
-    return area.coordinates.map(
+    const sortedCordinates: Coordinate[] = area.coordinates.sort(
+      (a, b) => b.nodeOrder - a.nodeOrder
+    );
+    return sortedCordinates.map(
       (point) => new LatLng(point.latitude, point.longitude)
     );
   }

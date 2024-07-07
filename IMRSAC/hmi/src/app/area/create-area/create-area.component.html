@@ -1,20 +1,42 @@
 <div class="container">
-  <h3 style="margin-top: 20px">Cadastrar Nova Área</h3>
+  <div class="d-flex align-items-center mt-3">
+    <img
+      src="../../../assets/images/icons/menu/field-new.png"
+      width="40px"
+      height="40px"
+      alt="New Field Icon"
+    />
+    <h3 class="title">Cadastrar Nova Área</h3>
+  </div>
   <hr />
   <form [formGroup]="createAreaForm" (ngSubmit)="onSubmit()">
     <div class="row mb-5">
-      <div class="col-6">
-        <div class="row"><label for="name">Nome da Área: </label></div>
-        <div class="row ms-24">
+      <div class="col-4">
+        <div class="row"><label for="name"> Nome da Área </label></div>
+        <div class="row">
           <input
             pInputText
             id="name"
             formControlName="name"
             style="margin-left: 12px"
+            placeholder="Digite um nome para a nova área"
           />
         </div>
+      </div>
+      <div class="col-3 offset-1">
+        <div class="row"><label for="name"> Tipo de Solo </label></div>
         <div class="row">
-          <small id="name-help"> Digite um nome para a nova área </small>
+          <p-dropdown
+            [options]="soils"
+            optionLabel="name"
+            optionValue="id"
+            formControlName="soilId"
+            [filter]="true"
+            filterBy="name"
+            [showClear]="true"
+            placeholder="Selecione um solo"
+            [style]="{ width: '100%' }"
+          ></p-dropdown>
         </div>
       </div>
     </div>
@@ -74,12 +96,16 @@
         <p-button (click)="addCoordinate()"> Adicionar Coordenada </p-button>
       </div>
       <div class="col-3 offset-2">
-        <p-button
-          type="submit"
-          [disabled]="!createAreaForm.valid"
-          severity="success"
-          >Salvar</p-button
-        >
+        <div class="d-flex">
+          <p-button severity="danger" (onClick)="cancelChanges()">Cancelar</p-button>
+          <p-button
+            class="ms-4"
+            type="submit"
+            [disabled]="!createAreaForm.valid"
+            severity="success"
+            >Salvar</p-button
+          >
+        </div>
       </div>
     </div>
   </form>

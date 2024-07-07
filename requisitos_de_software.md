@@ -19,8 +19,9 @@
 -   [x] 3 - Adicionar exclusão da área
 -   [x] 4 - Associar a área criada a um tipo de solo (tabela área relacionamento many-to-one com a tabela solo)
 -   [x] 5 - Abrir o context menu da área (clique direito do mouse) com as opções de edição e exclusão da área clicada
--   [ ] 6 - Caso a área seja criada ao redor de um sensor existente mostrar a mensagem: "O sensor <nome do sensor> foi adicionado à área <nome da área>"
--   [ ] 7 - (não é urgente ) Não permitir sobreposição de áreas na criação, o tangenciamento é permitido - implementação não é simples
+-   [ ] 6 - Editar área
+-   [ ] 7 - Caso a área seja criada ao redor de um sensor existente mostrar a mensagem: "O sensor <nome do sensor> foi adicionado à área <nome da área>"
+-   [ ] 8 - (não é urgente ) Não permitir sobreposição de áreas na criação, o tangenciamento é permitido - implementação não é simples
 
 ## Gerenciamento de Solos
 
