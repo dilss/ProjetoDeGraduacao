@@ -1,8 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { MenuItem, PrimeIcons } from 'primeng/api';
+import { ConfirmationService, MenuItem, PrimeIcons } from 'primeng/api';
 import { MenuModule } from 'primeng/menu';
 import { AreaService } from '../../services/map/area.service';
-import { ToastService } from '../../services/toast.service';
 
 @Component({
   imports: [MenuModule],
@@ -13,23 +12,49 @@ import { ToastService } from '../../services/toast.service';
 })
 export class AreaMenuComponent implements OnInit {
   @Input() title: string;
-  @Input() id: string;
+  @Input() id: number;
   items: MenuItem[] = [];
 
-  constructor(private areaService: AreaService, private toastService: ToastService) {}
+  constructor(
+    private areaService: AreaService,
+    private confirmationService: ConfirmationService
+  ) {}
 
   ngOnInit(): void {
     this.items.push({
-      id: this.id,
+      id: this.id.toString(),
       label: this.title,
       items: [
-        { label: 'Editar área', icon: PrimeIcons.PENCIL },
-        { label: 'Excluir área', icon: PrimeIcons.TRASH, command: () => this.deleteClick(this.id)},
+        {
+          label: 'Editar área',
+          icon: PrimeIcons.PENCIL,
+          command: () => this.editClicked(this.id),
+        },
+        {
+          label: 'Excluir área',
+          icon: PrimeIcons.TRASH,
+          command: () => this.deleteClick(this.id),
+        },
       ],
     });
   }
 
-  private deleteClick(id: string): void {
-    this.areaService.deleteArea(parseInt(id));
+  private deleteClick(areaId: number): void {
+    this.confirmationService.confirm({
+      message: 'Confirma a exclusão da área?',
+      header: 'Confirmação',
+      icon: 'pi pi-exclamation-triangle',
+      acceptIcon: 'none',
+      rejectIcon: 'none',
+      acceptLabel: 'Sim',
+      rejectLabel: 'Não',
+      rejectButtonStyleClass: 'p-button-text',
+      accept: () => this.areaService.deleteArea(areaId),
+      reject: () => this.confirmationService.close(),
+    });
+  }
+
+  private editClicked(areaId: number): void {
+    this.areaService.openEditArea(areaId);
   }
 }

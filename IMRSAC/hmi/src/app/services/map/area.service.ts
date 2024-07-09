@@ -1,11 +1,5 @@
 import { Injectable, Injector } from '@angular/core';
-import {
-  LatLng,
-  LeafletMouseEvent,
-  Polygon,
-  PolylineOptions,
-  Popup,
-} from 'leaflet';
+import { LatLng, LeafletMouseEvent, Polygon, Popup } from 'leaflet';
 import { AreaMenuComponent } from '../../area/area-menu/area-menu.component';
 import { Subject } from 'rxjs';
 import {
@@ -41,6 +35,10 @@ export class AreaService {
     customElements.define('area-menu-element', AreaMenuElement);
   }
 
+  get areasList() {
+    return [...this.areas];
+  }
+
   drawAreas(): Polygon[] {
     return this.areas.map((area) => {
       let color: string = 'grey';
@@ -57,7 +55,7 @@ export class AreaService {
         .addEventListener('contextmenu', (event: LeafletMouseEvent) => {
           const areaMenuElement: NgElement & WithProperties<AreaMenuComponent> =
             document.createElement('area-menu-element') as any;
-          areaMenuElement.id = area.id.toString();
+          areaMenuElement.setAttribute('id', area.id.toString());
           areaMenuElement.title = area.name;
           polygon.setPopupContent(areaMenuElement).openPopup(event.latlng);
         })
@@ -82,7 +80,7 @@ export class AreaService {
             this.areasListChanged$.next(this.areas);
         },
         error: (errorResponse: HttpErrorResponse) =>
-          this.toastService.showError(errorResponse.error.message),
+          this.toastService.showError(errorResponse?.error?.message),
       });
   }
 
@@ -98,12 +96,29 @@ export class AreaService {
           );
         },
         error: (errorResponse: HttpErrorResponse) =>
-          this.toastService.showError(errorResponse.error.message),
+          this.toastService.showError(errorResponse?.error?.message),
+      });
+  }
+
+  editArea(area: Area): void {
+    this.http
+      .put(`${this.baseUrl}/${area.id}`, area, { responseType: 'json' })
+      .subscribe({
+        next: () => {
+          this.router.navigate(['home']);
+          this.fetchAreas();
+          this.toastService.showSuccess(
+            `A área "${area.name}" foi atualizada com sucesso.`
+          );
+        },
+        error: (errorResponse: HttpErrorResponse) =>
+          this.toastService.showError(errorResponse?.error?.message),
       });
   }
 
   deleteArea(areaId: number): void {
-    let area: Area = this.areas.find((area) => area.id === areaId);
+    // Procurar porque o find com === não funciona
+    const area: Area = this.areas.find((area) => area.id == areaId);
     this.http.delete(`${this.baseUrl}/${areaId}`).subscribe({
       next: (_deleted: boolean) => {
         this.fetchAreas();
@@ -112,8 +127,12 @@ export class AreaService {
         );
       },
       error: (errorResponse: HttpErrorResponse) =>
-        this.toastService.showError(errorResponse.error.message),
+        this.toastService.showError(errorResponse?.error?.message),
     });
+  }
+
+  openEditArea(areaId: number): void {
+    this.router.navigate(['edit-area', areaId]);
   }
 
   private getLatLongFromAreaCoordinates(area: Area): Array<LatLng> {

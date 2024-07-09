@@ -1,6 +1,6 @@
 export class Coordinate {
-    id?: number;
-    nodeOrder: number;
-    latitude: number;
-    longitude: number;    
+  areaId?: number;
+  nodeOrder: number;
+  latitude: number;
+  longitude: number;
 }

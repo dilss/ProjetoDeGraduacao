@@ -16,7 +16,7 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "soil")
 public class Soil extends PanacheEntity {
-    
+
     @Column(length = 100, nullable = false)
     public String name;
 
@@ -29,7 +29,7 @@ public class Soil extends PanacheEntity {
     @Column(nullable = false)
     public Float density;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "soil" )
-    @JsonIgnoreProperties({"soil", "coordinates"})
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "soil")
+    @JsonIgnoreProperties({ "soil", "coordinates", "createdAt" })
     public Set<Area> associatedAreas = new HashSet<>();
 }

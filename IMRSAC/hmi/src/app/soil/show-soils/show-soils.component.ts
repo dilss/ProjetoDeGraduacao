@@ -47,12 +47,8 @@ export class ShowSoilsComponent implements OnInit, OnDestroy {
       acceptLabel: 'Sim',
       rejectLabel: 'Não',
       rejectButtonStyleClass: 'p-button-text',
-      accept: () => {
-        this.soilService.deleteSoil(soilId);
-      },
-      reject: () => {
-        this.confirmationService.close();
-      },
+      accept: () => this.soilService.deleteSoil(soilId),
+      reject: () => this.confirmationService.close(),
     });
   }
 

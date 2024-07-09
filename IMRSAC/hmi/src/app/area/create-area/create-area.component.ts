@@ -1,9 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import {
-  AbstractControl,
   FormArray,
-  FormBuilder,
+  FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
@@ -38,10 +37,39 @@ import { Router } from '@angular/router';
   styleUrl: './create-area.component.css',
 })
 export class CreateAreaComponent implements OnInit, OnDestroy {
-  createAreaForm = this.formBuilder.group({
-    name: ['', Validators.required],
-    soilId: [null],
-    coordinates: this.formBuilder.array([]),
+  @Input() areaToEditId?: string;
+
+  areaToEdit?: Area;
+  title: string = 'Cadastrar Nova Área';
+  iconName: string = 'field-new';
+
+  createAreaForm: FormGroup<{
+    name: FormControl<string>;
+    soilId: FormControl<number>;
+    coordinates: FormArray<
+      FormGroup<{
+        latitude: FormControl<number>;
+        longitude: FormControl<number>;
+      }>
+    >;
+  }> = new FormGroup<{
+    name: FormControl<string>;
+    soilId: FormControl<number>;
+    coordinates: FormArray<
+      FormGroup<{
+        latitude: FormControl<number>;
+        longitude: FormControl<number>;
+      }>
+    >;
+  }>({
+    name: new FormControl('', Validators.required),
+    soilId: new FormControl(null),
+    coordinates: new FormArray<
+      FormGroup<{
+        latitude: FormControl<number>;
+        longitude: FormControl<number>;
+      }>
+    >([]),
   });
 
   subscriptions: Subscription[] = [];
@@ -51,7 +79,6 @@ export class CreateAreaComponent implements OnInit, OnDestroy {
   soils: Soil[] = [];
 
   constructor(
-    private formBuilder: FormBuilder,
     private router: Router,
     private areaService: AreaService,
     private soilService: SoilService,
@@ -62,31 +89,35 @@ export class CreateAreaComponent implements OnInit, OnDestroy {
     const sub = this.soilService.soilsListChanged$.subscribe(
       (soils) => (this.soils = [...soils])
     );
-    this.soilService.fetchSoils();
-    for (let index = 0; index < 3; index++) {
-      this.addCoordinate();
+    if (this.areaToEditId) {
+      this.title = 'Editar Área';
+      this.iconName = 'field';
+      this.areaToEdit = this.areaService.areasList.find(
+        (area) => area.id === parseInt(this.areaToEditId)
+      );
+      this.fillFormWithAreaToEdit();
+    } else {
+      for (let index = 0; index < 3; index++) {
+        this.addCoordinateToFormArray();
+      }
     }
+    this.soilService.fetchSoils();
     this.subscriptions.push(sub);
   }
 
-  get coordinates() {
-    return this.createAreaForm.get('coordinates') as FormArray;
-  }
-
-  castCoordinateFormToFormGroup(form: AbstractControl): FormGroup {
-    return form as FormGroup;
-  }
-
-  addCoordinate() {
-    const coordinateForm = this.formBuilder.group({
-      latitude: [0, Validators.required],
-      longitude: [0, Validators.required],
+  addCoordinateToFormArray(latitude: number = null, longitude: number = null) {
+    const coordinateForm = new FormGroup<{
+      latitude: FormControl<number>;
+      longitude: FormControl<number>;
+    }>({
+      latitude: new FormControl(latitude, Validators.required),
+      longitude: new FormControl(longitude, Validators.required),
     });
-    this.coordinates.push(coordinateForm);
+    this.createAreaForm.controls.coordinates.push(coordinateForm);
   }
 
   deleteCoordinate(coordenateIndex: number) {
-    this.coordinates.removeAt(coordenateIndex);
+    this.createAreaForm.controls.coordinates.removeAt(coordenateIndex);
   }
 
   onSubmit() {
@@ -97,12 +128,26 @@ export class CreateAreaComponent implements OnInit, OnDestroy {
     this.createAreaForm.value.coordinates.forEach(
       (value: { latitude: number; longitude: number }) =>
         area.coordinates.push({
+          areaId: this.areaToEdit ? this.areaToEdit.id : null,
           latitude: value.latitude,
           longitude: value.longitude,
           nodeOrder: ++index,
         } as Coordinate)
     );
+    if (this.areaToEdit) {
+      area.id = this.areaToEdit.id;
+      this.areaService.editArea(area);
+      return;
+    }
     this.areaService.createArea(area);
+  }
+
+  fillFormWithAreaToEdit(): void {
+    this.createAreaForm.controls.name.setValue(this.areaToEdit.name);
+    this.createAreaForm.controls.soilId.setValue(this.areaToEdit.soil?.id);
+    this.areaToEdit.coordinates.forEach((coordinate) => {
+      this.addCoordinateToFormArray(coordinate.latitude, coordinate.longitude);
+    });
   }
 
   cancelChanges(): void {
@@ -119,9 +164,7 @@ export class CreateAreaComponent implements OnInit, OnDestroy {
         this.confirmationService.close();
         this.router.navigate(['home']);
       },
-      reject: () => {
-        this.confirmationService.close();
-      },
+      reject: () => this.confirmationService.close(),
     });
   }
 

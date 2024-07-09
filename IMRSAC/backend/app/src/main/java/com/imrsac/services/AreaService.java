@@ -9,6 +9,8 @@ import com.imrsac.dao.repositories.AreaRepository;
 import com.imrsac.dao.repositories.SoilRepository;
 import com.imrsac.exceptions.IMRSACErrorEnum;
 import com.imrsac.exceptions.IMRSACExeption;
+import com.imrsac.mappers.area.CoordinateMapper;
+import com.imrsac.models.area.UpdateAreaRequest;
 
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
@@ -33,17 +35,41 @@ public class AreaService {
         }
     }
 
-    public Long createArea(Area area, Long soilId) throws IMRSACExeption {
+    public Area createArea(Area area, Long soilId) throws IMRSACExeption {
         try {
             this.areaRepository.persist(area);
+            area.coordinates.forEach(coordinate -> {
+                coordinate.areaId = area.id;
+                coordinate.persist();
+            });
             if (soilId != null) {
                 Soil soil = this.soilRepository.findById(soilId);
                 area.soil = soil;
             }
-            return area.id;
+            return area;
         } catch (Exception e) {
             LOG.debug(e.getMessage());
             throw new IMRSACExeption(IMRSACErrorEnum.ERROR_PERSISTING_AREA);
+        }
+    }
+
+    public Area editArea(Long areadId, UpdateAreaRequest newData) throws IMRSACExeption {
+        try {
+            Area areaToUpdate = this.areaRepository.findById(areadId);
+            areaToUpdate.name = newData.getName();
+            areaToUpdate.coordinates.forEach(coordinate -> coordinate.delete());
+            CoordinateMapper.fromUpdateToCoordinateEntitySet(newData.getCoordinates())
+                    .forEach(coordinate -> coordinate.persist());
+            if (newData.getSoilId() != null) {
+                Soil soil = this.soilRepository.findById(newData.getSoilId());
+                areaToUpdate.soil = soil;
+            } else {
+                areaToUpdate.soil = null;
+            }
+            return areaToUpdate;
+        } catch (Exception e) {
+            LOG.debug(e.getMessage());
+            throw new IMRSACExeption(IMRSACErrorEnum.ERROR_UPDATING_AREA);
         }
     }
 

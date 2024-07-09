@@ -1,12 +1,12 @@
 <div class="container">
   <div class="d-flex align-items-center mt-3">
     <img
-      src="../../../assets/images/icons/menu/field-new.png"
+      src="../../../assets/images/icons/menu/{{ iconName }}.png"
       width="40px"
       height="40px"
       alt="New Field Icon"
     />
-    <h3 class="title">Cadastrar Nova Área</h3>
+    <h3 class="title">{{ title }}</h3>
   </div>
   <hr />
   <form [formGroup]="createAreaForm" (ngSubmit)="onSubmit()">
@@ -42,12 +42,14 @@
     </div>
 
     <div formArrayName="coordinates">
-      <div *ngFor="let coordinateForm of coordinates.controls; let i = index">
+      <div
+        *ngFor="
+          let coordinateForm of createAreaForm.controls.coordinates.controls;
+          let i = index
+        "
+      >
         <!-- The repeated coordinate template -->
-        <div
-          class="row"
-          [formGroup]="castCoordinateFormToFormGroup(coordinateForm)"
-        >
+        <div class="row" [formGroup]="coordinateForm">
           <p-divider>
             <label for="coordinate-{{ i }}">Coordenada {{ i + 1 }} </label>
           </p-divider>
@@ -93,11 +95,15 @@
 
     <div class="row mt-5">
       <div class="col-3">
-        <p-button (click)="addCoordinate()"> Adicionar Coordenada </p-button>
+        <p-button (click)="addCoordinateToFormArray()">
+          Adicionar Coordenada
+        </p-button>
       </div>
       <div class="col-3 offset-2">
         <div class="d-flex">
-          <p-button severity="danger" (onClick)="cancelChanges()">Cancelar</p-button>
+          <p-button severity="danger" (onClick)="cancelChanges()"
+            >Cancelar</p-button
+          >
           <p-button
             class="ms-4"
             type="submit"

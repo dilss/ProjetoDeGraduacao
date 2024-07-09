@@ -8,7 +8,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CreateCoordinateRequest implements Serializable {
+public class UpdateCoordinateRequest implements Serializable {
+    private Long areaId;
     private Long nodeOrder;
     private BigDecimal latitude;
     private BigDecimal longitude;

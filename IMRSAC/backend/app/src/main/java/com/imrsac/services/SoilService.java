@@ -31,10 +31,10 @@ public class SoilService {
         }
     }
 
-    public Long createSoil(Soil soil) throws IMRSACExeption {
+    public Soil createSoil(Soil soil) throws IMRSACExeption {
         try {
             this.soilRepository.persist(soil);
-            return soil.id;
+            return soil;
         } catch (Exception e) {
             LOG.debug(e.getMessage());
             System.out.println(e.getMessage());
@@ -52,12 +52,13 @@ public class SoilService {
         }
     }
 
-    public Integer editSoil(Soil soil) throws IMRSACExeption {
+    public Soil editSoil(Soil soil) throws IMRSACExeption {
         Map<String, Object> params = Parameters.with("name", soil.name).and("cc", soil.fieldCapacity)
                 .and("pmp", soil.permanentWiltingPoint).and("density", soil.density).and("id", soil.id).map();
         String query = "update Soil s set s.name = :name, s.fieldCapacity = :cc, s.permanentWiltingPoint = :pmp, s.density = :density where s.id = :id";
         try {
-            return this.soilRepository.update(query, params);
+            this.soilRepository.update(query, params);
+            return soil;
         } catch (Exception e) {
             LOG.debug(e.getMessage());
             throw new IMRSACExeption(IMRSACErrorEnum.ERROR_UPDATING_SOIL);
@@ -68,7 +69,7 @@ public class SoilService {
         Soil soil = this.soilRepository.findById(soilId);
         soil.associatedAreas.forEach(area -> area.soil = null);
         try {
-           return this.soilRepository.deleteById(soilId);
+            return this.soilRepository.deleteById(soilId);
         } catch (Exception e) {
             LOG.debug(e.getMessage());
             throw new IMRSACExeption(IMRSACErrorEnum.ERROR_REMOVING_SOIL);

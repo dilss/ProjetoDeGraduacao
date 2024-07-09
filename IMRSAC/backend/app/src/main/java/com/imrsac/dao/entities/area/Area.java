@@ -23,12 +23,13 @@ public class Area extends PanacheEntity {
     @Column(length = 100, nullable = false)
     public String name;
 
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @OneToMany(cascade = { CascadeType.REMOVE })
+    @JoinColumn(name = "area_id")
     public Set<Coordinate> coordinates = new HashSet<>();
 
     @ManyToOne
     @JoinColumn(name = "soil_id")
-    @JsonIgnoreProperties({"associatedAreas"})
+    @JsonIgnoreProperties({ "associatedAreas", "createdAt" })
     public Soil soil;
 
     @Column(name = "created_at", nullable = false)

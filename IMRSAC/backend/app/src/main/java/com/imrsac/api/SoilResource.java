@@ -16,10 +16,8 @@ import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import jakarta.ws.rs.core.UriInfo;
 
 @Path("/soils")
 @Consumes(MediaType.APPLICATION_JSON + "; charset=utf-8")
@@ -32,7 +30,7 @@ public class SoilResource {
     @POST
     @Path("create")
     @Transactional(Transactional.TxType.REQUIRED)
-    public Response createSoil(CreateSoilRequest request, @Context UriInfo uriInfo) throws IMRSACExeption {
+    public Response createSoil(CreateSoilRequest request) throws IMRSACExeption {
         Soil soil = SoilMapper.toSoilEntity(request);
         return GenerateResponse.run(() -> soilService.createSoil(soil));
     }
@@ -52,7 +50,7 @@ public class SoilResource {
     @PUT
     @Path("{id}")
     @Transactional(Transactional.TxType.REQUIRED)
-    public Response editSoil(@PathParam("id") Long soilId, Soil request) throws IMRSACExeption {
+    public Response updateSoil(Soil request) throws IMRSACExeption {
         return GenerateResponse.run(() -> this.soilService.editSoil(request));
     }
 

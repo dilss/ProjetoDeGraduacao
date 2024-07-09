@@ -10,4 +10,9 @@ export const routes: Routes = [
     path: 'create-area',
     component: CreateAreaComponent,
   },
+  {
+    title: 'Editar Área',
+    path: 'edit-area/:areaToEditId',
+    component: CreateAreaComponent,
+  },
 ];
