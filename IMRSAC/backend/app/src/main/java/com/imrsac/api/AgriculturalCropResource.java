@@ -17,7 +17,7 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.core.Response;
 
-@Path("/acricultural_crops")
+@Path("/agricultural-crops")
 public class AgriculturalCropResource {
 
     @Inject

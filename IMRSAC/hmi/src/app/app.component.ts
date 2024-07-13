@@ -9,6 +9,7 @@ import { SpinnerComponent } from './spinner/spinner.component';
 import { CreateSoilComponent } from './soil/create-soil/create-soil.component';
 import { ShowSoilsComponent } from './soil/show-soils/show-soils.component';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { CreateAgriculturalCropComponent } from './agricultural-crop/create-agricultural-crop/create-agricultural-crop.component';
 
 @Component({
   imports: [
@@ -17,6 +18,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
     MapComponent,
     CreateSoilComponent,
     ShowSoilsComponent,
+    CreateAgriculturalCropComponent,
     SpinnerComponent,
     FooterComponent,
     RouterModule,
