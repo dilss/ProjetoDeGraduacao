@@ -19,7 +19,7 @@
 -   [x] 3 - Adicionar exclusão da área
 -   [x] 4 - Associar a área criada a um tipo de solo (tabela área relacionamento many-to-one com a tabela solo)
 -   [x] 5 - Abrir o context menu da área (clique direito do mouse) com as opções de edição e exclusão da área clicada
--   [ ] 6 - Editar área
+-   [x] 6 - Editar área
 -   [ ] 7 - Caso a área seja criada ao redor de um sensor existente mostrar a mensagem: "O sensor <nome do sensor> foi adicionado à área <nome da área>"
 -   [ ] 8 - (não é urgente ) Não permitir sobreposição de áreas na criação, o tangenciamento é permitido - implementação não é simples
 
@@ -32,9 +32,9 @@
 
 ## Gerenciamento de Culturas
 
-<b>A necessidade hídrica da cultura é a umidade ideal do solo (capacidade de campo)</b>
+<b>O fator de disponibilidade de água no solo é um multiplicador que diminui a quandidade de água total disponível para a planta, dando o valor real: DRA = DTA x f. Assim ele é um indicador da tolerância da cultura à escassez de água </b>
 
--   [ ] 1 - Cadastrar uma cultura (diferentes fases de crescimento, profundidade radicular, necessidade hídrica, etc.) -> refinar
+-   [ ] 1 - Cadastrar uma cultura, profundidade radicular (Z em cm), fator de disponibilidade de água no solo ( f - entre 0,2 e 0,8 - é adimensional), duração do ciclo cultural (dias), percentuais de duração das fases (1, 2, 3 e 4)
 -   [ ] 2 - Editar cultura
 -   [ ] 3 - Excluir cultura
 -   [ ] 4 - Listar culturas cadastradas

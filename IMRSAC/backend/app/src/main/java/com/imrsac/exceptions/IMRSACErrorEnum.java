@@ -14,12 +14,21 @@ public enum IMRSACErrorEnum implements IAppError {
 
     // Errors related to soils
     SOIL_ID_NOT_INFORMED("100", "ID do solo não encontrado na requisição ", Status.BAD_REQUEST),
-    SOIL_NOT_FOUND_IN_THE_DATABASE("007", "Solo não encontrado na base de dados", Status.NOT_FOUND),
-    ERROR_PERSISTING_SOIL("101", "Erro ao tentar salvar o solo",
+    SOIL_NOT_FOUND_IN_THE_DATABASE("101", "Solo não encontrado na base de dados", Status.NOT_FOUND),
+    ERROR_PERSISTING_SOIL("102", "Erro ao tentar salvar o solo",
             Status.INTERNAL_SERVER_ERROR),
-    ERROR_FETCHING_SOILS("102", "Erro ao carregar os solos", Status.INTERNAL_SERVER_ERROR),
-    ERROR_UPDATING_SOIL("103", "Erro ao tentar atualizar o solo", Status.INTERNAL_SERVER_ERROR),
-    ERROR_REMOVING_SOIL("104", "Erro na tentativa de remoção do solo", Status.INTERNAL_SERVER_ERROR);
+    ERROR_FETCHING_SOILS("103", "Erro ao carregar os solos", Status.INTERNAL_SERVER_ERROR),
+    ERROR_UPDATING_SOIL("104", "Erro ao tentar atualizar o solo", Status.INTERNAL_SERVER_ERROR),
+    ERROR_REMOVING_SOIL("105", "Erro na tentativa de remoção do solo", Status.INTERNAL_SERVER_ERROR),
+
+    // Errors related to agricultural crops
+    AGRICULTURAL_CROP_ID_NOT_INFORMED("200", "ID da cultura não encontrado na requisição", Status.BAD_REQUEST),
+    AGRICULTURAL_CROP_NOT_FOUND_IN_THE_DATABASE("201", "Cultura não encontrada na base de dados", Status.NOT_FOUND),
+    ERROR_PERSISTING_AGRICULTURAL_CROP("202", "Erro ao tentar salvar a cultura", Status.INTERNAL_SERVER_ERROR),
+    ERROR_FETCHING_AGRICULTURAL_CROPS("203", "Erro ao tentar listar as culturas", Status.INTERNAL_SERVER_ERROR),
+    ERROR_UPDATING_AGRICULTURAL_CROP("204", "Erro ao tentar atualizar a cultura", Status.INTERNAL_SERVER_ERROR),
+    ERROR_REMOVING_AGRICULTURAL_CROP("205", "Erro ao tentar remover a cultura", Status.INTERNAL_SERVER_ERROR);
+
 
     private final String code;
     private final String msg;
