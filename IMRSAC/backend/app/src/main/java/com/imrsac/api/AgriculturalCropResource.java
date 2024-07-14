@@ -47,7 +47,7 @@ public class AgriculturalCropResource {
         return GenerateResponse.run(() -> this.agriculturalCropService.getAllAgriculturalCrops());
     }
 
-     @GET
+    @GET
     @Path("{id}")
     public Response getCrop(@PathParam("id") Long cropId) throws IMRSACExeption {
         return GenerateResponse.run(() -> this.agriculturalCropService.findAgriculturalCropById(cropId));

@@ -27,8 +27,21 @@ public enum IMRSACErrorEnum implements IAppError {
     ERROR_PERSISTING_AGRICULTURAL_CROP("202", "Erro ao tentar salvar a cultura", Status.INTERNAL_SERVER_ERROR),
     ERROR_FETCHING_AGRICULTURAL_CROPS("203", "Erro ao tentar listar as culturas", Status.INTERNAL_SERVER_ERROR),
     ERROR_UPDATING_AGRICULTURAL_CROP("204", "Erro ao tentar atualizar a cultura", Status.INTERNAL_SERVER_ERROR),
-    ERROR_REMOVING_AGRICULTURAL_CROP("205", "Erro ao tentar remover a cultura", Status.INTERNAL_SERVER_ERROR);
+    ERROR_REMOVING_AGRICULTURAL_CROP("205", "Erro ao tentar remover a cultura", Status.INTERNAL_SERVER_ERROR),
 
+    // Errors related to irrigation systems
+    IRRIGATION_SYSTEM_ID_NOT_INFORMED("300", "ID do sistema de irrigação não encontrado na requisição",
+            Status.BAD_REQUEST),
+    IRRIGATION_SYSTEM_NOT_FOUND_IN_THE_DATABASE("301", "Sistema de irrigação não encontrado na base de dados",
+            Status.NOT_FOUND),
+    ERROR_PERSISTING_IRRIGATION_SYSTEM("302", "Erro ao tentar salvar o sistema de irrigação",
+            Status.INTERNAL_SERVER_ERROR),
+    ERROR_FETCHING_IRRIGATION_SYSTEMS("303", "Erro ao tentar listar os sistemas de irrigação",
+            Status.INTERNAL_SERVER_ERROR),
+    ERROR_UPDATING_IRRIGATION_SYSTEM("304", "Erro ao tentar atualizar o sistema de irrigação",
+            Status.INTERNAL_SERVER_ERROR),
+    ERROR_REMOVING_IRRIGATION_SYSTEM("305", "Erro ao tentar remover o sistema de irrigação",
+            Status.INTERNAL_SERVER_ERROR);
 
     private final String code;
     private final String msg;

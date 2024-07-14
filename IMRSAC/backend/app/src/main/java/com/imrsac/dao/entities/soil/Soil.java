@@ -1,5 +1,6 @@
 package com.imrsac.dao.entities.soil;
 
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -32,4 +33,7 @@ public class Soil extends PanacheEntity {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "soil")
     @JsonIgnoreProperties({ "soil", "coordinates", "createdAt" })
     public Set<Area> associatedAreas = new HashSet<>();
+
+    @Column(name = "created_at", nullable = false)
+    public Instant createdAt = Instant.now();
 }

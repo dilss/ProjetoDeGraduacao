@@ -5,5 +5,7 @@ drop table if exists agricultural_crops_SEQ;
 drop table if exists areas;
 drop table if exists areas_SEQ;
 drop table if exists coordinates;
+drop table if exists irrigation_systems;
+drop table if exists irrigation_systems_SEQ;
 drop table if exists soil;
 drop table if exists soil_SEQ;

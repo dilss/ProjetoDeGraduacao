@@ -10,7 +10,7 @@
 -   [ ] 8 - Abrir o context menu do sensor (clique direito do mouse) possibilita excluir ou abrir a edição
 -   [ ] 9 - Se a coordenda do sensor não estiver dentro de uma área demarcada mostrar a mensagem:"Sensor fora de área demarcada" - (Usar componente 'toast' para isso)
 -   [ ] 10 - Se a coordenada do sensor pertencer a alguma área criada ele automaticamente é associado àquela área - mostrar a mensagem: "Sensor <nome do sensor> criado na área <nome da área>"
--   [ ] 11 - Tabela sensor relacionamento many-to-one com a tabela área
+-   [ ] 11 - Tabela sensor relacionamento many-to-one com a tabela plantações
 
 ## Gerenciamento de Áreas
 
@@ -35,9 +35,9 @@
 <b>O fator de disponibilidade de água no solo é um multiplicador que diminui a quandidade de água total disponível para a planta, dando o valor real: DRA = DTA x f. Assim ele é um indicador da tolerância da cultura à escassez de água </b>
 
 -   [x] 1 - Cadastrar uma cultura, profundidade radicular (Z em cm), fator de disponibilidade de água no solo ( f - entre 0,2 e 0,8 - é adimensional), duração do ciclo cultural (dias), percentuais de duração das fases (1, 2, 3 e 4)
--   [ ] 2 - Editar cultura
--   [ ] 3 - Excluir cultura
--   [ ] 4 - Listar culturas cadastradas
+-   [x] 2 - Editar cultura
+-   [x] 3 - Excluir cultura
+-   [x] 4 - Listar culturas cadastradas
 
 ## Gerenciamento de Plantações
 
@@ -58,18 +58,19 @@
 -   [ ] 2 - O status hídrico (composto por percentual hídrico da área e timestamp) é persistido em um banco de dados
 
 ## Gerenciamento de Sistemas de Irrigação
+<b> Método (Superfície, Aspersão, Localizada), tipo (gotejamento, faixas, pivô central, sucos, etc.) e eficiência(%) e vazão total do sistema de irrigação(Q em L/h - litros por hora)</b>
 
--   [ ] 1 - Criar sistemas - tipo (gotejamento, aspersão, pivô central, etc.), vazão e eficiência -> refinar
+-   [ ] 1 - Criar sistemas
 -   [ ] 2 - Listar sistemas
 -   [ ] 2 - Editar sistemas
 -   [ ] 3 - Excluir sistemas
 
 ## Gerenciamento de Irrigações
 
-<b>O objetivo e sempre evitar que o solo atinja o ponto de murcha permanente</b>
+<b>O objetivo é sempre evitar que o solo atinja o ponto de murcha permanente (ou ainda a umidade crítica, U<sub>c</sub> para a cultura). Lembrando que uma lâmina d'água de 1mm corresponde a 1L/m<sup>2</sup> (1 litro de água por m<sup>2</sup> da área de cultivo), A vazão total, Q (em L/h - litros por hora), do sistema de irrigação é usado para calcular o tempo de irrigação nescessário para aplicar determinada lâmina d'água.</b>
 
 -   [ ] 1 - Clicar na plantação mostra o status hídrico do solo (quantidade de água presente e proximidade desse status do PMP e da CC)
 -   [ ] 2 - Clicar na plantação mostra também a lâmina de água a ser aplicada para elevar a umidade do solo até a CC com um botão para confirmar a aplicação
 -   [ ] 3 - Clicar na plantação mostra ainda o tempo de atividade do sistema de irrigação para que a lâmina seja completamente aplicada
 -   [ ] 4 - É possível alternar entre diferentes sistemas de irrigação e ver esse tempo on do sistema selecionado
--   [ ] 5 - Ao confirmar a aplicação uma nova irrigação é criada no banco de dados, assume-se que o sistema é ligado e um timer determinará quando o mesmo deve ser desligado - notificação
+-   [ ] 5 - Ao confirmar a aplicação uma nova irrigação é criada no banco de dados, assume-se que o sistema é ligado e um temporizador determinará quando o mesmo deve ser desligado - notificação
