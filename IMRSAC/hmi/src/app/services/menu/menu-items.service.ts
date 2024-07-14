@@ -102,6 +102,7 @@ export class MenuItemService {
         {
           label: 'Minhas culturas',
           icon: 'vegetables-icon',
+          command: (_event) => this.agriculturalCropService.openShowAgriculturalCropDialog(),
         },
         {
           label: 'Cadastrar nova cultura',

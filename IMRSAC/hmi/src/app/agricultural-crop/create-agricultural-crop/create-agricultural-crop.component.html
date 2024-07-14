@@ -5,8 +5,8 @@
         <img
           src="../../../assets/images/icons/menu/growing-plant.png"
           alt="growing plant icon"
-          width="30"
-          height="30"
+          width="40"
+          height="40"
         />
         <span class="fw-bold header-text ms-3"> {{ title }} </span>
       </div>
@@ -26,7 +26,7 @@
         autocomplete="off"
       />
     </div>
-    <div class="d-flex flex-row justify-content-between mb-3">
+    <div class="d-flex flex-row align-items-start mb-3">
       <div class="d-flex flex-column align-items-start">
         <label for="crop-root-depht" class="fw-semibold"
           >Profundidade Radicular (cm)</label
@@ -36,7 +36,7 @@
           inputId="crop-root-depht"
         />
       </div>
-      <div class="d-flex flex-column align-items-end">
+      <div class="d-flex flex-column align-items-start ms-4">
         <label for="crop-factor-f" class="fw-semibold"
           >Fator de Disponibilidade de Água</label
         >
@@ -48,10 +48,11 @@
           [maxFractionDigits]="2"
           [min]="0"
           [max]="1"
+          [size]="22"       
         />
       </div>
     </div>
-    <div class="d-flex flex-row justify-content-between">
+    <div class="d-flex flex-row justify-content-start">
       <div class="d-flex flex-column align-items-start">
         <label for="crop-cycle" class="fw-semibold"
           >Ciclo Fenológico (dias)</label
@@ -61,7 +62,7 @@
           inputId="crop-cycle"
         />
       </div>
-      <div class="d-flex flex-column align-items-start ms-3">
+      <div class="d-flex flex-column align-items-start ms-4">
         <label class="fw-semibold">Duração das Fases Fenológicas (%)</label>
         <div class="d-flex flex-row">
           <p-inputNumber
@@ -87,7 +88,7 @@
           <p-inputNumber
             [formControl]="cropForm.controls.durationPercentagePhaseFour"
             inputId="phase-four"
-            placeholder="3ª Fase"
+            placeholder="4ª Fase"
             [size]="3"
             class="ms-1"
           />

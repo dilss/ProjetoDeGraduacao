@@ -1,0 +1,62 @@
+<p-dialog
+  [modal]="true"
+  [(visible)]="visible"
+  [style]="{ width: '60rem', height: '30rem' }"
+>
+  <ng-template pTemplate="header">
+    <div class="inline-flex align-items-center justify-content-center gap-2">
+      <div class="d-flex align-items-center">
+        <img
+          src="../../../assets/images/icons/menu/vegetables.png"
+          alt="vegetables icon"
+          width="40"
+          height="40"
+        />
+        <span class="fw-bold header-text ms-3"> Culturas Cadastradas </span>
+      </div>
+    </div>
+  </ng-template>
+  <p-dataView [value]="crops">
+    <ng-template let-crop pTemplate="list">
+      <div *ngFor="let crop of crops" class="container">
+        <div class="row mb-5">
+          <div class="fw-bold crop-name">
+            {{ crop.name }}
+          </div>
+          <hr />
+          <div class="col-10">
+            <b>Duração do Ciclo Fenológico:</b>
+            {{ crop.cicleDurationDays }} dias
+            <br>
+            <b>Fases do Ciclo (% do ciclo total):</b>
+            {{ crop.durationPercentagePhaseOne }} -
+            {{ crop.durationPercentagePhaseTwo }} -
+            {{ crop.durationPercentagePhaseThree }} -
+            {{ crop.durationPercentagePhaseFour }}
+            <br>
+            <b>Profundidade Radicular (Z):</b> {{ crop.rootDepth }} cm
+            <br>
+            <b>Fator de disponibilidade de água (entre 0 e 1):</b>
+            {{ crop.waterAvailabilityFactor }}
+          </div>
+          <div class="col-1">
+            <p-button
+              icon="pi pi-pencil"
+              severity="info"
+              [outlined]="true"
+              (onClick)="editCrop(crop)"
+            />
+          </div>
+          <div class="col-1">
+            <p-button
+              icon="pi pi-trash"
+              severity="danger"
+              [outlined]="true"
+              (onClick)="deleteCrop(crop.id)"
+            />
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </p-dataView>
+</p-dialog>
