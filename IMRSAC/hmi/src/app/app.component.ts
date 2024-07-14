@@ -11,6 +11,7 @@ import { ShowSoilsComponent } from './soil/show-soils/show-soils.component';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { CreateAgriculturalCropComponent } from './agricultural-crop/create-agricultural-crop/create-agricultural-crop.component';
 import { ShowAgriculturalCropsComponent } from './agricultural-crop/show-agricultural-crops/show-agricultural-crops.component';
+import { CreateIrrigationSystemComponent } from './irrigation-system/create-irrigation-system/create-irrigation-system.component';
 
 @Component({
   imports: [
@@ -21,6 +22,7 @@ import { ShowAgriculturalCropsComponent } from './agricultural-crop/show-agricul
     ShowSoilsComponent,
     CreateAgriculturalCropComponent,
     ShowAgriculturalCropsComponent,
+    CreateIrrigationSystemComponent,
     SpinnerComponent,
     FooterComponent,
     RouterModule,

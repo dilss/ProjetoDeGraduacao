@@ -3,6 +3,7 @@ import { CrossCommunicationService } from '../cross-communication.service';
 import { Injectable } from '@angular/core';
 import { SoilService } from '../soil/soil.service';
 import { AgriculturalCropService } from '../agricultural-crop/agricultural-crop.service';
+import { IrrigationSystemService } from '../irrigation-system/irrigation-system.service';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +12,8 @@ export class MenuItemService {
   constructor(
     private crossCommunicationService: CrossCommunicationService,
     private soilService: SoilService,
-    private agriculturalCropService: AgriculturalCropService
+    private agriculturalCropService: AgriculturalCropService,
+    private irrigationSystemService: IrrigationSystemService
   ) {}
 
   public MENU_ITEMS: MenuItem[] = [
@@ -102,12 +104,14 @@ export class MenuItemService {
         {
           label: 'Minhas culturas',
           icon: 'vegetables-icon',
-          command: (_event) => this.agriculturalCropService.openShowAgriculturalCropDialog(),
+          command: (_event) =>
+            this.agriculturalCropService.openShowAgriculturalCropsDialog(),
         },
         {
           label: 'Cadastrar nova cultura',
           icon: 'growing-plant-icon',
-          command: (_event) => this.agriculturalCropService.openCreateAgriculturalCropDialog(),
+          command: (_event) =>
+            this.agriculturalCropService.openCreateAgriculturalCropDialog(),
         },
       ],
     },
@@ -120,10 +124,14 @@ export class MenuItemService {
         {
           label: 'Meus sistemas',
           icon: 'water-drop-icon',
+          command: (_event) =>
+            this.irrigationSystemService.openShowIrrigationSystemsDialog(),
         },
         {
           label: 'Cadastrar novo sistema',
           icon: 'spinkler-icon',
+          command: (_event) =>
+            this.irrigationSystemService.openCreateIrrigationSystemDialog(),
         },
       ],
     },

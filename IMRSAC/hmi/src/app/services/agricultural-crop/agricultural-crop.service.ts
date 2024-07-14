@@ -93,7 +93,7 @@ export class AgriculturalCropService {
     this.createAgriculturalCropDialogOpen$.next();
   }
 
-  openShowAgriculturalCropDialog(): void {
+  openShowAgriculturalCropsDialog(): void {
     this.showAgriculturalCropsDialogOpen$.next(true);
   }
 }

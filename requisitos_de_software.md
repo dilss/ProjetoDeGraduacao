@@ -60,7 +60,7 @@
 ## Gerenciamento de Sistemas de Irrigação
 <b> Método (Superfície, Aspersão, Localizada), tipo (gotejamento, faixas, pivô central, sucos, etc.) e eficiência(%) e vazão total do sistema de irrigação(Q em L/h - litros por hora)</b>
 
--   [ ] 1 - Criar sistemas
+-   [x] 1 - Criar sistemas
 -   [ ] 2 - Listar sistemas
 -   [ ] 2 - Editar sistemas
 -   [ ] 3 - Excluir sistemas
