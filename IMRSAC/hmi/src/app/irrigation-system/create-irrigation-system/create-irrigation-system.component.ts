@@ -12,7 +12,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { Subscription } from 'rxjs';
 import { IrrigationSystemService } from '../../services/irrigation-system/irrigation-system.service';
 import { IrrigationSystem } from '../../models/irrigation-system/irrigation-system.model';
-import { DropdownModule } from 'primeng/dropdown';
+import { DropdownChangeEvent, DropdownModule } from 'primeng/dropdown';
 
 @Component({
   imports: [
@@ -21,7 +21,7 @@ import { DropdownModule } from 'primeng/dropdown';
     InputTextModule,
     InputNumberModule,
     ReactiveFormsModule,
-    DropdownModule
+    DropdownModule,
   ],
   standalone: true,
   selector: 'app-create-irrigation-system',
@@ -40,6 +40,31 @@ export class CreateIrrigationSystemComponent implements OnInit, OnDestroy {
     'Aspersão',
     'Localizada',
   ];
+
+  readonly surfaceTypeSystems = [
+    'Bacias em nível',
+    'Sulcos',
+    'Pulso(Surge flow)',
+    'Faixas',
+    'Sulcos Corrugados',
+  ];
+
+  readonly sprinklerTypeSystems = [
+    'Movimento linear',
+    'Pivô central (baixa pressão)',
+    'Pivô central (alta pressão)',
+    'Aspersão fixo',
+    'Aspersão portátil',
+    'Autopropelido',
+  ];
+
+  readonly localizedTypeSystems = [
+    'Gotejamento superficial',
+    'Gotejamento enterrado',
+    'Microaspersão',
+  ];
+
+  sytemTypes: string[] = [];
 
   irrigationSystemForm: FormGroup<{
     name: FormControl<string>;
@@ -80,6 +105,7 @@ export class CreateIrrigationSystemComponent implements OnInit, OnDestroy {
           this.isEdit = true;
           this.title = 'Editar Sistema de Irrigação';
           this.systemEditId = system.id;
+          this.initSelectFields(system.category);
           this.irrigationSystemForm.setValue({
             name: system.name,
             category: system.category,
@@ -95,6 +121,26 @@ export class CreateIrrigationSystemComponent implements OnInit, OnDestroy {
 
   showDialog() {
     this.visible = true;
+  }
+
+  systemCategoryChanged(event: DropdownChangeEvent): void {
+    this.initSelectFields(event.value);
+  }
+
+  initSelectFields(category: string): void {
+    switch (category) {
+      case 'Superfície':
+        this.sytemTypes = this.surfaceTypeSystems;
+        break;
+      case 'Aspersão':
+        this.sytemTypes = this.sprinklerTypeSystems;
+        break;
+      case 'Localizada':
+        this.sytemTypes = this.localizedTypeSystems;
+        break;
+      default:
+        this.sytemTypes = [];
+    }
   }
 
   onSubmit(): void {

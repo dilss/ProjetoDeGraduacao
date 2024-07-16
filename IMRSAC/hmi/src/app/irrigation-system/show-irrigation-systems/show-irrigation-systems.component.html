@@ -1,0 +1,60 @@
+<p-dialog
+  [modal]="true"
+  [(visible)]="visible"
+  [style]="{ width: '60rem', height: '30rem' }"
+>
+  <ng-template pTemplate="header">
+    <div class="inline-flex align-items-center justify-content-center gap-2">
+      <div class="d-flex align-items-center">
+        <img
+          src="../../../assets/images/icons/menu/water-drop.png"
+          alt="vegetables icon"
+          width="40"
+          height="40"
+        />
+        <span class="fw-bold header-text ms-3">
+          Sistemas de Irrigação Cadastrados
+        </span>
+      </div>
+    </div>
+  </ng-template>
+
+  <p-dataView [value]="systems">
+    <ng-template let-soil pTemplate="list">
+      <div *ngFor="let system of systems" class="container">
+        <div class="row mb-5">
+          <div class="fw-bold system-name">
+            {{ system.name }}
+          </div>
+          <hr />
+          <div class="col-10">
+            <b>Categoria:</b> {{ system.category }}
+            <br />
+            <b>Tipo do sistema:</b>
+            {{ system.type }}
+            <br />
+            <b>Eficiência de aplicação (entre 0 e 1):</b> {{ system.efficiency }}
+            <br />
+            <b>Vazão (entre 0 e 1):</b> {{ system.flowRate }} Litros/Hora
+          </div>
+          <div class="col-1">
+            <p-button
+              icon="pi pi-pencil"
+              severity="info"
+              [outlined]="true"
+              (onClick)="editSystem(system)"
+            />
+          </div>
+          <div class="col-1">
+            <p-button
+              icon="pi pi-trash"
+              severity="danger"
+              [outlined]="true"
+              (onClick)="deleteSystem(system.id)"
+            />
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </p-dataView>
+</p-dialog>

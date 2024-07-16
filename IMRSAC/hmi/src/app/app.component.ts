@@ -12,6 +12,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { CreateAgriculturalCropComponent } from './agricultural-crop/create-agricultural-crop/create-agricultural-crop.component';
 import { ShowAgriculturalCropsComponent } from './agricultural-crop/show-agricultural-crops/show-agricultural-crops.component';
 import { CreateIrrigationSystemComponent } from './irrigation-system/create-irrigation-system/create-irrigation-system.component';
+import { ShowIrrigationSystemComponent } from './irrigation-system/show-irrigation-systems/show-irrigation-systems.component';
 
 @Component({
   imports: [
@@ -23,6 +24,7 @@ import { CreateIrrigationSystemComponent } from './irrigation-system/create-irri
     CreateAgriculturalCropComponent,
     ShowAgriculturalCropsComponent,
     CreateIrrigationSystemComponent,
+    ShowIrrigationSystemComponent,
     SpinnerComponent,
     FooterComponent,
     RouterModule,

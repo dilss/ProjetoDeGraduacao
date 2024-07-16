@@ -33,22 +33,25 @@
         >Categoria do Sitema</label
       >
       <p-dropdown
+        id="system-category"
         [options]="irrigationSystemCategories"
         [formControl]="irrigationSystemForm.controls.category"
         [showClear]="true"
         [style]="{ width: '250px' }"
-        placeholder="Selecione uma categoria"
+        placeholder="Selecione"
+        (onChange)="systemCategoryChanged($event)"
       ></p-dropdown>
     </div>
     <div class="d-flex align-items-center justify-content-between gap-3 mb-3">
       <label for="system-type" class="fw-semibold">Tipo do Sistema</label>
-      <input
-        [formControl]="irrigationSystemForm.controls.type"
-        pInputText
+      <p-dropdown
         id="system-type"
-        class="flex-auto"
-        autocomplete="off"
-      />
+        [options]="sytemTypes"
+        [formControl]="irrigationSystemForm.controls.type"
+        [showClear]="true"
+        [style]="{ width: '250px' }"
+        placeholder="Selecione"
+      ></p-dropdown>
     </div>
 
     <div class="d-flex align-items-center justify-content-between gap-3 mb-3">
