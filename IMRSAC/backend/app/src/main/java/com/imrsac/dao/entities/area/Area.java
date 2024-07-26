@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.imrsac.dao.entities.plantation.Plantation;
 import com.imrsac.dao.entities.soil.Soil;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
@@ -14,6 +15,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -31,6 +33,10 @@ public class Area extends PanacheEntity {
     @JoinColumn(name = "soil_id")
     @JsonIgnoreProperties({ "associatedAreas", "createdAt" })
     public Soil soil;
+
+    @OneToOne(mappedBy = "area", cascade = { CascadeType.REMOVE })
+    @JsonIgnoreProperties({ "area", "agriculturalCrop", "irrigationSystem" })
+    public Plantation plantation;
 
     @Column(name = "created_at", nullable = false)
     public Instant createdAt = Instant.now();

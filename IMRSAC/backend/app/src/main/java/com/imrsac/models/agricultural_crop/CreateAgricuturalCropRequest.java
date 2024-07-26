@@ -13,5 +13,5 @@ public class CreateAgricuturalCropRequest {
     private Long durationPercentagePhaseOne;
     private Long durationPercentagePhaseTwo;
     private Long durationPercentagePhaseThree;
-    private Long durationPercentagePhaseFour;        
+    private Long durationPercentagePhaseFour;
 }

@@ -30,10 +30,10 @@ public class Soil extends PanacheEntity {
     @Column(nullable = false)
     public Float density;
 
+    @Column(name = "created_at", nullable = false)
+    public Instant createdAt = Instant.now();
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "soil")
     @JsonIgnoreProperties({ "soil", "coordinates", "createdAt" })
     public Set<Area> associatedAreas = new HashSet<>();
-
-    @Column(name = "created_at", nullable = false)
-    public Instant createdAt = Instant.now();
 }

@@ -2,9 +2,14 @@ package com.imrsac.dao.entities.irrigation_system;
 
 import java.time.Instant;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.imrsac.dao.entities.plantation.Plantation;
+
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -28,4 +33,8 @@ public class IrrigationSystem extends PanacheEntity {
 
     @Column(name = "created_at", nullable = false)
     public Instant createdAt = Instant.now();
+
+    @OneToOne(mappedBy = "irrigationSystem", cascade = { CascadeType.REMOVE })
+    @JsonIgnoreProperties({ "area", "agriculturalCrop", "irrigationSystem" })
+    public Plantation plantation;
 }

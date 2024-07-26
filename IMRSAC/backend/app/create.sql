@@ -8,8 +8,16 @@ create table coordinates (latitude decimal(21,18) not null, longitude decimal(21
 create table irrigation_systems (efficiency float(53) not null, created_at datetime(6) not null, flow_rate bigint not null, id bigint not null, category varchar(100) not null, name varchar(100) not null, type varchar(100) not null, primary key (id)) engine=InnoDB;
 create table irrigation_systems_SEQ (next_val bigint) engine=InnoDB;
 insert into irrigation_systems_SEQ values ( 1 );
+create table plantations (agricultural_crop_id bigint, area_id bigint, id bigint not null, irrigation_system_id bigint, name varchar(100) not null, primary key (id)) engine=InnoDB;
+create table plantations_SEQ (next_val bigint) engine=InnoDB;
+insert into plantations_SEQ values ( 1 );
 create table soil (cc float(23) not null, density float(23) not null, pmp float(23) not null, created_at datetime(6) not null, id bigint not null, name varchar(100) not null, primary key (id)) engine=InnoDB;
 create table soil_SEQ (next_val bigint) engine=InnoDB;
 insert into soil_SEQ values ( 1 );
+alter table plantations add constraint UKfdoeaiine90b3mjkf9quokp7o unique (area_id);
+alter table plantations add constraint UKi5x0l754bkra75epc8ruru9al unique (irrigation_system_id);
 alter table areas add constraint FKb2u2c65a2d9sk2i3424ekcp3f foreign key (soil_id) references soil (id);
 alter table coordinates add constraint FK2frw33nj716h51lchwga63yqy foreign key (area_id) references areas (id);
+alter table plantations add constraint FKpm7uwdhda7ivy9n9ignwf8ja5 foreign key (agricultural_crop_id) references agricultural_crops (id);
+alter table plantations add constraint FK8474mrtjrtpg5iao7c5cr0cog foreign key (area_id) references areas (id);
+alter table plantations add constraint FK7vs8w4h47yik7vmvu32wbksn3 foreign key (irrigation_system_id) references irrigation_systems (id);
