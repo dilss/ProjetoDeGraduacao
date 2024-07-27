@@ -26,7 +26,7 @@ public class IrrigationSystemService {
         try {
             return this.irrigationSystemRepository.listAll();
         } catch (Exception e) {
-            LOG.debug(e.getMessage());
+            LOG.error(e.getMessage());
             throw new IMRSACExeption(IMRSACErrorEnum.ERROR_FETCHING_IRRIGATION_SYSTEMS);
         }
     }
@@ -36,7 +36,7 @@ public class IrrigationSystemService {
             this.irrigationSystemRepository.persist(system);
             return system;
         } catch (Exception e) {
-            LOG.debug(e.getMessage());
+            LOG.error(e.getMessage());
             throw new IMRSACExeption(IMRSACErrorEnum.ERROR_PERSISTING_IRRIGATION_SYSTEM);
         }
     }
@@ -52,7 +52,7 @@ public class IrrigationSystemService {
             system.flowRate = request.getFlowRate();
             return system;
         } catch (Exception e) {
-            LOG.debug(e.getMessage());
+            LOG.error(e.getMessage());
             throw new IMRSACExeption(IMRSACErrorEnum.ERROR_UPDATING_IRRIGATION_SYSTEM);
         }
     }

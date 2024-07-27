@@ -34,7 +34,6 @@ public class AgriculturalCropResource {
     @Transactional(Transactional.TxType.REQUIRED)
     public Response createCrop(CreateAgricuturalCropRequest request) {
         AgriculturalCrop crop = AgriculturalCropMapper.toEntity(request);
-
         return GenerateResponse.run(() -> agriculturalCropService.createAgriculturalCrop(crop));
     }
 

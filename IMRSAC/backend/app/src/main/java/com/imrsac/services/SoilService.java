@@ -26,7 +26,7 @@ public class SoilService {
         try {
             return this.soilRepository.listAll();
         } catch (Exception e) {
-            LOG.debug(e.getMessage());
+            LOG.error(e.getMessage());
             throw new IMRSACExeption(IMRSACErrorEnum.ERROR_FETCHING_SOILS);
         }
     }
@@ -36,7 +36,7 @@ public class SoilService {
             this.soilRepository.persist(soil);
             return soil;
         } catch (Exception e) {
-            LOG.debug(e.getMessage());
+            LOG.error(e.getMessage());
             System.out.println(e.getMessage());
             throw new IMRSACExeption(IMRSACErrorEnum.ERROR_PERSISTING_SOIL);
         }
@@ -47,7 +47,7 @@ public class SoilService {
             return this.soilRepository.findByIdOptional(soilId)
                     .orElseThrow(() -> new IMRSACExeption(IMRSACErrorEnum.SOIL_NOT_FOUND_IN_THE_DATABASE));
         } catch (Exception e) {
-            LOG.debug(e.getMessage());
+            LOG.error(e.getMessage());
             throw e;
         }
     }
@@ -60,7 +60,7 @@ public class SoilService {
             this.soilRepository.update(query, params);
             return soil;
         } catch (Exception e) {
-            LOG.debug(e.getMessage());
+            LOG.error(e.getMessage());
             throw new IMRSACExeption(IMRSACErrorEnum.ERROR_UPDATING_SOIL);
         }
     }
@@ -71,7 +71,7 @@ public class SoilService {
         try {
             return this.soilRepository.deleteById(soilId);
         } catch (Exception e) {
-            LOG.debug(e.getMessage());
+            LOG.error(e.getMessage());
             throw new IMRSACExeption(IMRSACErrorEnum.ERROR_REMOVING_SOIL);
         }
     }

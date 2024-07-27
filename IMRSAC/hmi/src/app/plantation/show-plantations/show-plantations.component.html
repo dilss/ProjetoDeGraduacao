@@ -1,0 +1,55 @@
+<p-dialog
+  [modal]="true"
+  [(visible)]="visible"
+  [style]="{ width: '60rem', height: '30rem' }"
+>
+  <ng-template pTemplate="header">
+    <div class="inline-flex align-items-center justify-content-center gap-2">
+      <div class="d-flex align-items-center">
+        <img
+          src="../../../assets/images/icons/menu/crop.png"
+          alt="growing plant icon"
+          width="40"
+          height="40"
+        />
+        <span class="fw-bold header-text ms-3"> Minhas Plantações </span>
+      </div>
+    </div>
+  </ng-template>
+  <p-dataView [value]="plantations">
+    <ng-template let-plantation pTemplate="list">
+      <div *ngFor="let plantation of plantations" class="container">
+        <div class="row mb-5">
+          <div class="fw-bold plantation-name">
+            {{ plantation.name }}
+          </div>
+          <hr />
+          <div class="col-10">
+            <b>Area:</b> {{ plantation.area.name }}
+            <br />
+            <b>Cultura:</b>
+            {{ plantation.agriculturalCrop.name }}
+            <br />
+            <b>Sistema de Irrigação:</b> {{ plantation.irrigationSystem.name }}
+          </div>
+          <div class="col-1">
+            <p-button
+              icon="pi pi-pencil"
+              severity="info"
+              [outlined]="true"
+              (onClick)="editPlantation(plantation)"
+            />
+          </div>
+          <div class="col-1">
+            <p-button
+              icon="pi pi-trash"
+              severity="danger"
+              [outlined]="true"
+              (onClick)="deletePlantation(plantation.id)"
+            />
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </p-dataView>
+</p-dialog>

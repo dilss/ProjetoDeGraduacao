@@ -1,3 +1,5 @@
+import { Plantation } from "../plantation/plantation.model";
+
 export class AgriculturalCrop {
     id?: number;
     name: string;
@@ -7,5 +9,6 @@ export class AgriculturalCrop {
     durationPercentagePhaseOne: number;
     durationPercentagePhaseTwo: number;
     durationPercentagePhaseThree: number;
-    durationPercentagePhaseFour: number;  
+    durationPercentagePhaseFour: number;
+    plantations?: Plantation[];   
 }

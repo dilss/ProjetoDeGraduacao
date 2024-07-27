@@ -85,6 +85,10 @@ export class AgriculturalCropService {
       });
   }
 
+  get agriculturalCropsList() {
+    return [...this.agriculturalCrops];
+  }
+
   openEditAgriculturalCropDialog(crop: AgriculturalCrop): void {
     this.editAgriculturalCropDialogOpen$.next(crop);
   }

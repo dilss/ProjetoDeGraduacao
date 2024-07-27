@@ -1,3 +1,5 @@
+import { Plantation } from "../plantation/plantation.model";
+
 export class IrrigationSystem {
   id?: number;
   name: string;
@@ -5,4 +7,5 @@ export class IrrigationSystem {
   type: string;
   efficiency: number;
   flowRate: number;
+  plantation?: Plantation;
 }

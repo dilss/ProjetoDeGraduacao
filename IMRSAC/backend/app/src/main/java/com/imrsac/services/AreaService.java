@@ -30,7 +30,7 @@ public class AreaService {
         try {
             return this.areaRepository.listAll();
         } catch (Exception e) {
-            LOG.debug(e.getMessage());
+            LOG.error(e.getMessage());
             throw new IMRSACExeption(IMRSACErrorEnum.ERROR_FETCHING_AREAS);
         }
     }
@@ -48,7 +48,7 @@ public class AreaService {
             }
             return area;
         } catch (Exception e) {
-            LOG.debug(e.getMessage());
+            LOG.error(e.getMessage());
             throw new IMRSACExeption(IMRSACErrorEnum.ERROR_PERSISTING_AREA);
         }
     }
@@ -68,7 +68,7 @@ public class AreaService {
             }
             return areaToUpdate;
         } catch (Exception e) {
-            LOG.debug(e.getMessage());
+            LOG.error(e.getMessage());
             throw new IMRSACExeption(IMRSACErrorEnum.ERROR_UPDATING_AREA);
         }
     }
@@ -78,7 +78,7 @@ public class AreaService {
             return this.areaRepository.findByIdOptional(areaId)
                     .orElseThrow(() -> new IMRSACExeption(IMRSACErrorEnum.AREA_NOT_FOUND_IN_THE_DATABASE));
         } catch (Exception e) {
-            LOG.debug(e.getMessage());
+            LOG.error(e.getMessage());
             throw e;
         }
     }
@@ -89,7 +89,7 @@ public class AreaService {
             area.soil = null;
             return this.areaRepository.deleteById(areaId);
         } catch (Exception e) {
-            LOG.debug(e.getMessage());
+            LOG.error(e.getMessage());
             throw new IMRSACExeption(IMRSACErrorEnum.ERROR_REMOVING_AREA);
         }
     }

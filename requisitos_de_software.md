@@ -41,16 +41,18 @@
 
 ## Gerenciamento de Plantações
 
--   [ ] 1 - Criação de uma plantação
--   [ ] 2 - Listar plantações
--   [ ] 3 - Edição de uma plantação
--   [ ] 4 - Exclusão de uma plantação (confirmação de exclusão por digitação de nome da plantação)
--   [ ] 5 - Uma plantação é associada a uma área já existente e a aréa fica indisponível para a associação a outras plantações (tabela plantação one-to-one tabela área)
--   [ ] 6 - Exclusão da plantação não exclui a área a que está associada
--   [ ] 7 - Exclusão da área exclui a plantação que foi associada a esta área
--   [ ] 8 - Uma plantação é associada a um tipo de cultura
--   [ ] 9 - A exclusão da plantação não exclui a cultura associada
--   [ ] 10 - A exclusão da cultura exclui a plantação associada
+<b>A criação de uma plantação requer: uma área (que esteja associada a um tipo de solo); uma cultura e um sistema de irrigação;  </b>
+
+-   [x] 1 - Criação de uma plantação
+-   [x] 2 - Listar plantações
+-   [x] 3 - Edição de uma plantação
+-   [x] 4 - Exclusão de uma plantação (confirmação de exclusão por digitação de nome da plantação)
+-   [x] 5 - Uma plantação é associada a uma área já existente e a aréa fica indisponível para a associação a outras plantações (tabela plantação one-to-one tabela área)
+-   [x] 6 - Exclusão da plantação não exclui a área a que está associada
+-   [x] 7 - Exclusão da área exclui a plantação que foi associada a esta área
+-   [x] 8 - Uma plantação é associada a um tipo de cultura
+-   [x] 9 - A exclusão da plantação não exclui a cultura associada
+-   [x] 10 - A exclusão da cultura exclui a plantação associada
 
 ## Status hídrico da área
 

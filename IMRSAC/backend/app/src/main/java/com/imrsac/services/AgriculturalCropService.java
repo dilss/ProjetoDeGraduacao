@@ -26,7 +26,7 @@ public class AgriculturalCropService {
         try {
             return this.agriculturalCropReposistory.listAll();
         } catch (Exception e) {
-            LOG.debug(e.getMessage());
+            LOG.error(e.getMessage());
             throw new IMRSACExeption(IMRSACErrorEnum.ERROR_FETCHING_AGRICULTURAL_CROPS);
         }
     }
@@ -36,7 +36,7 @@ public class AgriculturalCropService {
             this.agriculturalCropReposistory.persist(crop);
             return crop;
         } catch (Exception e) {
-            LOG.debug(e.getMessage());
+            LOG.error(e.getMessage());
             throw new IMRSACExeption(IMRSACErrorEnum.ERROR_PERSISTING_AGRICULTURAL_CROP);
         }
     }
@@ -55,7 +55,7 @@ public class AgriculturalCropService {
             crop.durationPercentagePhaseFour = request.getDurationPercentagePhaseFour();
             return crop;
         } catch (Exception e) {
-            LOG.debug(e.getMessage());
+            LOG.error(e.getMessage());
             throw new IMRSACExeption(IMRSACErrorEnum.ERROR_UPDATING_AGRICULTURAL_CROP);
         }
     }
@@ -65,7 +65,7 @@ public class AgriculturalCropService {
             return this.agriculturalCropReposistory.findByIdOptional(cropId)
                     .orElseThrow(() -> new IMRSACExeption(IMRSACErrorEnum.AGRICULTURAL_CROP_NOT_FOUND_IN_THE_DATABASE));
         } catch (Exception e) {
-            LOG.debug(e.getMessage());
+            LOG.error(e.getMessage());
             throw e;
         }
     }
@@ -74,7 +74,7 @@ public class AgriculturalCropService {
         try {
             return this.agriculturalCropReposistory.deleteById(cropId);
         } catch (Exception e) {
-            LOG.debug(e.getMessage());
+            LOG.error(e.getMessage());
             throw new IMRSACExeption(IMRSACErrorEnum.ERROR_REMOVING_AGRICULTURAL_CROP);
         }
     }

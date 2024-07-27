@@ -42,7 +42,7 @@ public class PlantationService {
         try {
             return this.plantationRepository.listAll();
         } catch (Exception e) {
-            LOG.debug(e.getMessage());
+            LOG.error(e.getMessage());
             throw new IMRSACExeption(IMRSACErrorEnum.ERROR_FETCHING_PLANTATIONS);
         }
     }
@@ -60,7 +60,7 @@ public class PlantationService {
             this.plantationRepository.persist(plantation);
             return plantation;
         } catch (Exception e) {
-            LOG.debug(e.getMessage());
+            LOG.error(e.getMessage());
             throw new IMRSACExeption(IMRSACErrorEnum.ERROR_PERSISTING_PLANTATION);
         }
     }
@@ -78,7 +78,7 @@ public class PlantationService {
             plantation.irrigationSystem = system;
             return plantation;
         } catch (Exception e) {
-            LOG.debug(e.getMessage());
+            LOG.error(e.getMessage());
             throw new IMRSACExeption(IMRSACErrorEnum.ERROR_UPDATING_PLANTATION);
         }
     }
@@ -88,7 +88,7 @@ public class PlantationService {
             return this.plantationRepository.findByIdOptional(plantationId)
                     .orElseThrow(() -> new IMRSACExeption(IMRSACErrorEnum.PLANTATION_NOT_FOUND_IN_THE_DATABASE));
         } catch (Exception e) {
-            LOG.debug(e.getMessage());
+            LOG.error(e.getMessage());
             throw e;
         }
     }
@@ -97,7 +97,7 @@ public class PlantationService {
         try {
             return this.plantationRepository.deleteById(plantationId);
         } catch (Exception e) {
-            LOG.debug(e.getMessage());
+            LOG.error(e.getMessage());
             throw new IMRSACExeption(IMRSACErrorEnum.ERROR_REMOVING_PLANTATION);
         }
     }

@@ -45,6 +45,9 @@ export class AreaService {
       if (area.soil) {
         color = 'brown';
       }
+      if (area.plantation) {
+        color = 'green'
+      }
       let polygon: Polygon = new Polygon(
         this.getLatLongFromAreaCoordinates(area),
         { fillColor: color, color: color, fillOpacity: 0.6 }

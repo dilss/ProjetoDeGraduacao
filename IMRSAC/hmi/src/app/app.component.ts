@@ -13,6 +13,8 @@ import { CreateAgriculturalCropComponent } from './agricultural-crop/create-agri
 import { ShowAgriculturalCropsComponent } from './agricultural-crop/show-agricultural-crops/show-agricultural-crops.component';
 import { CreateIrrigationSystemComponent } from './irrigation-system/create-irrigation-system/create-irrigation-system.component';
 import { ShowIrrigationSystemComponent } from './irrigation-system/show-irrigation-systems/show-irrigation-systems.component';
+import { CreatePlantationComponent } from './plantation/create-plantation/create-plantation.component';
+import { ShowPlantationsComponent } from './plantation/show-plantations/show-plantations.component';
 
 @Component({
   imports: [
@@ -25,6 +27,8 @@ import { ShowIrrigationSystemComponent } from './irrigation-system/show-irrigati
     ShowAgriculturalCropsComponent,
     CreateIrrigationSystemComponent,
     ShowIrrigationSystemComponent,
+    CreatePlantationComponent,
+    ShowPlantationsComponent,
     SpinnerComponent,
     FooterComponent,
     RouterModule,

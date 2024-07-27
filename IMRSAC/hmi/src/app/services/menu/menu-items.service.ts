@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { SoilService } from '../soil/soil.service';
 import { AgriculturalCropService } from '../agricultural-crop/agricultural-crop.service';
 import { IrrigationSystemService } from '../irrigation-system/irrigation-system.service';
+import { PlantationService } from '../plantation/plantation.service';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +14,8 @@ export class MenuItemService {
     private crossCommunicationService: CrossCommunicationService,
     private soilService: SoilService,
     private agriculturalCropService: AgriculturalCropService,
-    private irrigationSystemService: IrrigationSystemService
+    private irrigationSystemService: IrrigationSystemService,
+    private plantationService: PlantationService
   ) {}
 
   public MENU_ITEMS: MenuItem[] = [
@@ -23,10 +25,14 @@ export class MenuItemService {
         {
           label: 'Minhas plantações',
           icon: 'crop-icon',
+          command: (_event) =>
+            this.plantationService.openShowPlantationsDialog(),
         },
         {
           label: 'Criar plantação',
           icon: 'seeds-icon',
+          command: (_event) =>
+            this.plantationService.openCreatePlantationDialog(),
         },
       ],
     },

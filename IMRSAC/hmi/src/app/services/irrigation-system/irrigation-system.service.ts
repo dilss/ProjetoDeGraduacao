@@ -87,6 +87,10 @@ export class IrrigationSystemService {
     });
   }
 
+  get irrigationSystemsList() {
+    return [...this.irrigationSystems];
+  }
+
   openEditIrrigationSystemDialog(system: IrrigationSystem): void {
     this.editIrrigationSystemDialogOpen$.next(system);
   }
