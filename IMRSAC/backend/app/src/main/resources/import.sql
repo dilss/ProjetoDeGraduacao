@@ -4,3 +4,10 @@
 -- insert into myentity (id, field) values(2, 'field-2');
 -- insert into myentity (id, field) values(3, 'field-3');
 -- alter sequence myentity_seq restart with 4;
+
+
+-- -- Permite ao keycloak inicializar com sucesso usando o banco de dados 'keycloak_db'
+-- GRANT ALL PRIVILEGES
+-- ON keycloak_db.*
+-- TO 'dilss'@'%'
+-- -- WITH GRANT OPTION;
