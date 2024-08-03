@@ -18,24 +18,17 @@ services:
       - '8080:8080'
 
   keycloak:
-    image: keycloak/keycloak
+    image: keycloak/keycloak:25.0.2
     container_name: keycloak
     environment:
       KC_DB: mysql
       KC_DB_URL: jdbc:mysql://db:3306/keycloak_db
       KC_DB_USERNAME: dilss
       KC_DB_PASSWORD: Orion@99
-
-      KC_HOSTNAME: localhost
-      KC_HOSTNAME_PORT: 8081
-      KC_HOSTNAME_STRICT: false
-      KC_HOSTNAME_STRICT_HTTPS: false
-
-      KC_LOG_LEVEL: info
-      KC_METRICS_ENABLED: true
-      KC_HEALTH_ENABLED: true
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
+    volumes:
+      - './keycloak/themes/imrsac/:/opt/keycloak/themes/imrsac/'
     ports:
       - '8081:8080'
     command: start-dev

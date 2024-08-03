@@ -1,0 +1,18 @@
+.login-pf body {
+    background: url("../img/texture-bg.png") no-repeat center center fixed;
+    background-size: cover;
+    height: 100%;
+}
+
+div.kc-logo-text {
+    background-image: url("../img/mirriga-logo.png");
+    background-repeat: no-repeat;
+    height: 86px;
+    width: 300px;
+    margin: 0 auto;
+}
+
+:root {
+    --pf-global--primary-color--100: var(--pf-global--palette--green-400);
+    --pf-global--primary-color--200: var(--pf-global--palette--green-500);
+}
