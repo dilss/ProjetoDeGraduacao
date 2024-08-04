@@ -8,6 +8,15 @@
 
 /* Eliminates the tip of the leaflet popup on the map layers */
 .leaflet-popup-tip {
-    width: 0px;
-    height: 0px;
+  width: 0px;
+  height: 0px;
 }
+
+:root {
+  --green-400: #5ba352;
+  --grenn-500: #3e8635;
+}
+
+/* body::-webkit-scrollbar {
+    display: none;
+} */

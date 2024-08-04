@@ -1,3 +1,10 @@
-<p-sidebar [(visible)]="display" [closeOnEscape]="true" (onHide)="menuClosed()">
-  <p-menu  [model]="items"/>
+<p-sidebar
+  [autoZIndex]="false"
+  [modal]="false"
+  [showCloseIcon]="false"
+  [(visible)]="display"
+  [closeOnEscape]="true"
+  (onHide)="menuClosed()"
+>
+  <p-menu [model]="items" />
 </p-sidebar>

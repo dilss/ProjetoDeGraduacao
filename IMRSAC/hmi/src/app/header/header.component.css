@@ -1,0 +1,15 @@
+.navbar {
+    min-height: 80px;
+    background-color: var(--green-400);
+    width: 100%;
+}
+
+.navbar-title {
+    color: white;
+    font-size: large;
+    font-weight: bold;
+}
+
+.btn {
+    border: none;
+}

@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { HeaderComponent } from './header/header.component';
 import { MapComponent } from './map/map.component';
 import { MenuComponent } from './menu/menu.component';
-import { FooterComponent } from './footer/footer.component';
 import { RouterModule } from '@angular/router';
 import { ToastModule } from 'primeng/toast';
 import { SpinnerComponent } from './spinner/spinner.component';
@@ -30,7 +29,6 @@ import { ShowPlantationsComponent } from './plantation/show-plantations/show-pla
     CreatePlantationComponent,
     ShowPlantationsComponent,
     SpinnerComponent,
-    FooterComponent,
     RouterModule,
     ToastModule,
     ConfirmDialogModule,

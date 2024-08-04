@@ -46,7 +46,7 @@
 -   [x] 1 - Criação de uma plantação
 -   [x] 2 - Listar plantações
 -   [x] 3 - Edição de uma plantação
--   [x] 4 - Exclusão de uma plantação (confirmação de exclusão por digitação de nome da plantação)
+-   [x] 4 - Exclusão de uma plantação
 -   [x] 5 - Uma plantação é associada a uma área já existente e a aréa fica indisponível para a associação a outras plantações (tabela plantação one-to-one tabela área)
 -   [x] 6 - Exclusão da plantação não exclui a área a que está associada
 -   [x] 7 - Exclusão da área exclui a plantação que foi associada a esta área
@@ -76,3 +76,16 @@
 -   [ ] 3 - Clicar na plantação mostra ainda o tempo de atividade do sistema de irrigação para que a lâmina seja completamente aplicada
 -   [ ] 4 - É possível alternar entre diferentes sistemas de irrigação e ver esse tempo on do sistema selecionado
 -   [ ] 5 - Ao confirmar a aplicação uma nova irrigação é criada no banco de dados, assume-se que o sistema é ligado e um temporizador determinará quando o mesmo deve ser desligado - notificação
+
+## Autenticação e Autorização
+
+-   [x] 1 - Adicionar o serviço keycloak ao docker-compose.yaml
+-   [x] 2 - Personalizar páginas de login, registrar-se e esqueci minha senha do keycloak
+-   [ ] 3 - Adcionar autorização usando JWT à API do backend
+-   [ ] 4 - Adicionar tabela  Users ao banco de dados
+-   [ ] 5 - Alterar queries para buscar resources usando o id do usuário
+-   [x] 6 - Alterar navbar da aplicação para conter hamburguer menu, logo, nome completo da aplicação, circle avatar e posição fixa;
+
+
+
+
