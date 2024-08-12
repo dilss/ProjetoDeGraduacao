@@ -55,6 +55,12 @@
       <scope>test</scope>
     </dependency>
 
+    <!-- Auth dependencies -->
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-oidc</artifactId>
+    </dependency>
+
     <!-- Database dependencies -->
     <dependency>
       <groupId>io.quarkus</groupId>
@@ -68,7 +74,7 @@
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-jdbc-mysql</artifactId>
     </dependency>
-    
+
     <!-- Lombok -->
     <dependency>
       <groupId>org.projectlombok</groupId>
@@ -82,7 +88,7 @@
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-smallrye-openapi</artifactId>
     </dependency>
-  
+
     <!-- Junit -->
     <dependency>
       <groupId>org.junit.jupiter</groupId>

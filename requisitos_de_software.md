@@ -81,11 +81,5 @@
 
 -   [x] 1 - Adicionar o serviço keycloak ao docker-compose.yaml
 -   [x] 2 - Personalizar páginas de login, registrar-se e esqueci minha senha do keycloak
--   [ ] 3 - Adcionar autorização usando JWT à API do backend
--   [ ] 4 - Adicionar tabela  Users ao banco de dados
--   [ ] 5 - Alterar queries para buscar resources usando o id do usuário
--   [x] 6 - Alterar navbar da aplicação para conter hamburguer menu, logo, nome completo da aplicação, circle avatar e posição fixa;
-
-
-
-
+-   [x] 3 - Adcionar autorização usando JWT à API do backend
+-   [x] 6 - Alterar navbar da aplicação para conter hamburguer menu, logo, nome completo da aplicação, circle avatar e posição fixa

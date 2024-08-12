@@ -5,6 +5,7 @@ import com.imrsac.models.plantation.CreatePlantationRequest;
 import com.imrsac.models.plantation.UpdatePlantationRequest;
 import com.imrsac.services.PlantationService;
 
+import io.quarkus.security.Authenticated;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
@@ -22,6 +23,7 @@ import jakarta.ws.rs.core.Response;
 @Consumes(MediaType.APPLICATION_JSON + "; charset=utf-8")
 @Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
 @Transactional(Transactional.TxType.SUPPORTS)
+@Authenticated
 public class PlantationResource {
 
     @Inject

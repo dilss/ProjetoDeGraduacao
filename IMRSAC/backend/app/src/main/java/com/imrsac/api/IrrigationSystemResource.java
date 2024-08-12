@@ -7,6 +7,7 @@ import com.imrsac.models.irrigation_system.CreateIrrigationSystemRequest;
 import com.imrsac.models.irrigation_system.UpdateIrrigationSystemRequest;
 import com.imrsac.services.IrrigationSystemService;
 
+import io.quarkus.security.Authenticated;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
@@ -24,6 +25,7 @@ import jakarta.ws.rs.core.Response;
 @Consumes(MediaType.APPLICATION_JSON + "; charset=utf-8")
 @Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
 @Transactional(Transactional.TxType.SUPPORTS)
+@Authenticated
 public class IrrigationSystemResource {
 
     @Inject

@@ -6,6 +6,7 @@ import com.imrsac.mappers.soil.SoilMapper;
 import com.imrsac.models.soil.CreateSoilRequest;
 import com.imrsac.services.SoilService;
 
+import io.quarkus.security.Authenticated;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
@@ -23,6 +24,7 @@ import jakarta.ws.rs.core.Response;
 @Consumes(MediaType.APPLICATION_JSON + "; charset=utf-8")
 @Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
 @Transactional(Transactional.TxType.SUPPORTS)
+@Authenticated
 public class SoilResource {
     @Inject
     private SoilService soilService;
