@@ -75,6 +75,12 @@
       <artifactId>quarkus-jdbc-mysql</artifactId>
     </dependency>
 
+    <!-- MQTT -->
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-smallrye-reactive-messaging-mqtt</artifactId>
+    </dependency>
+
     <!-- Lombok -->
     <dependency>
       <groupId>org.projectlombok</groupId>
