@@ -3,7 +3,6 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { Icon, Layer, MapOptions, latLng, tileLayer } from 'leaflet';
 import { AreaService } from '../services/map/area.service';
 import { Subscription } from 'rxjs';
-import { KeycloakService } from 'keycloak-angular';
 import { FooterComponent } from '../footer/footer.component';
 
 Icon.Default.imagePath = 'leaflet/';

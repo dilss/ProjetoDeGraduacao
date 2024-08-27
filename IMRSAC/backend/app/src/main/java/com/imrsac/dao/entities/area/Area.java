@@ -12,6 +12,7 @@ import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
@@ -25,7 +26,7 @@ public class Area extends PanacheEntity {
     @Column(length = 100, nullable = false)
     public String name;
 
-    @OneToMany(cascade = { CascadeType.REMOVE })
+    @OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
     @JoinColumn(name = "area_id")
     public Set<Coordinate> coordinates = new HashSet<>();
 

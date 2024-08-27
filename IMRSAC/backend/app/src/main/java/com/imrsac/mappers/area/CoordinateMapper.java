@@ -22,7 +22,6 @@ public interface CoordinateMapper {
         coordinate.latitude = request.getLatitude();
         coordinate.longitude = request.getLongitude();
         coordinate.nodeOrder = request.getNodeOrder();
-        coordinate.areaId = request.getAreaId();
         return coordinate;
     }
 

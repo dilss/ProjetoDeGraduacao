@@ -12,6 +12,8 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { ToastService } from '../toast.service';
 import { Router } from '@angular/router';
 import { Coordinate } from '../../models/area/coordinate.model';
+import * as GeoJsonArea from '@mapbox/geojson-area';
+import { Polygon as PolygonGeo, Position } from 'geojson';
 
 @Injectable({
   providedIn: 'root',
@@ -46,7 +48,7 @@ export class AreaService {
         color = 'brown';
       }
       if (area.plantation) {
-        color = 'green'
+        color = 'green';
       }
       let polygon: Polygon = new Polygon(
         this.getLatLongFromAreaCoordinates(area),
@@ -68,6 +70,21 @@ export class AreaService {
       polygon
         .getPopup()
         .addEventListener('mouseup', (_event) => polygon.closePopup()); // Close with event from the popup itself
+
+      let geo: PolygonGeo = {
+        coordinates: [],
+        type: 'Polygon',
+      };
+      let positions: Position[] = [];
+      area.coordinates.forEach((coordinate) => {
+        let position: Position = [coordinate.longitude, coordinate.latitude];
+        positions.push(position);
+      });
+      geo.coordinates.push(positions);
+      let polygonArea: number = GeoJsonArea.geometry(geo);
+      console.log(
+        `=========================== A area \"${area.name}\" tem ${polygonArea} m²`
+      );
       return polygon;
     });
   }

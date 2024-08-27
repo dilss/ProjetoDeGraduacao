@@ -9,7 +9,6 @@ import com.imrsac.dao.repositories.AreaRepository;
 import com.imrsac.dao.repositories.SoilRepository;
 import com.imrsac.exceptions.IMRSACErrorEnum;
 import com.imrsac.exceptions.IMRSACExeption;
-import com.imrsac.mappers.area.CoordinateMapper;
 import com.imrsac.models.area.UpdateAreaRequest;
 
 import jakarta.enterprise.context.RequestScoped;
@@ -38,10 +37,6 @@ public class AreaService {
     public Area createArea(Area area, Long soilId) throws IMRSACExeption {
         try {
             this.areaRepository.persist(area);
-            area.coordinates.forEach(coordinate -> {
-                coordinate.areaId = area.id;
-                coordinate.persist();
-            });
             if (soilId != null) {
                 Soil soil = this.soilRepository.findById(soilId);
                 area.soil = soil;
@@ -57,9 +52,6 @@ public class AreaService {
         try {
             Area areaToUpdate = this.areaRepository.findById(areadId);
             areaToUpdate.name = newData.getName();
-            areaToUpdate.coordinates.forEach(coordinate -> coordinate.delete());
-            CoordinateMapper.fromUpdateToCoordinateEntitySet(newData.getCoordinates())
-                    .forEach(coordinate -> coordinate.persist());
             if (newData.getSoilId() != null) {
                 Soil soil = this.soilRepository.findById(newData.getSoilId());
                 areaToUpdate.soil = soil;

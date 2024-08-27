@@ -4,7 +4,7 @@ insert into agricultural_crops_SEQ values ( 1 );
 create table areas (created_at datetime(6) not null, id bigint not null, soil_id bigint, name varchar(100) not null, primary key (id)) engine=InnoDB;
 create table areas_SEQ (next_val bigint) engine=InnoDB;
 insert into areas_SEQ values ( 1 );
-create table coordinates (latitude decimal(21,18) not null, longitude decimal(21,18) not null, area_id bigint not null, created_at datetime(6) not null, node_order bigint not null, primary key (area_id, node_order)) engine=InnoDB;
+create table coordinates (latitude decimal(21,18) not null, longitude decimal(21,18) not null, area_id bigint, created_at datetime(6) not null, node_order bigint not null, primary key (latitude, longitude)) engine=InnoDB;
 create table irrigation_systems (efficiency float(53) not null, created_at datetime(6) not null, flow_rate bigint not null, id bigint not null, category varchar(100) not null, name varchar(100) not null, type varchar(100) not null, primary key (id)) engine=InnoDB;
 create table irrigation_systems_SEQ (next_val bigint) engine=InnoDB;
 insert into irrigation_systems_SEQ values ( 1 );
