@@ -81,6 +81,12 @@
       <artifactId>quarkus-smallrye-reactive-messaging-mqtt</artifactId>
     </dependency>
 
+    <!-- Web Socket -->
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-websockets</artifactId>
+    </dependency>
+
     <!-- Lombok -->
     <dependency>
       <groupId>org.projectlombok</groupId>

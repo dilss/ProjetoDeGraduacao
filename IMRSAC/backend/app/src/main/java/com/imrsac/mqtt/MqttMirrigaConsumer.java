@@ -12,13 +12,19 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.imrsac.websocket.WebSocketPayload;
+import com.imrsac.websocket.WebSocketServer;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 @ApplicationScoped
 public class MqttMirrigaConsumer {
 
     private static final Logger LOG = LoggerFactory.getLogger(MqttMirrigaConsumer.class);
+
+    @Inject
+    private WebSocketServer webSocketServer;
 
     @Incoming("mirriga")
     public CompletionStage<Void> consume(Message<byte[]> message) {
@@ -33,6 +39,8 @@ public class MqttMirrigaConsumer {
             String value = new String(Base64.getDecoder().decode(payload.getData()), StandardCharsets.UTF_8);
             LOG.info("Dados recebidos do sensor \"{}\" - Umidade do solo: {}", payload.getDeviceInfo().getDeviceName(),
                     value);
+
+            webSocketServer.sendData(new WebSocketPayload(payload.getDeviceInfo().getDeviceName(), value));
             return message.ack();
 
         } catch (Exception e) {

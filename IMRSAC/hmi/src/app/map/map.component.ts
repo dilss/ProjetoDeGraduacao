@@ -4,6 +4,7 @@ import { Icon, Layer, MapOptions, latLng, tileLayer } from 'leaflet';
 import { AreaService } from '../services/map/area.service';
 import { Subscription } from 'rxjs';
 import { FooterComponent } from '../footer/footer.component';
+import { SocketService } from '../services/SocketService';
 
 Icon.Default.imagePath = 'leaflet/';
 @Component({
@@ -30,15 +31,16 @@ export class MapComponent implements OnInit, OnDestroy {
 
   layers: Layer[] = [];
 
-  constructor(private areaService: AreaService) {}
+  constructor(private areaService: AreaService, private socketService: SocketService) {}
 
   ngOnInit(): void {
+    let sub1 = this.socketService.listen();
     this.areaService.fetchAreas();
     this.layers = this.areaService.drawAreas();
-    let sub = this.areaService.areasListChanged$.subscribe(
+    let sub2 = this.areaService.areasListChanged$.subscribe(
       (_areas) => (this.layers = this.areaService.drawAreas())
     );
-    this.subscriptions.push(sub);
+    this.subscriptions.push(sub1, sub2);
   }
 
   ngOnDestroy(): void {
