@@ -1,11 +1,10 @@
-package com.imrsac.dao.entities.soil;
+package com.imrsac.dao.entities;
 
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.imrsac.dao.entities.area.Area;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.Column;
@@ -13,27 +12,40 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "soil")
-public class Soil extends PanacheEntity {
+public class SoilEntity extends PanacheEntity {
 
     @Column(length = 100, nullable = false)
-    public String name;
+    private String name;
 
     @Column(name = "cc", nullable = false)
-    public Float fieldCapacity;
+    private Float fieldCapacity;
 
     @Column(name = "pmp", nullable = false)
-    public Float permanentWiltingPoint;
+    private Float permanentWiltingPoint;
 
     @Column(nullable = false)
-    public Float density;
+    private Float density;
 
+    @Builder.Default
     @Column(name = "created_at", nullable = false)
-    public Instant createdAt = Instant.now();
+    private Instant createdAt = Instant.now();
 
+    @Builder.Default
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "soil")
     @JsonIgnoreProperties({ "soil", "coordinates", "createdAt" })
-    public Set<Area> associatedAreas = new HashSet<>();
+    private Set<AreaEntity> associatedAreas = new HashSet<>();
 }

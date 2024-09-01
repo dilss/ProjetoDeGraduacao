@@ -1,13 +1,11 @@
-package com.imrsac.models.irrigation_system;
+package com.imrsac.models;
 
 import java.io.Serializable;
 
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
-@Setter
-public class UpdateIrrigationSystemRequest implements Serializable {
+public class IrrigationSystemRequestDto implements Serializable {
     private Long id;
     private String name;
     private String category;

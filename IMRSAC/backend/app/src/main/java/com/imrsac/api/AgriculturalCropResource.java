@@ -1,10 +1,8 @@
 package com.imrsac.api;
 
-import com.imrsac.dao.entities.agricultural_crop.AgriculturalCrop;
+import com.imrsac.dao.entities.AgriculturalCropEntity;
 import com.imrsac.exceptions.IMRSACExeption;
-import com.imrsac.mappers.agricultural_crop.AgriculturalCropMapper;
-import com.imrsac.models.agricultural_crop.CreateAgricuturalCropRequest;
-import com.imrsac.models.agricultural_crop.UpdateAgriculturalCropRequest;
+import com.imrsac.models.AgriculturalCropRequestDto;
 import com.imrsac.services.AgriculturalCropService;
 
 import io.quarkus.security.Authenticated;
@@ -34,15 +32,22 @@ public class AgriculturalCropResource {
     @POST
     @Path("create")
     @Transactional(Transactional.TxType.REQUIRED)
-    public Response createCrop(CreateAgricuturalCropRequest request) {
-        AgriculturalCrop crop = AgriculturalCropMapper.toEntity(request);
+    public Response createCrop(AgriculturalCropRequestDto request) {
+        AgriculturalCropEntity crop = AgriculturalCropEntity.builder().name(request.getName())
+                .rootDepth(request.getRootDepth()).waterAvailabilityFactor(request.getWaterAvailabilityFactor())
+                .cicleDurationDays(request.getCicleDurationDays())
+                .durationPercentagePhaseOne(request.getDurationPercentagePhaseOne())
+                .durationPercentagePhaseTwo(request.getDurationPercentagePhaseTwo())
+                .durationPercentagePhaseThree(request.getDurationPercentagePhaseThree())
+                .durationPercentagePhaseFour(request.getDurationPercentagePhaseFour())
+                .build();
         return GenerateResponse.run(() -> agriculturalCropService.createAgriculturalCrop(crop));
     }
 
     @PUT
     @Path("{id}")
     @Transactional(Transactional.TxType.REQUIRED)
-    public Response updateCrop(@PathParam("id") Long cropId, UpdateAgriculturalCropRequest request)
+    public Response updateCrop(@PathParam("id") Long cropId, AgriculturalCropRequestDto request)
             throws IMRSACExeption {
         return GenerateResponse
                 .run(() -> this.agriculturalCropService.editAgriculturalCrop(cropId, request));

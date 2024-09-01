@@ -1,8 +1,7 @@
 package com.imrsac.api;
 
 import com.imrsac.exceptions.IMRSACExeption;
-import com.imrsac.models.plantation.CreatePlantationRequest;
-import com.imrsac.models.plantation.UpdatePlantationRequest;
+import com.imrsac.models.PlantationRequestDto;
 import com.imrsac.services.PlantationService;
 
 import io.quarkus.security.Authenticated;
@@ -32,14 +31,14 @@ public class PlantationResource {
     @POST
     @Path("create")
     @Transactional(Transactional.TxType.REQUIRED)
-    public Response createPlantation(CreatePlantationRequest request) {
+    public Response createPlantation(PlantationRequestDto request) {
         return GenerateResponse.run(() -> plantationService.createPlantation(request));
     }
 
     @PUT
     @Path("{id}")
     @Transactional(Transactional.TxType.REQUIRED)
-    public Response updatePlantation(@PathParam("id") Long plantationId, UpdatePlantationRequest request)
+    public Response updatePlantation(@PathParam("id") Long plantationId, PlantationRequestDto request)
             throws IMRSACExeption {
         return GenerateResponse
                 .run(() -> this.plantationService.editPlantation(plantationId, request));

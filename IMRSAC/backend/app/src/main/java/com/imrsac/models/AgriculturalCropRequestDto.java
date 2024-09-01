@@ -1,11 +1,10 @@
-package com.imrsac.models.agricultural_crop;
+package com.imrsac.models;
 
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
-@Setter
-public class CreateAgricuturalCropRequest {
+public class AgriculturalCropRequestDto {
+    private Long id;
     private String name;
     private Long rootDepth;
     private Double waterAvailabilityFactor;
@@ -13,5 +12,5 @@ public class CreateAgricuturalCropRequest {
     private Long durationPercentagePhaseOne;
     private Long durationPercentagePhaseTwo;
     private Long durationPercentagePhaseThree;
-    private Long durationPercentagePhaseFour;
+    private Long durationPercentagePhaseFour;  
 }

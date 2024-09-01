@@ -40,6 +40,11 @@ public class MqttMirrigaConsumer {
             LOG.info("Dados recebidos do sensor \"{}\" - Umidade do solo: {}", payload.getDeviceInfo().getDeviceName(),
                     value);
 
+
+
+        //    IrrigationData irrigationData = new IrrigationData(irrigationService.calculateIrrigation(sensorEui));
+
+
             webSocketServer.sendData(new WebSocketPayload(payload.getDeviceInfo().getDeviceName(), value));
             return message.ack();
 

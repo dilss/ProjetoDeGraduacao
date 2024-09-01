@@ -1,7 +1,7 @@
 create table agricultural_crops (water_availability_factor float(53) not null, cicle_duration_days bigint not null, created_at datetime(6) not null, duration_percentage_phase_four bigint not null, duration_percentage_phase_one bigint not null, duration_percentage_phase_three bigint not null, duration_percentage_phase_two bigint not null, id bigint not null, root_depth_cm bigint not null, name varchar(100) not null, primary key (id)) engine=InnoDB;
 create table agricultural_crops_SEQ (next_val bigint) engine=InnoDB;
 insert into agricultural_crops_SEQ values ( 1 );
-create table areas (created_at datetime(6) not null, id bigint not null, soil_id bigint, name varchar(100) not null, primary key (id)) engine=InnoDB;
+create table areas (area float(53) not null, created_at datetime(6) not null, id bigint not null, soil_id bigint, name varchar(100) not null, primary key (id)) engine=InnoDB;
 create table areas_SEQ (next_val bigint) engine=InnoDB;
 insert into areas_SEQ values ( 1 );
 create table coordinates (latitude decimal(21,18) not null, longitude decimal(21,18) not null, area_id bigint, created_at datetime(6) not null, node_order bigint not null, primary key (latitude, longitude)) engine=InnoDB;
@@ -11,6 +11,7 @@ insert into irrigation_systems_SEQ values ( 1 );
 create table plantations (agricultural_crop_id bigint, area_id bigint, id bigint not null, irrigation_system_id bigint, name varchar(100) not null, primary key (id)) engine=InnoDB;
 create table plantations_SEQ (next_val bigint) engine=InnoDB;
 insert into plantations_SEQ values ( 1 );
+create table sensors (latitude float(53), longitude float(53), plantation_id bigint, id varchar(255) not null, primary key (id)) engine=InnoDB;
 create table soil (cc float(23) not null, density float(23) not null, pmp float(23) not null, created_at datetime(6) not null, id bigint not null, name varchar(100) not null, primary key (id)) engine=InnoDB;
 create table soil_SEQ (next_val bigint) engine=InnoDB;
 insert into soil_SEQ values ( 1 );
@@ -21,3 +22,4 @@ alter table coordinates add constraint FK2frw33nj716h51lchwga63yqy foreign key (
 alter table plantations add constraint FKpm7uwdhda7ivy9n9ignwf8ja5 foreign key (agricultural_crop_id) references agricultural_crops (id);
 alter table plantations add constraint FK8474mrtjrtpg5iao7c5cr0cog foreign key (area_id) references areas (id);
 alter table plantations add constraint FK7vs8w4h47yik7vmvu32wbksn3 foreign key (irrigation_system_id) references irrigation_systems (id);
+alter table sensors add constraint FKif8um0qo7qtcerahaevbb73hk foreign key (plantation_id) references plantations (id);

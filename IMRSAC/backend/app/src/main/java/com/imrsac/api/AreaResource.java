@@ -1,10 +1,12 @@
 package com.imrsac.api;
 
-import com.imrsac.dao.entities.area.Area;
+import java.util.HashSet;
+import java.util.Set;
+
+import com.imrsac.dao.entities.AreaEntity;
+import com.imrsac.dao.entities.CoordinateEntity;
 import com.imrsac.exceptions.IMRSACExeption;
-import com.imrsac.mappers.area.AreaMapper;
-import com.imrsac.models.area.CreateAreaRequest;
-import com.imrsac.models.area.UpdateAreaRequest;
+import com.imrsac.models.AreaRequestDto;
 import com.imrsac.services.AreaService;
 
 import io.quarkus.security.Authenticated;
@@ -34,15 +36,20 @@ public class AreaResource {
     @POST
     @Path("create")
     @Transactional(Transactional.TxType.REQUIRED)
-    public Response createArea(CreateAreaRequest request) throws IMRSACExeption {
-        Area area = AreaMapper.fromCreateToAreaEntity(request);
+    public Response createArea(AreaRequestDto request) throws IMRSACExeption {
+        Set<CoordinateEntity> coordinates = new HashSet<>();
+        request.getCoordinates()
+                .forEach(coordinate -> coordinates.add(CoordinateEntity.builder().latitude(coordinate.getLatitude())
+                        .longitude(coordinate.getLongitude()).nodeOrder(coordinate.getNodeOrder()).build()));
+        AreaEntity area = AreaEntity.builder().name(request.getName()).area(request.getArea())
+                .coordinates(coordinates).build();
         return GenerateResponse.run(() -> this.areaService.createArea(area, request.getSoilId()));
     }
 
     @PUT
     @Path("{id}")
     @Transactional(Transactional.TxType.REQUIRED)
-    public Response updateArea(@PathParam("id") Long areaId, UpdateAreaRequest request) throws IMRSACExeption {
+    public Response updateArea(@PathParam("id") Long areaId, AreaRequestDto request) throws IMRSACExeption {
         return GenerateResponse
                 .run(() -> this.areaService.editArea(areaId, request));
     }

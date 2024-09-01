@@ -1,13 +1,11 @@
-package com.imrsac.models.plantation;
+package com.imrsac.models;
 
 import java.io.Serializable;
 
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
-@Setter
-public class UpdatePlantationRequest implements Serializable {
+public class PlantationRequestDto implements Serializable {
     private Long id;
     private String name;
     private Long areaId;

@@ -3,13 +3,13 @@ package com.imrsac.services;
 import java.util.List;
 import org.jboss.logging.Logger;
 
-import com.imrsac.dao.entities.area.Area;
-import com.imrsac.dao.entities.soil.Soil;
+import com.imrsac.dao.entities.AreaEntity;
+import com.imrsac.dao.entities.SoilEntity;
 import com.imrsac.dao.repositories.AreaRepository;
 import com.imrsac.dao.repositories.SoilRepository;
 import com.imrsac.exceptions.IMRSACErrorEnum;
 import com.imrsac.exceptions.IMRSACExeption;
-import com.imrsac.models.area.UpdateAreaRequest;
+import com.imrsac.models.AreaRequestDto;
 
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
@@ -25,7 +25,7 @@ public class AreaService {
 
     private static final Logger LOG = Logger.getLogger(AreaService.class);
 
-    public List<Area> getAllAreas() throws IMRSACExeption {
+    public List<AreaEntity> getAllAreas() throws IMRSACExeption {
         try {
             return this.areaRepository.listAll();
         } catch (Exception e) {
@@ -34,12 +34,12 @@ public class AreaService {
         }
     }
 
-    public Area createArea(Area area, Long soilId) throws IMRSACExeption {
+    public AreaEntity createArea(AreaEntity area, Long soilId) throws IMRSACExeption {
         try {
             this.areaRepository.persist(area);
             if (soilId != null) {
-                Soil soil = this.soilRepository.findById(soilId);
-                area.soil = soil;
+                SoilEntity soil = this.soilRepository.findById(soilId);
+                area.setSoil(soil);
             }
             return area;
         } catch (Exception e) {
@@ -48,15 +48,15 @@ public class AreaService {
         }
     }
 
-    public Area editArea(Long areadId, UpdateAreaRequest newData) throws IMRSACExeption {
+    public AreaEntity editArea(Long areadId, AreaRequestDto newData) throws IMRSACExeption {
         try {
-            Area areaToUpdate = this.areaRepository.findById(areadId);
-            areaToUpdate.name = newData.getName();
+            AreaEntity areaToUpdate = this.areaRepository.findById(areadId);
+            areaToUpdate.setName(newData.getName());
             if (newData.getSoilId() != null) {
-                Soil soil = this.soilRepository.findById(newData.getSoilId());
-                areaToUpdate.soil = soil;
+                SoilEntity soil = this.soilRepository.findById(newData.getSoilId());
+                areaToUpdate.setSoil(soil);
             } else {
-                areaToUpdate.soil = null;
+                areaToUpdate.setSoil(null);
             }
             return areaToUpdate;
         } catch (Exception e) {
@@ -65,7 +65,7 @@ public class AreaService {
         }
     }
 
-    public Area findAreaById(Long areaId) throws IMRSACExeption {
+    public AreaEntity findAreaById(Long areaId) throws IMRSACExeption {
         try {
             return this.areaRepository.findByIdOptional(areaId)
                     .orElseThrow(() -> new IMRSACExeption(IMRSACErrorEnum.AREA_NOT_FOUND_IN_THE_DATABASE));
@@ -77,8 +77,8 @@ public class AreaService {
 
     public boolean deleteArea(Long areaId) throws IMRSACExeption {
         try {
-            Area area = this.areaRepository.findById(areaId);
-            area.soil = null;
+            AreaEntity area = this.areaRepository.findById(areaId);
+            area.setSoil(null);
             return this.areaRepository.deleteById(areaId);
         } catch (Exception e) {
             LOG.error(e.getMessage());

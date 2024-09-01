@@ -121,19 +121,23 @@ export class CreateAreaComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    let area: Area = new Area();
-    area.name = this.createAreaForm.value.name;
-    area.soilId = this.createAreaForm.value.soilId;
     let index: number = 0;
+    let coordinates: Coordinate[] = [];
+
     this.createAreaForm.value.coordinates.forEach(
-      (value: { latitude: number; longitude: number }) =>
-        area.coordinates.push({
-          areaId: this.areaToEdit ? this.areaToEdit.id : null,
-          latitude: value.latitude,
-          longitude: value.longitude,
-          nodeOrder: ++index,
-        } as Coordinate)
+      (value: { latitude: number; longitude: number }) => {
+        coordinates.push(
+          new Coordinate(
+            value.latitude,
+            value.longitude,
+            ++index,
+            this.areaToEdit ? this.areaToEdit.id : null
+          )
+        );
+      }
     );
+    let area: Area = new Area(this.createAreaForm.value.name, coordinates);
+    area.soilId = this.createAreaForm.value.soilId;
     if (this.areaToEdit) {
       area.id = this.areaToEdit.id;
       this.areaService.editArea(area);

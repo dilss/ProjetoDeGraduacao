@@ -1,13 +1,11 @@
-package com.imrsac.models.soil;
+package com.imrsac.models;
 
 import java.io.Serializable;
 
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
-@Setter
-public class CreateSoilRequest implements Serializable {
+public class SoilRequestDto implements Serializable {
     private String name;
     private Float fieldCapacity;
     private Float permanentWiltingPoint;

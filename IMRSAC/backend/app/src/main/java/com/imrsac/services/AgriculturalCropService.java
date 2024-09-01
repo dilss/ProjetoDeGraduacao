@@ -5,11 +5,11 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.imrsac.dao.entities.agricultural_crop.AgriculturalCrop;
+import com.imrsac.dao.entities.AgriculturalCropEntity;
 import com.imrsac.dao.repositories.AgriculturalCropReposistory;
 import com.imrsac.exceptions.IMRSACErrorEnum;
 import com.imrsac.exceptions.IMRSACExeption;
-import com.imrsac.models.agricultural_crop.UpdateAgriculturalCropRequest;
+import com.imrsac.models.AgriculturalCropRequestDto;
 
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
@@ -22,7 +22,7 @@ public class AgriculturalCropService {
 
     private static Logger LOG = LoggerFactory.getLogger(AgriculturalCropService.class);
 
-    public List<AgriculturalCrop> getAllAgriculturalCrops() throws IMRSACExeption {
+    public List<AgriculturalCropEntity> getAllAgriculturalCrops() throws IMRSACExeption {
         try {
             return this.agriculturalCropReposistory.listAll();
         } catch (Exception e) {
@@ -31,7 +31,7 @@ public class AgriculturalCropService {
         }
     }
 
-    public AgriculturalCrop createAgriculturalCrop(AgriculturalCrop crop) throws IMRSACExeption {
+    public AgriculturalCropEntity createAgriculturalCrop(AgriculturalCropEntity crop) throws IMRSACExeption {
         try {
             this.agriculturalCropReposistory.persist(crop);
             return crop;
@@ -41,18 +41,18 @@ public class AgriculturalCropService {
         }
     }
 
-    public AgriculturalCrop editAgriculturalCrop(Long cropId, UpdateAgriculturalCropRequest request)
+    public AgriculturalCropEntity editAgriculturalCrop(Long cropId, AgriculturalCropRequestDto request)
             throws IMRSACExeption {
         try {
-            AgriculturalCrop crop = agriculturalCropReposistory.findById(cropId);
-            crop.name = request.getName();
-            crop.rootDepth = request.getRootDepth();
-            crop.waterAvailabilityFactor = request.getWaterAvailabilityFactor();
-            crop.cicleDurationDays = request.getCicleDurationDays();
-            crop.durationPercentagePhaseOne = request.getDurationPercentagePhaseOne();
-            crop.durationPercentagePhaseTwo = request.getDurationPercentagePhaseTwo();
-            crop.durationPercentagePhaseThree = request.getDurationPercentagePhaseThree();
-            crop.durationPercentagePhaseFour = request.getDurationPercentagePhaseFour();
+            AgriculturalCropEntity crop = agriculturalCropReposistory.findById(cropId);
+            crop.setName(request.getName());
+            crop.setRootDepth(request.getRootDepth());
+            crop.setWaterAvailabilityFactor(request.getWaterAvailabilityFactor());
+            crop.setCicleDurationDays(request.getCicleDurationDays());
+            crop.setDurationPercentagePhaseOne(request.getDurationPercentagePhaseOne());
+            crop.setDurationPercentagePhaseTwo(request.getDurationPercentagePhaseTwo());
+            crop.setDurationPercentagePhaseThree(request.getDurationPercentagePhaseThree());
+            crop.setDurationPercentagePhaseFour(request.getDurationPercentagePhaseFour());
             return crop;
         } catch (Exception e) {
             LOG.error(e.getMessage());
@@ -60,7 +60,7 @@ public class AgriculturalCropService {
         }
     }
 
-    public AgriculturalCrop findAgriculturalCropById(Long cropId) throws IMRSACExeption {
+    public AgriculturalCropEntity findAgriculturalCropById(Long cropId) throws IMRSACExeption {
         try {
             return this.agriculturalCropReposistory.findByIdOptional(cropId)
                     .orElseThrow(() -> new IMRSACExeption(IMRSACErrorEnum.AGRICULTURAL_CROP_NOT_FOUND_IN_THE_DATABASE));

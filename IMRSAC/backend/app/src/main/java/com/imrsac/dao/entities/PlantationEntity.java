@@ -1,37 +1,52 @@
-package com.imrsac.dao.entities.plantation;
+package com.imrsac.dao.entities;
+
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.imrsac.dao.entities.agricultural_crop.AgriculturalCrop;
-import com.imrsac.dao.entities.area.Area;
-import com.imrsac.dao.entities.irrigation_system.IrrigationSystem;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "plantations")
-public class Plantation extends PanacheEntity {
+public class PlantationEntity extends PanacheEntity {
 
     @Column(length = 100, nullable = false)
-    public String name;
+    private String name;
 
     @OneToOne
     @JoinColumn(name = "area_id")
     @JsonIgnoreProperties({ "plantation", "coordinates", "createdAt", "soil.coordinates", "soil.createdAt" })
-    public Area area;
+    private AreaEntity area;
 
     @ManyToOne
     @JoinColumn(name = "agricultural_crop_id")
     @JsonIgnoreProperties({ "plantations", "createdAt" })
-    public AgriculturalCrop agriculturalCrop;
+    private AgriculturalCropEntity agriculturalCrop;
 
     @OneToOne
     @JoinColumn(name = "irrigation_system_id")
     @JsonIgnoreProperties({ "plantation", "createdAt" })
-    public IrrigationSystem irrigationSystem;
+    private IrrigationSystemEntity irrigationSystem;
+
+    @OneToMany(mappedBy = "plantation", cascade = { CascadeType.REMOVE })
+    @JsonIgnoreProperties({ "plantation" })
+    private Set<SensorEntity> sensors;
 }

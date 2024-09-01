@@ -1,14 +1,13 @@
-package com.imrsac.models.coordinate;
+package com.imrsac.models;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
-@Setter
-public class CreateCoordinateRequest implements Serializable {
+public class CoordinateRequestDto implements Serializable {
+    private Long areaId;
     private Long nodeOrder;
     private BigDecimal latitude;
     private BigDecimal longitude;

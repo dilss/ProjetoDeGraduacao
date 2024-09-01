@@ -1,9 +1,8 @@
 package com.imrsac.api;
 
-import com.imrsac.dao.entities.soil.Soil;
+import com.imrsac.dao.entities.SoilEntity;
 import com.imrsac.exceptions.IMRSACExeption;
-import com.imrsac.mappers.soil.SoilMapper;
-import com.imrsac.models.soil.CreateSoilRequest;
+import com.imrsac.models.SoilRequestDto;
 import com.imrsac.services.SoilService;
 
 import io.quarkus.security.Authenticated;
@@ -32,8 +31,9 @@ public class SoilResource {
     @POST
     @Path("create")
     @Transactional(Transactional.TxType.REQUIRED)
-    public Response createSoil(CreateSoilRequest request) throws IMRSACExeption {
-        Soil soil = SoilMapper.toSoilEntity(request);
+    public Response createSoil(SoilRequestDto request) throws IMRSACExeption {
+        SoilEntity soil = SoilEntity.builder().name(request.getName()).fieldCapacity(request.getFieldCapacity())
+                .permanentWiltingPoint(request.getPermanentWiltingPoint()).density(request.getDensity()).build();
         return GenerateResponse.run(() -> soilService.createSoil(soil));
     }
 
@@ -52,7 +52,7 @@ public class SoilResource {
     @PUT
     @Path("{id}")
     @Transactional(Transactional.TxType.REQUIRED)
-    public Response updateSoil(Soil request) throws IMRSACExeption {
+    public Response updateSoil(SoilEntity request) throws IMRSACExeption {
         return GenerateResponse.run(() -> this.soilService.editSoil(request));
     }
 

@@ -1,10 +1,8 @@
 package com.imrsac.api;
 
-import com.imrsac.dao.entities.irrigation_system.IrrigationSystem;
+import com.imrsac.dao.entities.IrrigationSystemEntity;
 import com.imrsac.exceptions.IMRSACExeption;
-import com.imrsac.mappers.irrigation_system.IrrigationSysteamMapper;
-import com.imrsac.models.irrigation_system.CreateIrrigationSystemRequest;
-import com.imrsac.models.irrigation_system.UpdateIrrigationSystemRequest;
+import com.imrsac.models.IrrigationSystemRequestDto;
 import com.imrsac.services.IrrigationSystemService;
 
 import io.quarkus.security.Authenticated;
@@ -34,15 +32,17 @@ public class IrrigationSystemResource {
     @POST
     @Path("create")
     @Transactional(Transactional.TxType.REQUIRED)
-    public Response createSystem(CreateIrrigationSystemRequest request) {
-        IrrigationSystem system = IrrigationSysteamMapper.toEntity(request);
+    public Response createSystem(IrrigationSystemRequestDto request) {
+        IrrigationSystemEntity system = IrrigationSystemEntity.builder().name(request.getName())
+                .category(request.getCategory()).type(request.getType()).efficiency(request.getEfficiency())
+                .flowRate(request.getFlowRate()).build();
         return GenerateResponse.run(() -> irrigationSystemService.createIrrigationSystem(system));
     }
 
     @PUT
     @Path("{id}")
     @Transactional(Transactional.TxType.REQUIRED)
-    public Response updateSystem(@PathParam("id") Long systemId, UpdateIrrigationSystemRequest request)
+    public Response updateSystem(@PathParam("id") Long systemId, IrrigationSystemRequestDto request)
             throws IMRSACExeption {
         return GenerateResponse
                 .run(() -> this.irrigationSystemService.editIrrigationSystem(systemId, request));
