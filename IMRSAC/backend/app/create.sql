@@ -11,7 +11,7 @@ insert into irrigation_systems_SEQ values ( 1 );
 create table plantations (agricultural_crop_id bigint, area_id bigint, id bigint not null, irrigation_system_id bigint, name varchar(100) not null, primary key (id)) engine=InnoDB;
 create table plantations_SEQ (next_val bigint) engine=InnoDB;
 insert into plantations_SEQ values ( 1 );
-create table sensors (latitude float(53), longitude float(53), plantation_id bigint, id varchar(255) not null, primary key (id)) engine=InnoDB;
+create table sensors (latitude float(53), longitude float(53), plantation_id bigint, id varchar(255) not null, name varchar(255), primary key (id)) engine=InnoDB;
 create table soil (cc float(23) not null, density float(23) not null, pmp float(23) not null, created_at datetime(6) not null, id bigint not null, name varchar(100) not null, primary key (id)) engine=InnoDB;
 create table soil_SEQ (next_val bigint) engine=InnoDB;
 insert into soil_SEQ values ( 1 );

@@ -55,7 +55,22 @@ public enum IMRSACErrorEnum implements IAppError {
         ERROR_UPDATING_PLANTATION("404", "Erro ao tentar atualizar a plantação",
                         Status.INTERNAL_SERVER_ERROR),
         ERROR_REMOVING_PLANTATION("405", "Erro ao tentar remover a plantação",
+                        Status.INTERNAL_SERVER_ERROR),
+
+        // Errors related to sensors
+        SENSOR_ID_NOT_INFORMED("500", "ID do sensor não encontrado na requisição",
+                        Status.BAD_REQUEST),
+        SENSOR_NOT_FOUND_IN_THE_DATABASE("501", "Sensor não encontrado na base de dados",
+                        Status.NOT_FOUND),
+        ERROR_PERSISTING_SENSOR("502", "Erro ao tentar salvar o sensor",
+                        Status.INTERNAL_SERVER_ERROR),
+        ERROR_FETCHING_SENSORS("503", "Erro ao tentar listar aos sensores",
+                        Status.INTERNAL_SERVER_ERROR),
+        ERROR_UPDATING_SENSOR("504", "Erro ao tentar atualizar o sensor",
+                        Status.INTERNAL_SERVER_ERROR),
+        ERROR_REMOVING_SENSOR("505", "Erro ao tentar remover o sensor",
                         Status.INTERNAL_SERVER_ERROR);
+
 
         private final String code;
         private final String msg;

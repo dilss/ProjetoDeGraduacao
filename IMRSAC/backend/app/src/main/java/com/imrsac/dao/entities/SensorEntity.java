@@ -27,6 +27,7 @@ public class SensorEntity extends PanacheEntityBase {
     @Column(name = "id")
     private String deviceEui;
 
+    private String name;
     private Double latitude;
     private Double longitude;
 
