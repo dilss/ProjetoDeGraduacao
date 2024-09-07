@@ -53,7 +53,7 @@ public class SensorService {
                     .devEui(sensorEntity.getDeviceEui())
                     .name(sensorEntity.getName())
                     .build();
-       
+
             this.chirpstackDevicesService.createDevice(Map.of("device", device));
             this.sensorRepository.persist(sensorEntity);
             LOG.info("O sensor \"{}\" com DevEUI \"{}\" foi criado com sucesso", device.getName(), device.getDevEui());
@@ -79,6 +79,7 @@ public class SensorService {
             SensorEntity entity = this.sensorRepository.findById(sensor.getDeviceEui());
             entity.setLatitude(sensor.getLatitude());
             entity.setLongitude(sensor.getLongitude());
+            entity.setName(sensor.getName());
             ChirpstackDevice device = ChirpstackDevice.builder()
                     .applicationId(lorawanServerApplicationId.get())
                     .deviceProfileId(lorawanServerDeviceProfileId.get())
