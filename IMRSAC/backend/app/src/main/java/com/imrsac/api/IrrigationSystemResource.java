@@ -30,7 +30,6 @@ public class IrrigationSystemResource {
     private IrrigationSystemService irrigationSystemService;
 
     @POST
-    @Path("create")
     @Transactional(Transactional.TxType.REQUIRED)
     public Response createSystem(IrrigationSystemRequestDto request) {
         IrrigationSystemEntity system = IrrigationSystemEntity.builder().name(request.getName())
@@ -49,7 +48,6 @@ public class IrrigationSystemResource {
     }
 
     @GET
-    @Path("list")
     public Response getAll() throws IMRSACExeption {
         return GenerateResponse.run(() -> this.irrigationSystemService.getAllIrrigationSystems());
     }

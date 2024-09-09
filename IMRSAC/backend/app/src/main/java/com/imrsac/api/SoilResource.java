@@ -29,7 +29,6 @@ public class SoilResource {
     private SoilService soilService;
 
     @POST
-    @Path("create")
     @Transactional(Transactional.TxType.REQUIRED)
     public Response createSoil(SoilRequestDto request) throws IMRSACExeption {
         SoilEntity soil = SoilEntity.builder().name(request.getName()).fieldCapacity(request.getFieldCapacity())
@@ -38,7 +37,6 @@ public class SoilResource {
     }
 
     @GET
-    @Path("list")
     public Response getAll() throws IMRSACExeption {
         return GenerateResponse.run(() -> this.soilService.getAllSoils());
     }

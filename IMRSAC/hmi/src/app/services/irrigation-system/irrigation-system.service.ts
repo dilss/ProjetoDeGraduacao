@@ -25,11 +25,13 @@ export class IrrigationSystemService {
   showIrrigationSystemsDialogOpen$: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(false);
 
+  dialogClosed$: Subject<void> = new Subject<void>();
+
   constructor(private http: HttpClient, private toastService: ToastService) {}
 
   fetchIrrigationSystems(): void {
     this.http
-      .get<IrrigationSystem[]>(`${this.baseUrl}/list`, {
+      .get<IrrigationSystem[]>(`${this.baseUrl}`, {
         responseType: 'json',
       })
       .subscribe({
@@ -43,10 +45,11 @@ export class IrrigationSystemService {
 
   createIrrigationSystem(system: IrrigationSystem): void {
     this.http
-      .post(`${this.baseUrl}/create`, system, { responseType: 'json' })
+      .post(`${this.baseUrl}`, system, { responseType: 'json' })
       .subscribe({
         next: (_systemId: number) => {
           this.fetchIrrigationSystems();
+          this.closeDialog();
           this.toastService.showSuccess(
             `O novo sistema de irrigação "${system.name}" foi criado com sucesso.`
           );
@@ -62,6 +65,7 @@ export class IrrigationSystemService {
       .subscribe({
         next: (_systemId: number) => {
           this.fetchIrrigationSystems();
+          this.closeDialog()
           this.toastService.showSuccess(
             `As altearções no sistema de irrigação "${system.name}" foram salvas.`
           );
@@ -101,5 +105,9 @@ export class IrrigationSystemService {
 
   openShowIrrigationSystemsDialog(): void {
     this.showIrrigationSystemsDialogOpen$.next(true);
+  }
+
+  closeDialog(): void {
+    this.dialogClosed$.next();
   }
 }

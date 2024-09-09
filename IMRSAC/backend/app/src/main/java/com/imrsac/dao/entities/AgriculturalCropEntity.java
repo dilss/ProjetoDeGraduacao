@@ -9,6 +9,7 @@ import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -54,7 +55,7 @@ public class AgriculturalCropEntity extends PanacheEntity {
     @Builder.Default
     private Instant createdAt = Instant.now();
 
-    @OneToMany(mappedBy = "agriculturalCrop", cascade = { CascadeType.REMOVE })
+    @OneToMany(mappedBy = "agriculturalCrop", cascade = { CascadeType.REMOVE }, fetch = FetchType.EAGER)
     @JsonIgnoreProperties({ "area", "agriculturalCrop", "irrigationSystem", "sensors" })
     private Set<PlantationEntity> plantations;
 }

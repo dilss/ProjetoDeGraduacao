@@ -34,7 +34,6 @@ public class AreaResource {
     private AreaService areaService;
 
     @POST
-    @Path("create")
     @Transactional(Transactional.TxType.REQUIRED)
     public Response createArea(AreaRequestDto request) throws IMRSACExeption {
         Set<CoordinateEntity> coordinates = new HashSet<>();
@@ -55,7 +54,6 @@ public class AreaResource {
     }
 
     @GET
-    @Path("list")
     public Response getAll() throws IMRSACExeption {
         return GenerateResponse.run(() -> this.areaService.getAllAreas());
     }

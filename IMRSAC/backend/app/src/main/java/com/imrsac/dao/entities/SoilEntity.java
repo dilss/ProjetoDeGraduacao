@@ -45,7 +45,7 @@ public class SoilEntity extends PanacheEntity {
     private Instant createdAt = Instant.now();
 
     @Builder.Default
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "soil")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "soil")
     @JsonIgnoreProperties({ "soil", "coordinates", "createdAt" })
     private Set<AreaEntity> associatedAreas = new HashSet<>();
 }

@@ -10,12 +10,12 @@
 -   [ ] 8 - Abrir o context menu do sensor (clique direito do mouse) possibilita excluir ou abrir a edição
 -   [ ] 9 - Se a coordenda do sensor não estiver dentro de uma área demarcada mostrar a mensagem:"Sensor fora de área demarcada" - (Usar componente 'toast' para isso)
 -   [ ] 10 - Se a coordenada do sensor pertencer a alguma área criada ele automaticamente é associado àquela área - mostrar a mensagem: "Sensor <nome do sensor> criado na área <nome da área>"
--   [ ] 11 - Tabela sensor relacionamento many-to-one com a tabela plantações
+-   [x] 11 - Tabela sensor relacionamento many-to-one com a tabela plantações
 
 ## Gerenciamento de Áreas
 
 -   [x] 1 - Adicionar criação de uma área demarcada no mapa(polígono) as entradas serão as coordenadas dos vértices (nome, lista de coordenandas)
--   [ ] 2 - (não é urgente) Adicionar edição de área
+-   [x] 2 - (não é urgente) Adicionar edição de área
 -   [x] 3 - Adicionar exclusão da área
 -   [x] 4 - Associar a área criada a um tipo de solo (tabela área relacionamento many-to-one com a tabela solo)
 -   [x] 5 - Abrir o context menu da área (clique direito do mouse) com as opções de edição e exclusão da área clicada

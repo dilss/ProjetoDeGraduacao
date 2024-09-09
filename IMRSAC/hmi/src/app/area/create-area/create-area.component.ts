@@ -20,6 +20,7 @@ import { SoilService } from '../../services/soil/soil.service';
 import { Subscription } from 'rxjs';
 import { ConfirmationService } from 'primeng/api';
 import { Router } from '@angular/router';
+import { PlantationService } from '../../services/plantation/plantation.service';
 
 @Component({
   imports: [
@@ -82,6 +83,7 @@ export class CreateAreaComponent implements OnInit, OnDestroy {
     private router: Router,
     private areaService: AreaService,
     private soilService: SoilService,
+    private plantationService: PlantationService,
     private confirmationService: ConfirmationService
   ) {}
 
@@ -140,7 +142,12 @@ export class CreateAreaComponent implements OnInit, OnDestroy {
     area.soilId = this.createAreaForm.value.soilId;
     if (this.areaToEdit) {
       area.id = this.areaToEdit.id;
-      this.areaService.editArea(area);
+      // If a soil weren't selected, the plantation in the soil will be deleted, plantations cannot exist without a soil
+      if (this.areaToEdit.plantation && !area.soilId) {
+        this.onSaveAreaWithoutASoil(area);
+      } else {
+        this.areaService.editArea(area);
+      }
       return;
     }
     this.areaService.createArea(area);
@@ -156,8 +163,8 @@ export class CreateAreaComponent implements OnInit, OnDestroy {
 
   cancelChanges(): void {
     this.confirmationService.confirm({
-      message: 'As alterações feitas serão perdidas',
-      header: 'Sair Sem Salvar?',
+      header: 'As alterações feitas serão perdidas',
+      message: 'Sair Sem Salvar?',
       icon: 'pi pi-exclamation-triangle',
       acceptIcon: 'none',
       rejectIcon: 'none',
@@ -165,6 +172,26 @@ export class CreateAreaComponent implements OnInit, OnDestroy {
       rejectLabel: 'Não',
       rejectButtonStyleClass: 'p-button-text',
       accept: () => {
+        this.confirmationService.close();
+        this.router.navigate(['home']);
+      },
+      reject: () => this.confirmationService.close(),
+    });
+  }
+
+  onSaveAreaWithoutASoil(area: Area): void {
+    this.confirmationService.confirm({
+      header: 'Salvar a área sem um tipo de solo irá excluir a plantação',
+      message: 'Deseja prosseguir com as alterações?',
+      icon: 'pi pi-exclamation-triangle',
+      acceptIcon: 'none',
+      rejectIcon: 'none',
+      acceptLabel: 'Sim',
+      rejectLabel: 'Não',
+      rejectButtonStyleClass: 'p-button-text',
+      accept: () => {
+        this.plantationService.deletePlantation(this.areaToEdit.plantation.id);
+        this.areaService.editArea(area);
         this.confirmationService.close();
         this.router.navigate(['home']);
       },

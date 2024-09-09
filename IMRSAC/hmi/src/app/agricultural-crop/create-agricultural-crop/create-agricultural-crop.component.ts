@@ -14,7 +14,13 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 
 @Component({
-  imports: [DialogModule, ReactiveFormsModule, InputNumberModule, InputTextModule, ButtonModule],
+  imports: [
+    DialogModule,
+    ReactiveFormsModule,
+    InputNumberModule,
+    InputTextModule,
+    ButtonModule,
+  ],
   standalone: true,
   selector: 'app-create-agricultural-crop',
   templateUrl: './create-agricultural-crop.component.html',
@@ -100,11 +106,18 @@ export class CreateAgriculturalCropComponent implements OnInit, OnDestroy {
           this.showDialog();
         }
       );
-    this.subscriptions.push(sub1, sub2);
+    const sub3 = this.agriculturalCropService.dialogClosed$.subscribe(() =>
+      this.hideDialog()
+    );
+    this.subscriptions.push(sub1, sub2, sub3);
   }
 
   showDialog() {
     this.visible = true;
+  }
+
+  hideDialog() {
+    this.visible = false;
   }
 
   onSubmit(): void {

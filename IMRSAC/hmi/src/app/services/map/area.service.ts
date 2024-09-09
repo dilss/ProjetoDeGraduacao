@@ -12,6 +12,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { ToastService } from '../toast.service';
 import { Router } from '@angular/router';
 import { Coordinate } from '../../models/area/coordinate.model';
+import { PlantationMenuComponent } from '../../plantation/plantation-menu/plantation-menu.component';
 
 @Injectable({
   providedIn: 'root',
@@ -32,6 +33,10 @@ export class AreaService {
     const AreaMenuElement = createCustomElement(AreaMenuComponent, {
       injector: injector,
     });
+    const PlantationMenElement = createCustomElement(PlantationMenuComponent, {
+      injector: injector,
+    });
+    customElements.define('plantation-menu-element', PlantationMenElement);
     customElements.define('area-menu-element', AreaMenuElement);
   }
 
@@ -56,11 +61,29 @@ export class AreaService {
         .bindTooltip(area.name)
         .clearAllEventListeners()
         .addEventListener('contextmenu', (event: LeafletMouseEvent) => {
-          const areaMenuElement: NgElement & WithProperties<AreaMenuComponent> =
-            document.createElement('area-menu-element') as any;
-          areaMenuElement.setAttribute('id', area.id.toString());
-          areaMenuElement.title = area.name;
-          polygon.setPopupContent(areaMenuElement).openPopup(event.latlng);
+          if (area.plantation) {
+            const plantationMenuComponent: NgElement &
+              WithProperties<PlantationMenuComponent> = document.createElement(
+              'plantation-menu-element'
+            ) as any;
+            plantationMenuComponent.setAttribute(
+              'id',
+              area.plantation.id.toString()
+            );
+            plantationMenuComponent.areaId = area.id
+            plantationMenuComponent.title = area.plantation.name;
+            polygon
+              .setPopupContent(plantationMenuComponent)
+              .openPopup(event.latlng);
+          } else {
+            const areaMenuElement: NgElement &
+              WithProperties<AreaMenuComponent> = document.createElement(
+              'area-menu-element'
+            ) as any;
+            areaMenuElement.setAttribute('id', area.id.toString());
+            areaMenuElement.title = area.name;
+            polygon.setPopupContent(areaMenuElement).openPopup(event.latlng);
+          }
         })
         .addEventListener('click', (event: LeafletMouseEvent) =>
           polygon.openTooltip(event.latlng)
@@ -74,7 +97,7 @@ export class AreaService {
 
   fetchAreas(): void {
     this.http
-      .get<Area[]>(`${this.baseUrl}/list`, {
+      .get<Area[]>(`${this.baseUrl}`, {
         responseType: 'json',
       })
       .subscribe({
@@ -89,7 +112,7 @@ export class AreaService {
 
   createArea(area: Area): void {
     this.http
-      .post(`${this.baseUrl}/create`, area, { responseType: 'json' })
+      .post(`${this.baseUrl}`, area, { responseType: 'json' })
       .subscribe({
         next: (_areaId: number) => {
           this.router.navigate(['home']);

@@ -89,14 +89,23 @@ export class CreatePlantationComponent implements OnInit, OnDestroy {
           this.irrigationSystemService.irrigationSystemsList;
         this.plantationForm.setValue({
           name: plantation.name,
-          area: this.areasOptions.find( area => area.id === plantation.area.id),
-          agriculturalCrop: this.agriculturaCropsOptions.find( crop => crop.id === plantation.agriculturalCrop.id),
-          irrigationSystem: this.irrigationSystemsOptions.find( system => system.id === plantation.irrigationSystem.id),
+          area: this.areasOptions.find(
+            (area) => area.id === plantation.area.id
+          ),
+          agriculturalCrop: this.agriculturaCropsOptions.find(
+            (crop) => crop.id === plantation.agriculturalCrop.id
+          ),
+          irrigationSystem: this.irrigationSystemsOptions.find(
+            (system) => system.id === plantation.irrigationSystem.id
+          ),
         });
         this.showDialog();
       }
     );
-    this.subscriptions.push(sub1, sub2);
+    const sub3 = this.plantationService.dialogClosed$.subscribe(() =>
+      this.hideDialog()
+    );
+    this.subscriptions.push(sub1, sub2, sub3);
     this.fillAllDropdownOptions();
   }
 
@@ -117,8 +126,14 @@ export class CreatePlantationComponent implements OnInit, OnDestroy {
   }
 
   private fillAllDropdownOptions(): void {
+    this.areaService.fetchAreas();
+    this.agriculturalCropService.fetchAgriculturalCrops();
+    this.irrigationSystemService.fetchIrrigationSystems();
     const sub1 = this.areaService.areasListChanged$.subscribe(
-      (areas) => (this.areasOptions = areas.filter((area) => !area.plantation))
+      (areas) =>
+        (this.areasOptions = areas.filter(
+          (area) => !area.plantation && area.soil
+        ))
     );
     const sub2 =
       this.agriculturalCropService.agriculturalCropListChanged$.subscribe(
@@ -136,6 +151,10 @@ export class CreatePlantationComponent implements OnInit, OnDestroy {
 
   showDialog() {
     this.visible = true;
+  }
+
+  hideDialog() {
+    this.visible = false;
   }
 
   ngOnDestroy(): void {

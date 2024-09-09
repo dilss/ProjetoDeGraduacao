@@ -3,6 +3,7 @@ import { Plantation } from '../../models/plantation/plantation.model';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { ToastService } from '../toast.service';
+import { AreaService } from '../map/area.service';
 
 @Injectable({
   providedIn: 'root',
@@ -21,11 +22,17 @@ export class PlantationService {
   showPlantationsDialogOpen$: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(false);
 
-  constructor(private http: HttpClient, private toastService: ToastService) {}
+  dialogClosed$: Subject<void> = new Subject<void>();
+
+  constructor(
+    private http: HttpClient,
+    private areaService: AreaService,
+    private toastService: ToastService
+  ) {}
 
   fetchPlantations(): void {
     this.http
-      .get<Plantation[]>(`${this.baseUrl}/list`, {
+      .get<Plantation[]>(`${this.baseUrl}`, {
         responseType: 'json',
       })
       .subscribe({
@@ -40,7 +47,7 @@ export class PlantationService {
   createPlantation(plantation: Plantation): void {
     this.http
       .post(
-        `${this.baseUrl}/create`,
+        `${this.baseUrl}`,
         {
           name: plantation.name,
           areaId: plantation.area.id,
@@ -52,6 +59,8 @@ export class PlantationService {
       .subscribe({
         next: (_plantationId: number) => {
           this.fetchPlantations();
+          this.areaService.fetchAreas();
+          this.closeDialog();
           this.toastService.showSuccess(
             `A nova plantação "${plantation.name}" foi criado com sucesso.`
           );
@@ -79,6 +88,8 @@ export class PlantationService {
       .subscribe({
         next: (_plantationId: number) => {
           this.fetchPlantations();
+          this.areaService.fetchAreas();
+          this.closeDialog();
           this.toastService.showSuccess(
             `As altearções na plantação "${plantation.name}" foram salvas.`
           );
@@ -95,6 +106,7 @@ export class PlantationService {
     this.http.delete(`${this.baseUrl}/${plantationId}`).subscribe({
       next: (_deleted: boolean) => {
         this.fetchPlantations();
+        this.areaService.fetchAreas();
         this.toastService.showSuccess(
           `A plantação "${plantation.name}" foi excluída com sucesso.`
         );
@@ -108,11 +120,22 @@ export class PlantationService {
     this.editPlantationDialogOpen$.next(plantation);
   }
 
+  openEditPlantationWithId(plantationId: number): void {
+    let plantation: Plantation = this.plantations.find(
+      (plantation) => (plantation.id = plantationId)
+    );
+    this.editPlantationDialogOpen$.next(plantation);
+  }
+
   openCreatePlantationDialog(): void {
     this.createPlantationDialogOpen$.next();
   }
 
   openShowPlantationsDialog(): void {
     this.showPlantationsDialogOpen$.next(true);
+  }
+
+  closeDialog(): void {
+    this.dialogClosed$.next();
   }
 }

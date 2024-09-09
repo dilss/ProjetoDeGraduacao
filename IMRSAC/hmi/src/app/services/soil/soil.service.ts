@@ -18,13 +18,17 @@ export class SoilService {
 
   editSoilDialogOpen$: Subject<Soil> = new Subject<Soil>();
 
-  showSoilsDialogOpen$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  showSoilsDialogOpen$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
+    false
+  );
+
+  dialogClosed$: Subject<void> = new Subject<void>();
 
   constructor(private http: HttpClient, private toastService: ToastService) {}
 
   fetchSoils(): void {
     this.http
-      .get<Soil[]>(`${this.baseUrl}/list`, {
+      .get<Soil[]>(`${this.baseUrl}`, {
         responseType: 'json',
       })
       .subscribe({
@@ -38,10 +42,11 @@ export class SoilService {
 
   createSoil(soil: Soil): void {
     this.http
-      .post(`${this.baseUrl}/create`, soil, { responseType: 'json' })
+      .post(`${this.baseUrl}`, soil, { responseType: 'json' })
       .subscribe({
         next: (_soilId: number) => {
           this.fetchSoils();
+          this.closeDialog();
           this.toastService.showSuccess(
             `O novo solo "${soil.name}" foi criado com sucesso.`
           );
@@ -56,6 +61,7 @@ export class SoilService {
     this.http.delete(`${this.baseUrl}/${soilId}`).subscribe({
       next: (_deleted: boolean) => {
         this.fetchSoils();
+        this.closeDialog();
         this.toastService.showSuccess(
           `O solo "${soil.name}" foi excluído com sucesso.`
         );
@@ -67,17 +73,17 @@ export class SoilService {
 
   editSoil(soil: Soil): void {
     this.http
-    .put(`${this.baseUrl}/${soil.id}`, soil, { responseType: 'json' })
-    .subscribe({
-      next: (_soilId: number) => {
-        this.fetchSoils();
-        this.toastService.showSuccess(
-          `As altearções no solo "${soil.name}" foram salvas.`
-        );
-      },
-      error: (errorResponse: HttpErrorResponse) =>
-        this.toastService.showError(errorResponse.error.message),
-    });  
+      .put(`${this.baseUrl}/${soil.id}`, soil, { responseType: 'json' })
+      .subscribe({
+        next: (_soilId: number) => {
+          this.fetchSoils();
+          this.toastService.showSuccess(
+            `As altearções no solo "${soil.name}" foram salvas.`
+          );
+        },
+        error: (errorResponse: HttpErrorResponse) =>
+          this.toastService.showError(errorResponse.error.message),
+      });
   }
 
   openEditSoilDialog(soil: Soil): void {
@@ -90,5 +96,9 @@ export class SoilService {
 
   openShowSoilsDialog(): void {
     this.showSoilsDialogOpen$.next(true);
+  }
+
+  closeDialog(): void {
+    this.dialogClosed$.next();
   }
 }

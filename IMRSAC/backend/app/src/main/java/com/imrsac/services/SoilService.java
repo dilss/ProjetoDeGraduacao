@@ -1,8 +1,6 @@
 package com.imrsac.services;
 
 import java.util.List;
-import java.util.Map;
-
 import org.jboss.logging.Logger;
 
 import com.imrsac.dao.entities.SoilEntity;
@@ -10,7 +8,6 @@ import com.imrsac.dao.repositories.SoilRepository;
 import com.imrsac.exceptions.IMRSACErrorEnum;
 import com.imrsac.exceptions.IMRSACExeption;
 
-import io.quarkus.panache.common.Parameters;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 
@@ -53,12 +50,13 @@ public class SoilService {
     }
 
     public SoilEntity editSoil(SoilEntity soil) throws IMRSACExeption {
-        Map<String, Object> params = Parameters.with("name", soil.getName()).and("cc", soil.getFieldCapacity())
-                .and("pmp", soil.getPermanentWiltingPoint()).and("density", soil.getDensity()).and("id", soil.id).map();
-        String query = "update Soil s set s.name = :name, s.fieldCapacity = :cc, s.permanentWiltingPoint = :pmp, s.density = :density where s.id = :id";
         try {
-            this.soilRepository.update(query, params);
-            return soil;
+            SoilEntity soilEntity = this.soilRepository.findById(soil.id);
+            soilEntity.setName(soil.getName());
+            soilEntity.setFieldCapacity(soil.getFieldCapacity());
+            soilEntity.setPermanentWiltingPoint(soil.getPermanentWiltingPoint());
+            soilEntity.setDensity(soil.getDensity());
+            return soilEntity;
         } catch (Exception e) {
             LOG.error(e.getMessage());
             throw new IMRSACExeption(IMRSACErrorEnum.ERROR_UPDATING_SOIL);

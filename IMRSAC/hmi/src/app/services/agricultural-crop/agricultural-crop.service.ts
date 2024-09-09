@@ -25,11 +25,13 @@ export class AgriculturalCropService {
   showAgriculturalCropsDialogOpen$: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(false);
 
+  dialogClosed$: Subject<void> = new Subject<void>();
+
   constructor(private http: HttpClient, private toastService: ToastService) {}
 
   fetchAgriculturalCrops(): void {
     this.http
-      .get<AgriculturalCrop[]>(`${this.baseUrl}/list`, {
+      .get<AgriculturalCrop[]>(`${this.baseUrl}`, {
         responseType: 'json',
       })
       .subscribe({
@@ -43,10 +45,11 @@ export class AgriculturalCropService {
 
   createAgriculturalCrop(crop: AgriculturalCrop): void {
     this.http
-      .post(`${this.baseUrl}/create`, crop, { responseType: 'json' })
+      .post(`${this.baseUrl}`, crop, { responseType: 'json' })
       .subscribe({
         next: (_cropId: number) => {
           this.fetchAgriculturalCrops();
+          this.closeDialog();
           this.toastService.showSuccess(
             `A nova cultura "${crop.name}" foi criada com sucesso.`
           );
@@ -76,6 +79,7 @@ export class AgriculturalCropService {
       .subscribe({
         next: (_cropId: number) => {
           this.fetchAgriculturalCrops();
+          this.closeDialog();
           this.toastService.showSuccess(
             `As altearções na cultura "${crop.name}" foram salvas.`
           );
@@ -99,5 +103,9 @@ export class AgriculturalCropService {
 
   openShowAgriculturalCropsDialog(): void {
     this.showAgriculturalCropsDialogOpen$.next(true);
+  }
+
+  closeDialog(): void {
+    this.dialogClosed$.next();
   }
 }

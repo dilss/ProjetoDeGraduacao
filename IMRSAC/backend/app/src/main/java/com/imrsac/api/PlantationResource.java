@@ -29,7 +29,6 @@ public class PlantationResource {
     private PlantationService plantationService;
 
     @POST
-    @Path("create")
     @Transactional(Transactional.TxType.REQUIRED)
     public Response createPlantation(PlantationRequestDto request) {
         return GenerateResponse.run(() -> plantationService.createPlantation(request));
@@ -45,7 +44,6 @@ public class PlantationResource {
     }
 
     @GET
-    @Path("list")
     public Response getAll() throws IMRSACExeption {
         return GenerateResponse.run(() -> this.plantationService.getAllPlantations());
     }

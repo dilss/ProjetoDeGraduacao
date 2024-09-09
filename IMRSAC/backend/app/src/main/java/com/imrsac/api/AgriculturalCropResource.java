@@ -30,7 +30,6 @@ public class AgriculturalCropResource {
     private AgriculturalCropService agriculturalCropService;
 
     @POST
-    @Path("create")
     @Transactional(Transactional.TxType.REQUIRED)
     public Response createCrop(AgriculturalCropRequestDto request) {
         AgriculturalCropEntity crop = AgriculturalCropEntity.builder().name(request.getName())
@@ -54,7 +53,6 @@ public class AgriculturalCropResource {
     }
 
     @GET
-    @Path("list")
     public Response getAll() throws IMRSACExeption {
         return GenerateResponse.run(() -> this.agriculturalCropService.getAllAgriculturalCrops());
     }

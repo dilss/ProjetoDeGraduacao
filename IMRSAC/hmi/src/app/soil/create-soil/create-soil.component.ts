@@ -71,11 +71,18 @@ export class CreateSoilComponent implements OnInit, OnDestroy {
       });
       this.showDialog();
     });
-    this.subscriptions.push(sub1, sub2);
+    const sub3 = this.soilService.dialogClosed$.subscribe(() =>
+      this.hideDialog()
+    );
+    this.subscriptions.push(sub1, sub2, sub3);
   }
 
   showDialog() {
     this.visible = true;
+  }
+
+  hideDialog() {
+    this.visible = false;
   }
 
   onSubmit(): void {
