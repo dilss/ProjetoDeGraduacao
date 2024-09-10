@@ -24,13 +24,21 @@
             {{ plantation.name }}
           </div>
           <hr />
-          <div class="col-10">
+          <div class="col-9">
             <b>Area:</b> {{ plantation.area.name }}
             <br />
             <b>Cultura:</b>
             {{ plantation.agriculturalCrop.name }}
             <br />
             <b>Sistema de Irrigação:</b> {{ plantation.irrigationSystem.name }}
+          </div>
+          <div class="col-1">
+            <p-button
+              icon="pi pi-map"
+              severity="primary"
+              [outlined]="true"
+              (onClick)="focusPlantationOnTheMap(plantation)"
+            />
           </div>
           <div class="col-1">
             <p-button

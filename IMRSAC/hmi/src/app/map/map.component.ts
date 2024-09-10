@@ -1,8 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import {
-  LeafletModule,
-} from '@asymmetrik/ngx-leaflet';
-import { Icon, Layer, MapOptions, latLng, tileLayer } from 'leaflet';
+  Icon,
+  LatLngBounds,
+  Layer,
+  MapOptions,
+  latLng,
+  tileLayer,
+} from 'leaflet';
 import { AreaService } from '../services/area/area.service';
 import { Subscription } from 'rxjs';
 import { FooterComponent } from '../footer/footer.component';
@@ -35,6 +40,8 @@ export class MapComponent implements OnInit, OnDestroy {
 
   layers: Layer[] = [];
 
+  elementToFitOnMap: LatLngBounds;
+
   constructor(
     private areaService: AreaService,
     private mapService: MapService,
@@ -49,15 +56,19 @@ export class MapComponent implements OnInit, OnDestroy {
         .drawAreas()
         .forEach((polygon) => this.layers.push(polygon))
     );
-    let sub3 = this.sensorService.sensorListChanged$.subscribe((sensors) => {
+    let sub3 = this.sensorService.sensorListChanged$.subscribe((_sensors) => {
       this.mapService
         .getSensorsMarkers()
         .forEach((sensorMarker) => this.layers.push(sensorMarker));
     });
+
+    let sub4 = this.mapService.elementToFocusOnMap$.subscribe(
+      (elementToFit) => (this.elementToFitOnMap = elementToFit)
+    );
     this.areaService.fetchAreas();
     this.sensorService.fetchSensors();
     this.layers = this.mapService.drawAreas();
-    this.subscriptions.push(sub1, sub2);
+    this.subscriptions.push(sub1, sub2, sub3, sub4);
   }
 
   ngOnDestroy(): void {

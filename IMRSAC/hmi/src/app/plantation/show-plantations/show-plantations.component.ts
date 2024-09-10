@@ -7,6 +7,7 @@ import { ButtonModule } from 'primeng/button';
 import { ConfirmationService } from 'primeng/api';
 import { PlantationService } from '../../services/plantation/plantation.service';
 import { Plantation } from '../../models/plantation/plantation.model';
+import { MapService } from '../../services/map/map.service';
 
 @Component({
   imports: [CommonModule, DialogModule, DataViewModule, ButtonModule],
@@ -22,6 +23,7 @@ export class ShowPlantationsComponent implements OnInit, OnDestroy {
 
   constructor(
     private plantationService: PlantationService,
+    private mapService: MapService,
     private confirmationService: ConfirmationService
   ) {}
 
@@ -54,6 +56,11 @@ export class ShowPlantationsComponent implements OnInit, OnDestroy {
 
   editPlantation(plantation: Plantation): void {
     this.plantationService.openEditPlantationDialog(plantation);
+  }
+
+  focusPlantationOnTheMap(plantation: Plantation): void {
+    this.visible = false;
+    this.mapService.focusAreaOnMap(plantation.area.id);
   }
 
   ngOnDestroy(): void {

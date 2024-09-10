@@ -7,9 +7,9 @@ import {
 import {
   Icon,
   LatLng,
-  LayerGroup,
+  LatLngBounds,
+  LatLngBoundsLiteral,
   LeafletMouseEvent,
-  Map,
   Marker,
   MarkerOptions,
   Polygon,
@@ -30,6 +30,8 @@ import { SensorService } from '../sensor/sensor.service';
 export class MapService {
   rightClickLatLngInPolygon$: Subject<{ latitude: number; longitude: number }> =
     new Subject<{ latitude: number; longitude: number }>();
+
+  elementToFocusOnMap$: Subject<LatLngBounds> = new Subject<LatLngBounds>();
 
   constructor(
     injector: Injector,
@@ -80,6 +82,17 @@ export class MapService {
     return this.sensorService.SensorsList.map((sensor) =>
       this.createMarker(sensor)
     );
+  }
+
+  public focusAreaOnMap(areaId: number): void {
+    let area: Area = this.areaService.areasList.find(
+      (area) => areaId == area.id
+    );
+    let latLngs: LatLngBoundsLiteral = [];
+    area.coordinates.map((coordinate) =>
+      latLngs.push([coordinate.latitude, coordinate.longitude])
+    );
+    this.elementToFocusOnMap$.next(new LatLngBounds(latLngs));
   }
 
   private getLatLongFromAreaCoordinates(area: Area): Array<LatLng> {
