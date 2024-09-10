@@ -2,7 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ConfirmationService, MenuItem, PrimeIcons } from 'primeng/api';
 import { MenuModule } from 'primeng/menu';
 import { PlantationService } from '../../services/plantation/plantation.service';
-import { AreaService } from '../../services/map/area.service';
+import { AreaService } from '../../services/area/area.service';
+import { SensorService } from '../../services/sensor/sensor.service';
 
 @Component({
   imports: [MenuModule],
@@ -20,7 +21,8 @@ export class PlantationMenuComponent implements OnInit {
   constructor(
     private areaService: AreaService,
     private plantationService: PlantationService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private sensorService: SensorService
   ) {}
 
   ngOnInit(): void {
@@ -28,6 +30,11 @@ export class PlantationMenuComponent implements OnInit {
       id: this.id.toString(),
       label: `Plantação: ${this.title}`,
       items: [
+        {
+          label: 'Adicionar sensor',
+          icon: PrimeIcons.PLUS,
+          command: () => this.newSensorClicked(),
+        },
         {
           label: 'Editar área da plantação',
           icon: PrimeIcons.PENCIL,
@@ -68,5 +75,9 @@ export class PlantationMenuComponent implements OnInit {
 
   private editAreaClicked(areaId: number): void {
     this.areaService.openEditArea(areaId);
+  }
+
+  private newSensorClicked(): void {
+    this.sensorService.openCreateSensorDialog();
   }
 }

@@ -3,7 +3,7 @@ import { Plantation } from '../../models/plantation/plantation.model';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { ToastService } from '../toast.service';
-import { AreaService } from '../map/area.service';
+import { AreaService } from '../area/area.service';
 
 @Injectable({
   providedIn: 'root',

@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ConfirmationService, MenuItem, PrimeIcons } from 'primeng/api';
 import { MenuModule } from 'primeng/menu';
-import { AreaService } from '../../services/map/area.service';
+import { AreaService } from '../../services/area/area.service';
 
 @Component({
   imports: [MenuModule],

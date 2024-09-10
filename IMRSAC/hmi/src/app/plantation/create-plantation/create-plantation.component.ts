@@ -15,7 +15,7 @@ import { Area } from '../../models/area/area.model';
 import { AgriculturalCrop } from '../../models/agricultural-crop/agricultural-crop.model';
 import { IrrigationSystem } from '../../models/irrigation-system/irrigation-system.model';
 import { Plantation } from '../../models/plantation/plantation.model';
-import { AreaService } from '../../services/map/area.service';
+import { AreaService } from '../../services/area/area.service';
 import { AgriculturalCropService } from '../../services/agricultural-crop/agricultural-crop.service';
 import { IrrigationSystemService } from '../../services/irrigation-system/irrigation-system.service';
 

@@ -5,6 +5,7 @@ import { SoilService } from '../soil/soil.service';
 import { AgriculturalCropService } from '../agricultural-crop/agricultural-crop.service';
 import { IrrigationSystemService } from '../irrigation-system/irrigation-system.service';
 import { PlantationService } from '../plantation/plantation.service';
+import { SensorService } from '../sensor/sensor.service';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +16,8 @@ export class MenuItemService {
     private soilService: SoilService,
     private agriculturalCropService: AgriculturalCropService,
     private irrigationSystemService: IrrigationSystemService,
-    private plantationService: PlantationService
+    private plantationService: PlantationService,
+    private sensorService: SensorService,
   ) {}
 
   public MENU_ITEMS: MenuItem[] = [
@@ -80,6 +82,7 @@ export class MenuItemService {
         {
           label: 'Adicionar um novo sensor',
           icon: 'soil-moisture-sensor-icon',
+          command: (_event) => this.sensorService.openCreateSensorDialog(),
         },
       ],
     },

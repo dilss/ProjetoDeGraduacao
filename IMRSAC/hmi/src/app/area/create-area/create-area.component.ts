@@ -13,7 +13,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { DividerModule } from 'primeng/divider';
 import { Area } from '../../models/area/area.model';
 import { Coordinate } from '../../models/area/coordinate.model';
-import { AreaService } from '../../services/map/area.service';
+import { AreaService } from '../../services/area/area.service';
 import { DropdownModule } from 'primeng/dropdown';
 import { Soil } from '../../models/soil/soil.model';
 import { SoilService } from '../../services/soil/soil.service';
