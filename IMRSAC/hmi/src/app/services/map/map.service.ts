@@ -4,13 +4,25 @@ import {
   NgElement,
   WithProperties,
 } from '@angular/elements';
-import { LatLng, LeafletMouseEvent, Polygon, Popup } from 'leaflet';
+import {
+  Icon,
+  LatLng,
+  LayerGroup,
+  LeafletMouseEvent,
+  Map,
+  Marker,
+  MarkerOptions,
+  Polygon,
+  Popup,
+} from 'leaflet';
 import { PlantationMenuComponent } from '../../plantation/plantation-menu/plantation-menu.component';
 import { AreaMenuComponent } from '../../area/area-menu/area-menu.component';
 import { Area } from '../../models/area/area.model';
 import { Coordinate } from '../../models/area/coordinate.model';
 import { AreaService } from '../area/area.service';
 import { Subject } from 'rxjs';
+import { Sensor } from '../../models/sensor/sensor.model';
+import { SensorService } from '../sensor/sensor.service';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +30,12 @@ import { Subject } from 'rxjs';
 export class MapService {
   rightClickLatLngInPolygon$: Subject<{ latitude: number; longitude: number }> =
     new Subject<{ latitude: number; longitude: number }>();
-  constructor(injector: Injector, private areaService: AreaService) {
+
+  constructor(
+    injector: Injector,
+    private areaService: AreaService,
+    private sensorService: SensorService
+  ) {
     const AreaMenuElement = createCustomElement(AreaMenuComponent, {
       injector: injector,
     });
@@ -33,10 +50,10 @@ export class MapService {
     return this.areaService.areasList.map((area) => {
       let color: string = 'grey';
       if (area.soil) {
-        color = 'brown';
+        color = '#926829';
       }
       if (area.plantation) {
-        color = 'green';
+        color = '#228B22';
       }
       let polygon: Polygon = new Polygon(
         this.getLatLongFromAreaCoordinates(area),
@@ -57,6 +74,12 @@ export class MapService {
         .addEventListener('mouseup', (_event) => polygon.closePopup()); // Close with event from the popup itself
       return polygon;
     });
+  }
+
+  public getSensorsMarkers(): Marker[] {
+    return this.sensorService.SensorsList.map((sensor) =>
+      this.createMarker(sensor)
+    );
   }
 
   private getLatLongFromAreaCoordinates(area: Area): Array<LatLng> {
@@ -96,5 +119,18 @@ export class MapService {
       latitude: event.latlng.lat,
       longitude: event.latlng.lng,
     });
+  }
+
+  private createMarker(sensor: Sensor): Marker {
+    let icon: Icon = new Icon({
+      iconUrl: '../../assets/images/icons/sensor-marker/metering-healthy.png',
+      iconSize: [50, 50],
+      iconAnchor: [25, 50],
+    });
+    let markerOptions: MarkerOptions = { icon: icon, title: sensor.name };
+    return new Marker(
+      new LatLng(sensor.latitude, sensor.longitude),
+      markerOptions
+    );
   }
 }
