@@ -82,6 +82,7 @@ export class MenuItemService {
         {
           label: 'Meus sensores',
           icon: 'soil-sensor-icon',
+          command: (_event) => this.sensorService.openShowSensorsDialog(),
         },
         {
           label: 'Adicionar um novo sensor',

@@ -95,6 +95,13 @@ export class MapService {
     this.elementToFocusOnMap$.next(new LatLngBounds(latLngs));
   }
 
+  public focusSensorOnMap(sensor: Sensor): void {
+    let latLngs: LatLngBoundsLiteral = [];
+
+    latLngs.push([sensor.latitude, sensor.longitude]);
+    this.elementToFocusOnMap$.next(new LatLngBounds(latLngs));
+  }
+
   private getLatLongFromAreaCoordinates(area: Area): Array<LatLng> {
     const sortedCordinates: Coordinate[] = area.coordinates.sort(
       (a, b) => b.nodeOrder - a.nodeOrder
