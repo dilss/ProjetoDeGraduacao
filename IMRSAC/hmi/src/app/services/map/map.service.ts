@@ -23,6 +23,7 @@ import { AreaService } from '../area/area.service';
 import { Subject } from 'rxjs';
 import { Sensor } from '../../models/sensor/sensor.model';
 import { SensorService } from '../sensor/sensor.service';
+import { SensorMenuComponent } from '../../sensor/sensor-menu/sensor-menu.component';
 
 @Injectable({
   providedIn: 'root',
@@ -41,11 +42,15 @@ export class MapService {
     const AreaMenuElement = createCustomElement(AreaMenuComponent, {
       injector: injector,
     });
-    const PlantationMenElement = createCustomElement(PlantationMenuComponent, {
+    const PlantationMenuElement = createCustomElement(PlantationMenuComponent, {
       injector: injector,
     });
-    customElements.define('plantation-menu-element', PlantationMenElement);
+    const SensorMenuElement = createCustomElement(SensorMenuComponent, {
+      injector: injector,
+    });
+    customElements.define('plantation-menu-element', PlantationMenuElement);
     customElements.define('area-menu-element', AreaMenuElement);
+    customElements.define('sensor-menu-element', SensorMenuElement);
   }
 
   drawAreas(): Polygon[] {
@@ -66,7 +71,7 @@ export class MapService {
         .clearAllEventListeners()
         .addEventListener('contextmenu', (event: LeafletMouseEvent) => {
           this.updateRightClickedLatLngOverPoligon(event);
-          this.contextMenuPopup(event, polygon, area);
+          this.areaContextMenuPopup(event, polygon, area);
         })
         .addEventListener('click', (event: LeafletMouseEvent) =>
           polygon.openTooltip(event.latlng)
@@ -111,7 +116,7 @@ export class MapService {
     );
   }
 
-  private contextMenuPopup(
+  private areaContextMenuPopup(
     event: LeafletMouseEvent,
     polygon: Polygon,
     area: Area
@@ -147,10 +152,31 @@ export class MapService {
       iconSize: [50, 50],
       iconAnchor: [25, 50],
     });
-    let markerOptions: MarkerOptions = { icon: icon, title: sensor.name };
-    return new Marker(
+    let marker: Marker = new Marker(
       new LatLng(sensor.latitude, sensor.longitude),
-      markerOptions
-    );
+      { icon: icon, title: sensor.name }
+    )
+      .bindPopup(new Popup(), { interactive: true })
+      .clearAllEventListeners()
+      .addEventListener('contextmenu', (event: LeafletMouseEvent) => {
+        this.sensorContextMenuPopup(event, marker, sensor);
+      });
+    marker
+      .getPopup()
+      .addEventListener('mouseup', (_event) => marker.closePopup());
+    return marker;
+  }
+
+  private sensorContextMenuPopup(
+    event: LeafletMouseEvent,
+    marker: Marker,
+    sensor: Sensor
+  ): void {
+    const sensorMenuComponent: NgElement & WithProperties<SensorMenuComponent> =
+      document.createElement('sensor-menu-element') as any;
+    sensorMenuComponent.setAttribute('id', sensor.deviceEui);
+    sensorMenuComponent.sensorEui = sensor.deviceEui;
+    sensorMenuComponent.title = sensor.name;
+    marker.setPopupContent(sensorMenuComponent).openPopup(event.latlng);
   }
 }

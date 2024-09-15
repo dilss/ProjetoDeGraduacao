@@ -9,10 +9,13 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.imrsac.dao.entities.PlantationEntity;
 import com.imrsac.dao.entities.SensorEntity;
+import com.imrsac.dao.repositories.PlantationRepository;
 import com.imrsac.dao.repositories.SensorRepository;
 import com.imrsac.exceptions.IMRSACErrorEnum;
 import com.imrsac.exceptions.IMRSACExeption;
+import com.imrsac.models.SensorRequestDto;
 import com.imrsac.rest_client.ChirpstackDevice;
 import com.imrsac.rest_client.ChirpstackDevicesService;
 
@@ -24,6 +27,9 @@ public class SensorService {
 
     @Inject
     private SensorRepository sensorRepository;
+
+    @Inject
+    private PlantationRepository plantationRepository;
 
     @RestClient
     private ChirpstackDevicesService chirpstackDevicesService;
@@ -45,7 +51,14 @@ public class SensorService {
         }
     }
 
-    public SensorEntity createSensor(SensorEntity sensorEntity) throws IMRSACExeption {
+    public SensorEntity createSensor(SensorRequestDto request) throws IMRSACExeption {
+        SensorEntity sensorEntity = SensorEntity.builder()
+        .deviceEui(request.getDeviceEui())
+        .name(request.getName())
+        .latitude(request.getLatitude())
+        .longitude(request.getLongitude())
+        .build();
+
         try {
             ChirpstackDevice device = ChirpstackDevice.builder()
                     .applicationId(lorawanServerApplicationId.get())
@@ -54,6 +67,8 @@ public class SensorService {
                     .name(sensorEntity.getName())
                     .build();
 
+            PlantationEntity plantationEntity = this.plantationRepository.findById(request.getPlantationId());
+            sensorEntity.setPlantation(plantationEntity);
             this.chirpstackDevicesService.createDevice(Map.of("device", device));
             this.sensorRepository.persist(sensorEntity);
             LOG.info("O sensor \"{}\" com DevEUI \"{}\" foi criado com sucesso", device.getName(), device.getDevEui());

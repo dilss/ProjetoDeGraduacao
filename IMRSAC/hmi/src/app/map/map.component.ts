@@ -5,6 +5,7 @@ import {
   LatLngBounds,
   Layer,
   MapOptions,
+  Marker,
   latLng,
   tileLayer,
 } from 'leaflet';
@@ -57,6 +58,11 @@ export class MapComponent implements OnInit, OnDestroy {
         .forEach((polygon) => this.layers.push(polygon))
     );
     let sub3 = this.sensorService.sensorListChanged$.subscribe((_sensors) => {
+      this.layers.forEach((layer) => {
+        if (layer instanceof Marker) {
+          layer.remove();
+        }
+      });
       this.mapService
         .getSensorsMarkers()
         .forEach((sensorMarker) => this.layers.push(sensorMarker));

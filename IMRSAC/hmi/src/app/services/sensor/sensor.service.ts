@@ -8,19 +8,15 @@ import { Sensor } from '../../models/sensor/sensor.model';
   providedIn: 'root',
 })
 export class SensorService {
-  private readonly baseUrl: String =
-    'http://localhost:8080/api/sensors';
+  private readonly baseUrl: String = 'http://localhost:8080/api/sensors';
 
   private sensors: Sensor[] = [];
 
-  sensorListChanged$: Subject<Sensor[]> = new Subject<
-    Sensor[]
-  >();
+  sensorListChanged$: Subject<Sensor[]> = new Subject<Sensor[]>();
 
-  createSensorDialogOpen$: Subject<void> = new Subject();
+  createSensorDialogOpen$: Subject<number> = new Subject<number>();
 
-  editSensorDialogOpen$: Subject<Sensor> =
-    new Subject<Sensor>();
+  editSensorDialogOpen$: Subject<Sensor> = new Subject<Sensor>();
 
   showSensorsDialogOpen$: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(false);
@@ -47,7 +43,7 @@ export class SensorService {
     this.http
       .post(`${this.baseUrl}`, sensor, { responseType: 'json' })
       .subscribe({
-        next: (_sensorId: number) => {
+        next: (_sensor: Sensor) => {
           this.fetchSensors();
           this.closeDialog();
           this.toastService.showSuccess(
@@ -60,7 +56,7 @@ export class SensorService {
   }
 
   deleteSensor(sensorEui: string): void {
-    let sensor = this.sensors.find((sensor) => sensor.sensorEui === sensorEui);
+    let sensor = this.sensors.find((sensor) => sensor.deviceEui === sensorEui);
     this.http.delete(`${this.baseUrl}/${sensorEui}`).subscribe({
       next: (_deleted: boolean) => {
         this.fetchSensors();
@@ -75,7 +71,9 @@ export class SensorService {
 
   editSensor(sensor: Sensor): void {
     this.http
-      .put(`${this.baseUrl}/${sensor.sensorEui}`, sensor, { responseType: 'json' })
+      .put(`${this.baseUrl}/${sensor.deviceEui}`, sensor, {
+        responseType: 'json',
+      })
       .subscribe({
         next: (_sensorId: number) => {
           this.fetchSensors();
@@ -97,8 +95,13 @@ export class SensorService {
     this.editSensorDialogOpen$.next(sensor);
   }
 
-  openCreateSensorDialog(): void {
-    this.createSensorDialogOpen$.next();
+  openEditSensorWithIdDialog(sensorEui: string): void {
+    let sensor = this.sensors.find((sensor) => sensorEui == sensor.deviceEui);
+    this.openEditSensorDialog(sensor);
+  }
+
+  openCreateSensorDialog(plantationId?: number): void {
+    this.createSensorDialogOpen$.next(plantationId);
   }
 
   openShowSensorsDialog(): void {

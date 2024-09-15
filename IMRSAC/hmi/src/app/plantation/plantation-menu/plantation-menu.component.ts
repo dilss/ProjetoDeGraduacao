@@ -33,7 +33,7 @@ export class PlantationMenuComponent implements OnInit {
         {
           label: 'Adicionar sensor',
           icon: PrimeIcons.PLUS,
-          command: () => this.newSensorClicked(),
+          command: () => this.newSensorClicked(this.id),
         },
         {
           label: 'Editar área da plantação',
@@ -77,7 +77,7 @@ export class PlantationMenuComponent implements OnInit {
     this.areaService.openEditArea(areaId);
   }
 
-  private newSensorClicked(): void {
-    this.sensorService.openCreateSensorDialog();
+  private newSensorClicked(plantationId: number): void {
+    this.sensorService.openCreateSensorDialog(plantationId);
   }
 }

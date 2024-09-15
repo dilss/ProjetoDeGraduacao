@@ -1,6 +1,10 @@
+import { Plantation } from "../plantation/plantation.model";
+
 export class Sensor {
-    sensorEui: string;
+    deviceEui: string;
+    plantationId?: number
     name: string;
     latitude: number;
     longitude: number;
+    plantation?: Plantation;
 }

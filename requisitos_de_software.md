@@ -3,11 +3,11 @@
 -   [x] 1 - Criar frame da aplicação com menus
 -   [x] 2 - Incluir leaflet map
 -   [x] 3 - Adicionar marcadores de sensores no mapa (criar com entradas por coordenadas)
--   [ ] 4 - Adicionar funcionalidade de edição de sensores
--   [ ] 5 - Adicionar funcionalidade de exclusão de sensores
+-   [x] 4 - Adicionar funcionalidade de edição de sensores
+-   [x] 5 - Adicionar funcionalidade de exclusão de sensores
 -   [ ] 6 - Mudar cor de marcadores de acordo com o health status do sensor
 -   [ ] 7 - Clicar nos marcadores mostra uma tabela com os últimos dados enviados pelo sensor
--   [ ] 8 - Abrir o context menu do sensor (clique direito do mouse) possibilita excluir ou abrir a edição
+-   [x] 8 - Abrir o context menu do sensor (clique direito do mouse) possibilita excluir ou abrir a edição
 -   [ ] 9 - Se a coordenda do sensor não estiver dentro de uma área demarcada mostrar a mensagem:"Sensor fora de área demarcada" - (Usar componente 'toast' para isso)
 -   [ ] 10 - Se a coordenada do sensor pertencer a alguma área criada ele automaticamente é associado àquela área - mostrar a mensagem: "Sensor <nome do sensor> criado na área <nome da área>"
 -   [x] 11 - Tabela sensor relacionamento many-to-one com a tabela plantações

@@ -33,13 +33,7 @@ public class SensorResource {
     @POST
     @Transactional(Transactional.TxType.REQUIRED)
     public Response createSensor(SensorRequestDto request) throws IMRSACExeption {
-        SensorEntity sensor = SensorEntity.builder()
-                .deviceEui(request.getSensorEui())
-                .name(request.getName())
-                .latitude(request.getLatitude())
-                .longitude(request.getLongitude())
-                .build();
-        return GenerateResponse.run(() -> sensorService.createSensor(sensor));
+        return GenerateResponse.run(() -> sensorService.createSensor(request));
     }
 
     @GET
