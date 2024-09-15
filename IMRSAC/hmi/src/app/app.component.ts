@@ -15,6 +15,7 @@ import { ShowIrrigationSystemComponent } from './irrigation-system/show-irrigati
 import { CreatePlantationComponent } from './plantation/create-plantation/create-plantation.component';
 import { ShowPlantationsComponent } from './plantation/show-plantations/show-plantations.component';
 import { CreateSensorComponent } from './sensor/create-sensor/create-sensor.component';
+import { ShowAreasComponent } from './area/show-areas/show-areas.component';
 
 @Component({
   imports: [
@@ -30,6 +31,7 @@ import { CreateSensorComponent } from './sensor/create-sensor/create-sensor.comp
     CreatePlantationComponent,
     ShowPlantationsComponent,
     CreateSensorComponent,
+    ShowAreasComponent,
     SpinnerComponent,
     RouterModule,
     ToastModule,

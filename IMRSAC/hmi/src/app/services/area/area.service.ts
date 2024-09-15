@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { Area } from '../../models/area/area.model';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { ToastService } from '../toast.service';
@@ -14,6 +14,9 @@ export class AreaService {
   private areas: Area[] = [];
 
   areasListChanged$: Subject<Area[]> = new Subject<Area[]>();
+
+  showAreasDialogOpen$: BehaviorSubject<boolean> =
+    new BehaviorSubject<boolean>(false);
 
   constructor(
     private http: HttpClient,
@@ -89,5 +92,9 @@ export class AreaService {
 
   openEditArea(areaId: number): void {
     this.router.navigate(['edit-area', areaId]);
+  }
+
+  openShowPlantationsDialog(): void {
+    this.showAreasDialogOpen$.next(true);
   }
 }

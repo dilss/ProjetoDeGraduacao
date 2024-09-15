@@ -6,6 +6,7 @@ import { AgriculturalCropService } from '../agricultural-crop/agricultural-crop.
 import { IrrigationSystemService } from '../irrigation-system/irrigation-system.service';
 import { PlantationService } from '../plantation/plantation.service';
 import { SensorService } from '../sensor/sensor.service';
+import { AreaService } from '../area/area.service';
 
 @Injectable({
   providedIn: 'root',
@@ -18,6 +19,7 @@ export class MenuItemService {
     private irrigationSystemService: IrrigationSystemService,
     private plantationService: PlantationService,
     private sensorService: SensorService,
+    private areaService: AreaService
   ) {}
 
   public MENU_ITEMS: MenuItem[] = [
@@ -60,6 +62,8 @@ export class MenuItemService {
         {
           label: 'Minhas áreas',
           icon: 'field-icon',
+          command: (_event) => this.areaService.openShowPlantationsDialog()
+          ,
         },
         {
           label: 'Cadastrar nova área',

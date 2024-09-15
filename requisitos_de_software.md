@@ -2,7 +2,7 @@
 
 -   [x] 1 - Criar frame da aplicação com menus
 -   [x] 2 - Incluir leaflet map
--   [ ] 3 - Adicionar marcadores de sensores no mapa (criar com entradas por coordenadas)
+-   [x] 3 - Adicionar marcadores de sensores no mapa (criar com entradas por coordenadas)
 -   [ ] 4 - Adicionar funcionalidade de edição de sensores
 -   [ ] 5 - Adicionar funcionalidade de exclusão de sensores
 -   [ ] 6 - Mudar cor de marcadores de acordo com o health status do sensor
