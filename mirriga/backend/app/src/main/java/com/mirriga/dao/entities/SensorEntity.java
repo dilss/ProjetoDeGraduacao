@@ -31,6 +31,9 @@ public class SensorEntity extends PanacheEntityBase {
     private Double latitude;
     private Double longitude;
 
+    @Column(name = "network_key")
+    private String networkKey;
+
     @ManyToOne
     @JsonIgnoreProperties({ "area", "agriculturalCrop", "irrigationSystem", "sensors" })
     private PlantationEntity plantation;

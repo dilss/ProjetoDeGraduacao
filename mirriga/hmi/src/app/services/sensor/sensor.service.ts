@@ -47,7 +47,10 @@ export class SensorService {
           this.fetchSensors();
           this.closeDialog();
           this.toastService.showSuccess(
-            `O novo sensor "${sensor.name}" foi adicionado com sucesso.`
+            `O novo sensor "${sensor.name}" foi adicionado.`
+          );
+          this.toastService.showWarn(
+            `O novo sensor "${sensor.name}" não possui uma chave de rede (nwkKey).`
           );
         },
         error: (errorResponse: HttpErrorResponse) =>
@@ -61,7 +64,7 @@ export class SensorService {
       next: (_deleted: boolean) => {
         this.fetchSensors();
         this.toastService.showSuccess(
-          `A sensor "${sensor.name}" foi excluído com sucesso.`
+          `A sensor "${sensor.name}" foi excluído.`
         );
       },
       error: (errorResponse: HttpErrorResponse) =>
@@ -87,7 +90,7 @@ export class SensorService {
       });
   }
 
-  get SensorsList() {
+  get sensorsList() {
     return [...this.sensors];
   }
 

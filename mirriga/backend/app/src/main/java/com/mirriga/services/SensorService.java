@@ -128,15 +128,18 @@ public class SensorService {
     public ChirpstackDeviceKeys getSensorKeys(String sensorEui) throws MirrigaException {
         try {
             return this.chirpstackDevicesService.getDeviceKeys(sensorEui);
+        } catch (RuntimeException e) {
+            return ChirpstackDeviceKeys.builder().deviceKeys(null).build();
         } catch (Exception e) {
             LOG.error(e.getMessage());
-            e.printStackTrace();
             throw new MirrigaException(MirrigaErrorEnum.ERROR_FETCHING_SENSOR_KEYS);
         }
     }
 
     public boolean addNetworkKeyToSensor(String sensorEui, String sensorNetworkKey) throws MirrigaException {
         try {
+            SensorEntity sensorEntity = this.sensorRepository.findById(sensorEui);
+            sensorEntity.setNetworkKey(sensorNetworkKey);
             this.chirpstackDevicesService.addNetworkKeyToDevice(sensorEui,
                     Map.of("deviceKeys", Map.of("nwkKey", sensorNetworkKey)));
             return true;
@@ -149,9 +152,11 @@ public class SensorService {
 
     public boolean editSensorNetworkKey(String sensorEui, String sensorNetworkKey) throws MirrigaException {
         try {
+            SensorEntity sensorEntity = this.sensorRepository.findById(sensorEui);
+            sensorEntity.setNetworkKey(sensorNetworkKey);
             this.chirpstackDevicesService.updateDeviceNetworkKey(sensorEui,
                     Map.of("deviceKeys", Map.of("nwkKey", sensorNetworkKey)));
-                    return true;
+            return true;
         } catch (Exception e) {
             LOG.error(e.getMessage());
             throw new MirrigaException(MirrigaErrorEnum.ERROR_UPDATING_SENSOR_NETWORK_KEY);

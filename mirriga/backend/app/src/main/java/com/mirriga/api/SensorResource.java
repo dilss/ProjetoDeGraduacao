@@ -68,6 +68,7 @@ public class SensorResource {
 
     @POST
     @Path("{sensorEui}/keys")
+    @Transactional(Transactional.TxType.REQUIRED)
     public Response addNetworkKeyToSensor(String sensorEui, @RequestBody Map<String, String> requestBody) {
         return GenerateResponse
                 .run(() -> this.sensorService.addNetworkKeyToSensor(sensorEui, requestBody.get("nwkKey")));
@@ -75,6 +76,7 @@ public class SensorResource {
 
     @PUT
     @Path("{sensorEui}/keys")
+    @Transactional(Transactional.TxType.REQUIRED)
     public Response updateSensorNetworkKey(String sensorEui, @RequestBody Map<String, String> requestBody) {
         return GenerateResponse
                 .run(() -> this.sensorService.editSensorNetworkKey(sensorEui, requestBody.get("nwkKey")));

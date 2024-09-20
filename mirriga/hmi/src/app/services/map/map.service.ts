@@ -11,7 +11,6 @@ import {
   LatLngBoundsLiteral,
   LeafletMouseEvent,
   Marker,
-  MarkerOptions,
   Polygon,
   Popup,
 } from 'leaflet';
@@ -34,6 +33,18 @@ export class MapService {
 
   elementToFocusOnMap$: Subject<LatLngBounds> = new Subject<LatLngBounds>();
 
+  readonly NEW_AREA_COLOR: string = 'grey';
+  readonly AREA_WITH_SOIL_ONLY_COLOR: string = '#926829';
+  readonly AREA_WITH_PLANATATION_COLOR: string = '#228B22';
+  readonly NO_NETWORK_KEY_SENSOR_ICON: string =
+    '../../assets/images/icons/sensor-marker/metering-no-network-key.png';
+  readonly NEVER_SEEN_SENSOR_ICON: string =
+    '../../assets/images/icons/sensor-marker/metering-warning.png';
+  readonly OFFLINE_SENSOR_ICON: string =
+    '../../assets/images/icons/sensor-marker/metering-unhealthy.png';
+  readonly HEALTHY_SENSOR_ICON: string =
+    '../../assets/images/icons/sensor-marker/metering-healthy.png';
+
   constructor(
     injector: Injector,
     private areaService: AreaService,
@@ -55,12 +66,12 @@ export class MapService {
 
   drawAreas(): Polygon[] {
     return this.areaService.areasList.map((area) => {
-      let color: string = 'grey';
+      let color: string = this.NEW_AREA_COLOR;
       if (area.soil) {
-        color = '#926829';
+        color = this.AREA_WITH_SOIL_ONLY_COLOR;
       }
       if (area.plantation) {
-        color = '#228B22';
+        color = this.AREA_WITH_PLANATATION_COLOR;
       }
       let polygon: Polygon = new Polygon(
         this.getLatLongFromAreaCoordinates(area),
@@ -83,8 +94,8 @@ export class MapService {
     });
   }
 
-  public getSensorsMarkers(): Marker[] {
-    return this.sensorService.SensorsList.map((sensor) =>
+  public getSensorsMarkers(): Marker<Sensor>[] {
+    return this.sensorService.sensorsList.map((sensor) =>
       this.createMarker(sensor)
     );
   }
@@ -146,13 +157,13 @@ export class MapService {
     });
   }
 
-  private createMarker(sensor: Sensor): Marker {
+  private createMarker(sensor: Sensor): Marker<Sensor> {
     let icon: Icon = new Icon({
-      iconUrl: '../../assets/images/icons/sensor-marker/metering-healthy.png',
+      iconUrl: this.defineMarkerIcon(sensor),
       iconSize: [50, 50],
       iconAnchor: [25, 50],
     });
-    let marker: Marker = new Marker(
+    let marker: Marker<Sensor> = new Marker<Sensor>(
       new LatLng(sensor.latitude, sensor.longitude),
       { icon: icon, title: sensor.name }
     )
@@ -169,7 +180,7 @@ export class MapService {
 
   private sensorContextMenuPopup(
     event: LeafletMouseEvent,
-    marker: Marker,
+    marker: Marker<Sensor>,
     sensor: Sensor
   ): void {
     const sensorMenuComponent: NgElement & WithProperties<SensorMenuComponent> =
@@ -178,5 +189,13 @@ export class MapService {
     sensorMenuComponent.sensorEui = sensor.deviceEui;
     sensorMenuComponent.title = sensor.name;
     marker.setPopupContent(sensorMenuComponent).openPopup(event.latlng);
+  }
+
+  private defineMarkerIcon(sensor: Sensor): string {
+    let iconUrl = this.NO_NETWORK_KEY_SENSOR_ICON;
+    if (sensor.networkKey) {
+      iconUrl = this.NEVER_SEEN_SENSOR_ICON;
+    }
+    return iconUrl;
   }
 }

@@ -17,6 +17,7 @@ import { ShowPlantationsComponent } from './plantation/show-plantations/show-pla
 import { CreateSensorComponent } from './sensor/create-sensor/create-sensor.component';
 import { ShowSensorsComponent } from './sensor/show-sensors/show-sensors.component';
 import { ShowAreasComponent } from './area/show-areas/show-areas.component';
+import { AddSensorNetworkKeyComponent } from './sensor/add-sensor-network-key/add-sensor-network-key.component';
 
 
 @Component({
@@ -35,6 +36,7 @@ import { ShowAreasComponent } from './area/show-areas/show-areas.component';
     CreateSensorComponent,
     ShowSensorsComponent,
     ShowAreasComponent,
+    AddSensorNetworkKeyComponent,
     SpinnerComponent,
     RouterModule,
     ToastModule,
