@@ -51,7 +51,7 @@ export class IrrigationSystemService {
           this.fetchIrrigationSystems();
           this.closeDialog();
           this.toastService.showSuccess(
-            `O novo sistema de irrigação "${system.name}" foi criado com sucesso.`
+            `O novo sistema de irrigação "${system.name}" foi criado.`
           );
         },
         error: (errorResponse: HttpErrorResponse) =>
@@ -67,7 +67,7 @@ export class IrrigationSystemService {
           this.fetchIrrigationSystems();
           this.closeDialog()
           this.toastService.showSuccess(
-            `As altearções no sistema de irrigação "${system.name}" foram salvas.`
+            `As alterações no sistema de irrigação "${system.name}" foram salvas.`
           );
         },
         error: (errorResponse: HttpErrorResponse) =>
@@ -83,7 +83,7 @@ export class IrrigationSystemService {
       next: (_deleted: boolean) => {
         this.fetchIrrigationSystems();
         this.toastService.showSuccess(
-          `O sistema de irrigação "${system.name}" foi excluído com sucesso.`
+          `O sistema de irrigação "${system.name}" foi excluído.`
         );
       },
       error: (errorResponse: HttpErrorResponse) =>

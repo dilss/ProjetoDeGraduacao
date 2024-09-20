@@ -48,7 +48,7 @@ export class SoilService {
           this.fetchSoils();
           this.closeDialog();
           this.toastService.showSuccess(
-            `O novo solo "${soil.name}" foi criado com sucesso.`
+            `O novo solo "${soil.name}" foi criado`
           );
         },
         error: (errorResponse: HttpErrorResponse) =>
@@ -63,7 +63,7 @@ export class SoilService {
         this.fetchSoils();
         this.closeDialog();
         this.toastService.showSuccess(
-          `O solo "${soil.name}" foi excluído com sucesso.`
+          `O solo "${soil.name}" foi excluído.`
         );
       },
       error: (errorResponse: HttpErrorResponse) =>
@@ -78,7 +78,7 @@ export class SoilService {
         next: (_soilId: number) => {
           this.fetchSoils();
           this.toastService.showSuccess(
-            `As altearções no solo "${soil.name}" foram salvas.`
+            `As alterações no solo "${soil.name}" foram salvas.`
           );
         },
         error: (errorResponse: HttpErrorResponse) =>

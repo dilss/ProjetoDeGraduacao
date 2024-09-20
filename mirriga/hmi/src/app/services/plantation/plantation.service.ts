@@ -62,7 +62,7 @@ export class PlantationService {
           this.areaService.fetchAreas();
           this.closeDialog();
           this.toastService.showSuccess(
-            `A nova plantação "${plantation.name}" foi criado com sucesso.`
+            `A nova plantação "${plantation.name}" foi criado.`
           );
         },
         error: (errorResponse: HttpErrorResponse) =>
@@ -91,7 +91,7 @@ export class PlantationService {
           this.areaService.fetchAreas();
           this.closeDialog();
           this.toastService.showSuccess(
-            `As altearções na plantação "${plantation.name}" foram salvas.`
+            `As alterações na plantação "${plantation.name}" foram salvas.`
           );
         },
         error: (errorResponse: HttpErrorResponse) =>
@@ -108,7 +108,7 @@ export class PlantationService {
         this.fetchPlantations();
         this.areaService.fetchAreas();
         this.toastService.showSuccess(
-          `A plantação "${plantation.name}" foi excluída com sucesso.`
+          `A plantação "${plantation.name}" foi excluída.`
         );
       },
       error: (errorResponse: HttpErrorResponse) =>

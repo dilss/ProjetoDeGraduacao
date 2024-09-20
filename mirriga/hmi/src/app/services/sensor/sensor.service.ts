@@ -82,7 +82,7 @@ export class SensorService {
           this.fetchSensors();
           this.closeDialog();
           this.toastService.showSuccess(
-            `As altearções no sensor "${sensor.name}" foram salvas.`
+            `As alterações no sensor "${sensor.name}" foram salvas.`
           );
         },
         error: (errorResponse: HttpErrorResponse) =>

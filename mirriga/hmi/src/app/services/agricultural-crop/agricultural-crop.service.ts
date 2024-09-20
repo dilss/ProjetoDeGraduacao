@@ -51,7 +51,7 @@ export class AgriculturalCropService {
           this.fetchAgriculturalCrops();
           this.closeDialog();
           this.toastService.showSuccess(
-            `A nova cultura "${crop.name}" foi criada com sucesso.`
+            `A nova cultura "${crop.name}" foi criada.`
           );
         },
         error: (errorResponse: HttpErrorResponse) =>
@@ -65,7 +65,7 @@ export class AgriculturalCropService {
       next: (_deleted: boolean) => {
         this.fetchAgriculturalCrops();
         this.toastService.showSuccess(
-          `A cultura "${crop.name}" foi excluída com sucesso.`
+          `A cultura "${crop.name}" foi excluída.`
         );
       },
       error: (errorResponse: HttpErrorResponse) =>
@@ -81,7 +81,7 @@ export class AgriculturalCropService {
           this.fetchAgriculturalCrops();
           this.closeDialog();
           this.toastService.showSuccess(
-            `As altearções na cultura "${crop.name}" foram salvas.`
+            `As alterações na cultura "${crop.name}" foram salvas.`
           );
         },
         error: (errorResponse: HttpErrorResponse) =>

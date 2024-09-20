@@ -51,7 +51,7 @@ export class AreaService {
           this.router.navigate(['home']);
           this.fetchAreas();
           this.toastService.showSuccess(
-            `A nova área "${area.name}" foi criada com sucesso.`
+            `A nova área "${area.name}" foi criada.`
           );
         },
         error: (errorResponse: HttpErrorResponse) =>
@@ -67,7 +67,7 @@ export class AreaService {
           this.router.navigate(['home']);
           this.fetchAreas();
           this.toastService.showSuccess(
-            `A área "${area.name}" foi atualizada com sucesso.`
+            `A área "${area.name}" foi atualizada.`
           );
         },
         error: (errorResponse: HttpErrorResponse) =>
@@ -82,7 +82,7 @@ export class AreaService {
       next: (_deleted: boolean) => {
         this.fetchAreas();
         this.toastService.showSuccess(
-          `A área "${area.name}" foi removida com sucesso.`
+          `A área "${area.name}" foi removida.`
         );
       },
       error: (errorResponse: HttpErrorResponse) =>
