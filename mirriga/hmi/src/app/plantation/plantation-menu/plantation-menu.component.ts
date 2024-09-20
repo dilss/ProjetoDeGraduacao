@@ -14,7 +14,7 @@ import { SensorService } from '../../services/sensor/sensor.service';
 })
 export class PlantationMenuComponent implements OnInit {
   @Input() title: string;
-  @Input() id: number;
+  @Input() plantationId: number;
   @Input() areaId: number;
   items: MenuItem[] = [];
 
@@ -27,13 +27,13 @@ export class PlantationMenuComponent implements OnInit {
 
   ngOnInit(): void {
     this.items.push({
-      id: this.id.toString(),
+      id: this.plantationId.toString(),
       label: `Plantação: ${this.title}`,
       items: [
         {
           label: 'Adicionar sensor',
           icon: PrimeIcons.PLUS,
-          command: () => this.newSensorClicked(this.id),
+          command: () => this.newSensorClicked(this.plantationId),
         },
         {
           label: 'Editar área da plantação',
@@ -43,12 +43,12 @@ export class PlantationMenuComponent implements OnInit {
         {
           label: 'Editar plantação',
           icon: PrimeIcons.PENCIL,
-          command: () => this.editClicked(this.id),
+          command: () => this.editClicked(this.plantationId),
         },
         {
           label: 'Excluir plantação',
           icon: PrimeIcons.TRASH,
-          command: () => this.deleteClick(this.id),
+          command: () => this.deleteClick(this.plantationId),
         },
       ],
     });

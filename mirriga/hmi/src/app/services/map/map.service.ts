@@ -23,6 +23,7 @@ import { Subject } from 'rxjs';
 import { Sensor } from '../../models/sensor/sensor.model';
 import { SensorService } from '../sensor/sensor.service';
 import { SensorMenuComponent } from '../../sensor/sensor-menu/sensor-menu.component';
+import { WaterStatusComponent } from '../../water-status/water-status.component';
 
 @Injectable({
   providedIn: 'root',
@@ -59,9 +60,14 @@ export class MapService {
     const SensorMenuElement = createCustomElement(SensorMenuComponent, {
       injector: injector,
     });
+
+    const WaterStatusElement = createCustomElement(WaterStatusComponent, {
+      injector: injector,
+    });
     customElements.define('plantation-menu-element', PlantationMenuElement);
     customElements.define('area-menu-element', AreaMenuElement);
     customElements.define('sensor-menu-element', SensorMenuElement);
+    customElements.define('water-status-element', WaterStatusElement);
   }
 
   drawAreas(): Polygon[] {
@@ -85,7 +91,7 @@ export class MapService {
           this.areaContextMenuPopup(event, polygon, area);
         })
         .addEventListener('click', (event: LeafletMouseEvent) =>
-          polygon.openTooltip(event.latlng)
+          this.areaLeftClickPopup(event, polygon, area)
         );
       polygon
         .getPopup()
@@ -133,18 +139,24 @@ export class MapService {
     area: Area
   ): void {
     if (area.plantation) {
-      const plantationMenuComponent: NgElement &
+      const plantationMenuElement: NgElement &
         WithProperties<PlantationMenuComponent> = document.createElement(
         'plantation-menu-element'
-      ) as any;
-      plantationMenuComponent.setAttribute('id', area.plantation.id.toString());
-      plantationMenuComponent.areaId = area.id;
-      plantationMenuComponent.title = area.plantation.name;
-      polygon.setPopupContent(plantationMenuComponent).openPopup(event.latlng);
+      ) as NgElement & WithProperties<PlantationMenuComponent>;
+      plantationMenuElement.setAttribute(
+        'id',
+        `plantation-menu-"${area.plantation.id}"`
+      );
+      plantationMenuElement.areaId = area.id;
+      plantationMenuElement.plantationId = area.plantation.id;
+      plantationMenuElement.title = area.plantation.name;
+      polygon.setPopupContent(plantationMenuElement).openPopup(event.latlng);
     } else {
       const areaMenuElement: NgElement & WithProperties<AreaMenuComponent> =
-        document.createElement('area-menu-element') as any;
-      areaMenuElement.setAttribute('id', area.id.toString());
+        document.createElement('area-menu-element') as NgElement &
+          WithProperties<AreaMenuComponent>;
+      areaMenuElement.setAttribute('id', `area-menu-${area.id}`);
+      areaMenuElement.areaId = area.id;
       areaMenuElement.title = area.name;
       polygon.setPopupContent(areaMenuElement).openPopup(event.latlng);
     }
@@ -155,6 +167,28 @@ export class MapService {
       latitude: event.latlng.lat,
       longitude: event.latlng.lng,
     });
+  }
+
+  private areaLeftClickPopup(
+    event: LeafletMouseEvent,
+    polygon: Polygon,
+    area: Area
+  ) {
+    if (area.plantation) {
+      const waterStatusElement: NgElement &
+        WithProperties<WaterStatusComponent> = document.createElement(
+        'water-status-element'
+      ) as NgElement & WithProperties<WaterStatusComponent>;
+      waterStatusElement.setAttribute(
+        'id',
+        `water-status-${area.plantation.id}`
+      );
+      waterStatusElement.areaId = area.id;
+      waterStatusElement.title = area.plantation.name;
+      polygon.setPopupContent(waterStatusElement).openPopup(event.latlng);
+    } else {
+      polygon.openTooltip(event.latlng);
+    }
   }
 
   private createMarker(sensor: Sensor): Marker<Sensor> {
@@ -184,8 +218,9 @@ export class MapService {
     sensor: Sensor
   ): void {
     const sensorMenuComponent: NgElement & WithProperties<SensorMenuComponent> =
-      document.createElement('sensor-menu-element') as any;
-    sensorMenuComponent.setAttribute('id', sensor.deviceEui);
+      document.createElement('sensor-menu-element') as NgElement &
+        WithProperties<SensorMenuComponent>;
+    sensorMenuComponent.setAttribute('id', `sensor-menu-${sensor.deviceEui}`);
     sensorMenuComponent.sensorEui = sensor.deviceEui;
     sensorMenuComponent.title = sensor.name;
     marker.setPopupContent(sensorMenuComponent).openPopup(event.latlng);

@@ -24,6 +24,10 @@ export class PlantationService {
 
   dialogClosed$: Subject<void> = new Subject<void>();
 
+  get plantationsList() {
+    return [...this.plantations];
+  }
+
   constructor(
     private http: HttpClient,
     private areaService: AreaService,
@@ -37,8 +41,8 @@ export class PlantationService {
       })
       .subscribe({
         next: (responseData: Plantation[]) => {
-          (this.plantations = [...responseData]),
-            this.plantationsListChanged$.next(this.plantations);
+          this.plantations = [...responseData];
+          this.plantationsListChanged$.next([...this.plantations]);
         },
         error: (error: Error) => this.toastService.showError(error.message),
       });
@@ -62,7 +66,7 @@ export class PlantationService {
           this.areaService.fetchAreas();
           this.closeDialog();
           this.toastService.showSuccess(
-            `A nova plantação "${plantation.name}" foi criado.`
+            `A nova plantação "${plantation.name}" foi criada.`
           );
         },
         error: (errorResponse: HttpErrorResponse) =>
@@ -122,7 +126,7 @@ export class PlantationService {
 
   openEditPlantationWithId(plantationId: number): void {
     let plantation: Plantation = this.plantations.find(
-      (plantation) => (plantation.id = plantationId)
+      (plantation) => (plantation.id == plantationId)
     );
     this.editPlantationDialogOpen$.next(plantation);
   }

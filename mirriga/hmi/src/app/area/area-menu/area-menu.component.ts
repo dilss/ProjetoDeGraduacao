@@ -12,7 +12,7 @@ import { AreaService } from '../../services/area/area.service';
 })
 export class AreaMenuComponent implements OnInit {
   @Input() title: string;
-  @Input() id: number;
+  @Input() areaId: number;
   items: MenuItem[] = [];
 
   constructor(
@@ -22,18 +22,18 @@ export class AreaMenuComponent implements OnInit {
 
   ngOnInit(): void {
     this.items.push({
-      id: this.id.toString(),
+      id: this.areaId.toString(),
       label: this.title,
       items: [
         {
           label: 'Editar área',
           icon: PrimeIcons.PENCIL,
-          command: () => this.editClicked(this.id),
+          command: () => this.editClicked(this.areaId),
         },
         {
           label: 'Excluir área',
           icon: PrimeIcons.TRASH,
-          command: () => this.deleteClick(this.id),
+          command: () => this.deleteClick(this.areaId),
         },
       ],
     });
