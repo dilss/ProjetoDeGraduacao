@@ -1,0 +1,52 @@
+.water-status {
+  width: 480px;
+}
+
+.water-status-title {
+  font-weight: bold;
+  font-size: large;
+  color: #0f5e9c;
+}
+
+.pmp {
+  font-weight: bold;
+  font-size: large;
+  color: #ffcc00;
+}
+
+.cc {
+  font-weight: bold;
+  font-size: large;
+  color: #0f5e9c;
+}
+
+.cad {
+  font-weight: bold;
+  font-size: medium;
+  color: #0f5e9c;
+}
+
+.timestamp {
+  font-weight: bold;
+  color: #0f5e9c;
+  font-size: small;
+}
+
+.irrigation-data {
+  font-weight: bold;
+  color: #0f5e9c;
+  font-size: medium;
+}
+
+.irrigation-data-label {
+  color: #0f5e9c;
+  font-size: medium;
+}
+
+.irrigation-data-card .p-card.p-component .p-card-content {
+  padding: 0.5rem;
+}
+
+.irrigation-data-card .p-card.p-component .p-card-body {
+  padding: 0 1rem;
+}

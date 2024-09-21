@@ -83,7 +83,7 @@ export class MapService {
         this.getLatLongFromAreaCoordinates(area),
         { fillColor: color, color: color, fillOpacity: 0.6 }
       )
-        .bindPopup(new Popup(), { interactive: true })
+        .bindPopup(new Popup({ maxWidth: 800 }), { interactive: true })
         .bindTooltip(area.name)
         .clearAllEventListeners()
         .addEventListener('contextmenu', (event: LeafletMouseEvent) => {

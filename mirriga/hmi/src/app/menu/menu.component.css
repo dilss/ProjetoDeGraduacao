@@ -1,7 +1,10 @@
 .p-menu {
-  margin-top: 40px !important;
   border: unset;
   width: 100%;
+}
+
+.p-sidebar .p-menu {
+  margin-top: 40px !important;
 }
 
 li.p-element.p-submenu-header span {

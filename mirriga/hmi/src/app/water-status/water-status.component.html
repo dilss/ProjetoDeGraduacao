@@ -1,1 +1,39 @@
-<p>Status hídrico na plantação: {{ plantation.name }}</p>
+<div class="d-flex flex-column mb-3 mt-4">
+  <div class="inline-flex align-items-center justify-content-center gap-2">
+    <div class="d-flex align-items-center">
+      <img
+        src="../../assets/images/icons/menu/water-drop.png"
+        alt="water droplet icon"
+        width="30"
+        height="30"
+      />
+      <span class="fw-bold header-text ms-2 water-status-title">
+        Status hídrico na plantação "{{ plantation.name }}"</span
+      >
+    </div>
+  </div>
+  <span class="cad mt-5">CAD - Capacidade de Água Total Disponível</span>
+  <div class="d-flex flex-row align-items-center mt-2">
+    <span class="pmp">PMP</span>
+    <p-progressBar
+      [value]="currentSoilWaterContentPercentage"
+      unit="%"
+      [color]="color"
+      class="water-status ms-1 me-1"
+    />
+    <span class="cc">CC</span>
+  </div>
+  <p-card class="irrigation-data-card mt-3">
+    <div class="d-flex flex-column align-items-start mt-2">
+      <span class="irrigation-data-label"
+        >Lâmina d'água necessária para atingir a CC:
+        <span class="irrigation-data">{{ calculatedIrrigation }} mm</span></span
+      >
+      <span class="irrigation-data-label mt-1"
+        >Tempo de irrigação para atingir a CC:
+        <span class="irrigation-data"> {{ irrigationTime }}</span>
+      </span>
+    </div>
+  </p-card>
+  <span class="timestamp mt-5">Última atualização em {{ timestamp }}</span>
+</div>
