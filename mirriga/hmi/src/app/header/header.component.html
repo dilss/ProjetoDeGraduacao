@@ -9,7 +9,8 @@
             [styles]="stylesRecord"
           ></fa-icon>
         </button>
-        <img class="ms-3"
+        <img
+          class="ms-3"
           [width]="150"
           src="../../assets/images/mirriga-logo-white.png"
           alt="Gotas d'água caindo numa plantinha seguido do texto mirriga"
@@ -25,7 +26,16 @@
     </div>
     <div class="col-3">
       <div class="d-flex justify-content-end">
-        <p-avatar label="EF" shape="circle" size="large"></p-avatar>
+        <p-avatar
+          label="EF"
+          shape="circle"
+          size="large"
+          (click)="op.toggle($event)"
+        >
+          <p-overlayPanel #op [style]="{ 'margin-top': '25px' }">
+            <p-menu [model]="menuItems"> </p-menu>
+          </p-overlayPanel>
+        </p-avatar>
       </div>
     </div>
   </div>
