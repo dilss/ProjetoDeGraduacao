@@ -5,8 +5,8 @@ export function keycloakFactory(keycloakService: KeycloakService) {
     keycloakService.init({
       config: {
         url: 'http://localhost:8081',
-        realm: 'imrsac',
-        clientId: 'imrsac_hmi',
+        realm: 'mirriga',
+        clientId: 'mirriga_hmi',
       },
       initOptions: {
         onLoad: 'login-required',

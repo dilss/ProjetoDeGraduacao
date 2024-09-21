@@ -1,3 +1,6 @@
+include:
+  - ./chirpstack-docker/docker-compose.yml
+
 services:
   hmi:
     build: ./hmi
@@ -14,6 +17,10 @@ services:
     container_name: backend
     depends_on:
       - db
+      - keycloak
+      - chirpstack
+      - chirpstack-gateway-bridge
+      - chirpstack-rest-api
     ports:
       - '8080:8080'
 
@@ -28,7 +35,7 @@ services:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
     volumes:
-      - './keycloak/themes/imrsac/:/opt/keycloak/themes/imrsac/'
+      - './keycloak/themes/mirriga/:/opt/keycloak/themes/mirriga/'
     ports:
       - '8081:8080'
     command: start-dev

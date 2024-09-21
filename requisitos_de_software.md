@@ -21,7 +21,7 @@
 -   [x] 5 - Abrir o context menu da área (clique direito do mouse) com as opções de edição e exclusão da área clicada
 -   [x] 6 - Editar área
 -   [ ] 7 - Caso a área seja criada ao redor de um sensor existente mostrar a mensagem: "O sensor <nome do sensor> foi adicionado à área <nome da área>"
--   [ ] 8 - (não é urgente ) Não permitir sobreposição de áreas na criação, o tangenciamento é permitido - implementação não é simples
+-   [ ] 8 - (não é urgente ) Não permitir sobreposição de áreas na criação, o tangenciamento é permitido
 
 ## Gerenciamento de Solos
 
@@ -72,10 +72,9 @@
 <b>O objetivo é sempre evitar que o solo atinja o ponto de murcha permanente (ou ainda a umidade crítica, U<sub>c</sub> para a cultura). Lembrando que uma lâmina d'água de 1mm corresponde a 1L/m<sup>2</sup> (1 litro de água por m<sup>2</sup> da área de cultivo), A vazão total, Q (em L/h - litros por hora), do sistema de irrigação é usado para calcular o tempo de irrigação nescessário para aplicar determinada lâmina d'água.</b>
 
 -   [ ] 1 - Clicar na plantação mostra o status hídrico do solo (quantidade de água presente e proximidade desse status do PMP e da CC)
--   [ ] 2 - Clicar na plantação mostra também a lâmina de água a ser aplicada para elevar a umidade do solo até a CC com um botão para confirmar a aplicação
+-   [ ] 2 - Clicar na plantação mostra também a lâmina de água a ser aplicada para elevar a umidade do solo até a CC
 -   [ ] 3 - Clicar na plantação mostra ainda o tempo de atividade do sistema de irrigação para que a lâmina seja completamente aplicada
 -   [ ] 4 - É possível alternar entre diferentes sistemas de irrigação e ver esse tempo on do sistema selecionado
--   [ ] 5 - Ao confirmar a aplicação uma nova irrigação é criada no banco de dados, assume-se que o sistema é ligado e um temporizador determinará quando o mesmo deve ser desligado - notificação
 
 ## Autenticação e Autorização
 
