@@ -16,7 +16,7 @@ export class SocketService {
       // Called whenever there is a message from the server.
       next: (message: Map<string, string>) => {
         this.toastService.showInfo(
-          `Novos dados recebidos do sensor \" ${message['sensorName']}\". Dado: ${message['data']}`
+          `Novos dados recebidos do sensor \" ${message['sensorName']}\". Umidade do solo: ${message['data']} g/g`
         );
       },
 

@@ -1,0 +1,8 @@
+# hidden files, exluding gitattributes
+.*
+!.gitattributes
+!.gitignore
+
+# data folder
+/data
+/lorawan-devices

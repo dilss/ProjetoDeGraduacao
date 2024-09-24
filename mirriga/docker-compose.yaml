@@ -21,6 +21,8 @@ services:
       - chirpstack
       - chirpstack-gateway-bridge
       - chirpstack-rest-api
+      - nodered
+      - influxdb
     ports:
       - '8080:8080'
 
@@ -53,5 +55,27 @@ services:
     ports:
       - '3306:3306'
 
+  nodered:
+    image: nodered/node-red
+    container_name: nodered
+    volumes:
+      - ./node_data:/data
+    ports:
+      - '1880:1880'
+
+  influxdb:
+    image: influxdb:2.7
+    container_name: influxdb
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=dilss
+      - DOCKER_INFLUXDB_INIT_PASSWORD=Orion@99
+      - DOCKER_INFLUXDB_INIT_ORG=mirriga-corp
+      - DOCKER_INFLUXDB_INIT_BUCKET=mirriga
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=MyInitialAdminToken0==
+    volumes:
+      - ./influxdb_data:/var/lib/influxdb2:rw
+    ports:
+      - '8086:8086'
 volumes:
   data:

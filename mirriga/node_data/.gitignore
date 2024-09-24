@@ -1,0 +1,7 @@
+# hidden files, exluding gitattributes
+.*
+!.gitignore
+
+# data folder
+/node_modules
+/lib

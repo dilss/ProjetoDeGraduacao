@@ -1,0 +1,171 @@
+[
+    {
+        "id": "7fe3cd913adbb799",
+        "type": "tab",
+        "label": "Fluxo 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "936a77355143202d",
+        "type": "mqtt-broker",
+        "name": "Chirpstack",
+        "broker": "http://mosquitto",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "70be63f330d280ca",
+        "type": "influxdb",
+        "hostname": "127.0.0.1",
+        "port": "8086",
+        "protocol": "http",
+        "database": "database",
+        "name": "influxDB",
+        "usetls": false,
+        "tls": "",
+        "influxdbVersion": "2.0",
+        "url": "http://influxdb:8086",
+        "timeout": "10",
+        "rejectUnauthorized": false
+    },
+    {
+        "id": "5d39f0ee17b97fff",
+        "type": "mqtt in",
+        "z": "7fe3cd913adbb799",
+        "name": "MIrriga Chirpstack",
+        "topic": "application/81590ba9-54fe-4639-bca7-dddceaf06c11/device/+/event/up",
+        "qos": "2",
+        "datatype": "json",
+        "broker": "936a77355143202d",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 290,
+        "y": 360,
+        "wires": [
+            [
+                "7787c946714543df"
+            ]
+        ]
+    },
+    {
+        "id": "8882a564767044f2",
+        "type": "debug",
+        "z": "7fe3cd913adbb799",
+        "name": "Message",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1160,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "f3117a47d681b0a7",
+        "type": "influxdb out",
+        "z": "7fe3cd913adbb799",
+        "influxdb": "70be63f330d280ca",
+        "name": "InfluxDB",
+        "measurement": "soil-water-content",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "mirriga-corp",
+        "bucket": "mirriga",
+        "x": 1160,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "7787c946714543df",
+        "type": "base64",
+        "z": "7fe3cd913adbb799",
+        "name": "Base64 to String",
+        "action": "",
+        "property": "payload.data",
+        "x": 570,
+        "y": 360,
+        "wires": [
+            [
+                "8882a564767044f2",
+                "ba77aa2aed6e9858"
+            ]
+        ]
+    },
+    {
+        "id": "ba77aa2aed6e9858",
+        "type": "function",
+        "z": "7fe3cd913adbb799",
+        "name": "Prepare Data to InfluxDB",
+        "func": "let valueAsString = new utilDecoder.TextDecoder().decode(msg.payload.data);\nlet soilWaterContent  = parseFloat(valueAsString);\n\nlet dataToInfluxDB = [\n     {\n          \"deviceName\": msg.payload.deviceInfo.deviceName,\n          \"devEui\": msg.payload.deviceInfo.devEui,\n          \"soilWaterContent\": soilWaterContent,\n          \"rssi\": msg.payload.rxInfo[0].rssi,\n\n     },\n     {\n          \"Device\": msg.payload.deviceInfo.deviceName,\n\n\n     }\n\n];\n\nmsg.payload = dataToInfluxDB;\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [
+            {
+                "var": "utilDecoder",
+                "module": "util"
+            }
+        ],
+        "x": 850,
+        "y": 500,
+        "wires": [
+            [
+                "b128178fe49e31ea",
+                "f3117a47d681b0a7"
+            ]
+        ]
+    },
+    {
+        "id": "b128178fe49e31ea",
+        "type": "debug",
+        "z": "7fe3cd913adbb799",
+        "name": "Data to be stored",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1190,
+        "y": 420,
+        "wires": []
+    }
+]

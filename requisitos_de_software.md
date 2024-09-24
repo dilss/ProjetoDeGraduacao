@@ -57,7 +57,7 @@
 ## Status hídrico da área
 
 -   [ ] 1 - Cada envio de dados dos sensores de uma determinada àrea dispara o cálculo de lâmina de água faltante para a CC
--   [ ] 2 - O status hídrico (composto por percentual hídrico da área e timestamp) é persistido em um banco de dados
+-   [x] 2 - O status hídrico (composto por percentual hídrico da área e timestamp) é persistido em um banco de dados
 
 ## Gerenciamento de Sistemas de Irrigação
 <b> Método (Superfície, Aspersão, Localizada), tipo (gotejamento, faixas, pivô central, sucos, etc.) e eficiência(%) e vazão total do sistema de irrigação(Q em L/h - litros por hora)</b>
