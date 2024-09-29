@@ -10,7 +10,7 @@ import { SensorService } from './sensor.service';
   providedIn: 'root',
 })
 export class SensorKeyService {
-  private readonly baseUrl: String = 'http://localhost:8080/api/sensors';
+  private readonly baseUrl: String = 'http://localhost:8081/api/sensors';
 
   sensorKeysChanged$: Subject<SensorKeysModel> = new Subject<SensorKeysModel>();
 

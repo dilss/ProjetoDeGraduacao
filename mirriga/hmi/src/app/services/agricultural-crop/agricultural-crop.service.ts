@@ -9,7 +9,7 @@ import { AgriculturalCrop } from '../../models/agricultural-crop/agricultural-cr
 })
 export class AgriculturalCropService {
   private readonly baseUrl: String =
-    'http://localhost:8080/api/agricultural-crops';
+    'http://localhost:8081/api/agricultural-crops';
 
   private agriculturalCrops: AgriculturalCrop[] = [];
 

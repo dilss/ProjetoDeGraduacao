@@ -8,7 +8,7 @@ import { Sensor } from '../../models/sensor/sensor.model';
   providedIn: 'root',
 })
 export class SensorService {
-  private readonly baseUrl: String = 'http://localhost:8080/api/sensors';
+  private readonly baseUrl: String = 'http://localhost:8081/api/sensors';
 
   private sensors: Sensor[] = [];
 

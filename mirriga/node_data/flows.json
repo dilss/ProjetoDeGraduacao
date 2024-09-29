@@ -2,7 +2,7 @@
     {
         "id": "7fe3cd913adbb799",
         "type": "tab",
-        "label": "Fluxo 1",
+        "label": "Chirpstack to Influxdb",
         "disabled": false,
         "info": "",
         "env": []
@@ -78,7 +78,7 @@
         "id": "8882a564767044f2",
         "type": "debug",
         "z": "7fe3cd913adbb799",
-        "name": "Message",
+        "name": "Debug",
         "active": true,
         "tosidebar": true,
         "console": false,
@@ -87,7 +87,7 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1160,
+        "x": 1150,
         "y": 360,
         "wires": []
     },
@@ -106,7 +106,7 @@
         "org": "mirriga-corp",
         "bucket": "mirriga",
         "x": 1160,
-        "y": 500,
+        "y": 440,
         "wires": []
     },
     {
@@ -130,7 +130,7 @@
         "type": "function",
         "z": "7fe3cd913adbb799",
         "name": "Prepare Data to InfluxDB",
-        "func": "let valueAsString = new utilDecoder.TextDecoder().decode(msg.payload.data);\nlet soilWaterContent  = parseFloat(valueAsString);\n\nlet dataToInfluxDB = [\n     {\n          \"deviceName\": msg.payload.deviceInfo.deviceName,\n          \"devEui\": msg.payload.deviceInfo.devEui,\n          \"soilWaterContent\": soilWaterContent,\n          \"rssi\": msg.payload.rxInfo[0].rssi,\n\n     },\n     {\n          \"Device\": msg.payload.deviceInfo.deviceName,\n\n\n     }\n\n];\n\nmsg.payload = dataToInfluxDB;\n\nreturn msg;",
+        "func": "let valueAsString = new utilDecoder.TextDecoder().decode(msg.payload.data);\nlet soilWaterContent  = parseFloat(valueAsString);\n\nlet dataToInfluxDB = [\n     {\n          \"soilWaterContent\": soilWaterContent,\n          \"rssi\": msg.payload.rxInfo[0].rssi\n     },\n     {\n          \"sensor_name\": msg.payload.deviceInfo.deviceName,\n          \"device_eui\": msg.payload.deviceInfo.devEui\n     }\n\n];\n\nmsg.payload = dataToInfluxDB;\n\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -142,30 +142,13 @@
                 "module": "util"
             }
         ],
-        "x": 850,
-        "y": 500,
+        "x": 870,
+        "y": 440,
         "wires": [
             [
-                "b128178fe49e31ea",
-                "f3117a47d681b0a7"
+                "f3117a47d681b0a7",
+                "8882a564767044f2"
             ]
         ]
-    },
-    {
-        "id": "b128178fe49e31ea",
-        "type": "debug",
-        "z": "7fe3cd913adbb799",
-        "name": "Data to be stored",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1190,
-        "y": 420,
-        "wires": []
     }
 ]

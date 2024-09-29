@@ -75,6 +75,14 @@ public enum MirrigaErrorEnum implements IAppError {
         ERROR_ADDING_SENSOR_NETWORK_KEY("507", "Erro ao tentar adicionar a chave de rede ao sensor",
                         Status.INTERNAL_SERVER_ERROR),
         ERROR_UPDATING_SENSOR_NETWORK_KEY("508", "Erro ao tentar atualizar a chave de rede do sensor",
+                        Status.INTERNAL_SERVER_ERROR),
+
+        // Erros related to Influxdb
+        ERROR_QUERYING_MEASUREMENTS_FROM_ALL_SENSORS("600", "Erro a tentar buscar as medições dos sensores no Influxdb",
+                        Status.INTERNAL_SERVER_ERROR),
+        ERROR_GETTING_SENSOR_MEASUREMENTS("601", "Erro ao buscar as medições do sensor no Influxdb",
+                        Status.INTERNAL_SERVER_ERROR),
+        ERROR_GETTING_SENSOR_MOST_RECENT_MEASUREMENT("602", "Erro ao buscar a medição mais recente do sensor",
                         Status.INTERNAL_SERVER_ERROR);
 
         private final String code;

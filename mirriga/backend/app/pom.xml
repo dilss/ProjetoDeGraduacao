@@ -79,6 +79,13 @@
       <artifactId>quarkus-websockets</artifactId>
     </dependency>
 
+    <!-- Influxdb -->
+    <dependency>
+      <groupId>com.influxdb</groupId>
+      <artifactId>influxdb-client-java</artifactId>
+      <version>6.6.0</version>
+    </dependency>
+
     <!-- Lombok -->
     <dependency>
       <groupId>org.projectlombok</groupId>

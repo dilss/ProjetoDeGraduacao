@@ -9,7 +9,7 @@ import { ToastService } from '../toast.service';
 })
 export class IrrigationSystemService {
   private readonly baseUrl: String =
-    'http://localhost:8080/api/irrigation-systems';
+    'http://localhost:8081/api/irrigation-systems';
 
   private irrigationSystems: IrrigationSystem[] = [];
 

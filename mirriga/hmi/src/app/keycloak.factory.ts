@@ -4,10 +4,11 @@ export function keycloakFactory(keycloakService: KeycloakService) {
   return async () =>
     keycloakService.init({
       config: {
-        url: 'http://localhost:8081',
+        url: 'http://localhost:8080',
         realm: 'mirriga',
         clientId: 'mirriga_hmi',
       },
+      loadUserProfileAtStartUp: true,
       initOptions: {
         onLoad: 'login-required',
         flow: 'implicit',

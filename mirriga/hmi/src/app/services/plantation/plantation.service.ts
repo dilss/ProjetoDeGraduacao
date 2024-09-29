@@ -9,7 +9,7 @@ import { AreaService } from '../area/area.service';
   providedIn: 'root',
 })
 export class PlantationService {
-  private readonly baseUrl: String = 'http://localhost:8080/api/plantations';
+  private readonly baseUrl: String = 'http://localhost:8081/api/plantations';
 
   private plantations: Plantation[] = [];
 

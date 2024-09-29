@@ -7,6 +7,7 @@ services:
     container_name: hmi
     depends_on:
       - backend
+      - keycloak
     ports:
       - '4200:4200'
 
@@ -15,6 +16,8 @@ services:
       context: ./backend/app
       dockerfile: src/main/docker/Dockerfile.jvm
     container_name: backend
+    env_file:
+      - ./backend/app/.env
     depends_on:
       - db
       - keycloak
@@ -24,7 +27,7 @@ services:
       - nodered
       - influxdb
     ports:
-      - '8080:8080'
+      - '8081:8081'
 
   keycloak:
     image: keycloak/keycloak:25.0.2
@@ -39,7 +42,7 @@ services:
     volumes:
       - './keycloak/themes/mirriga/:/opt/keycloak/themes/mirriga/'
     ports:
-      - '8081:8080'
+      - '8080:8080'
     command: start-dev
     depends_on:
       - db

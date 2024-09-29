@@ -8,7 +8,7 @@ import { ToastService } from '../toast.service';
   providedIn: 'root',
 })
 export class SoilService {
-  private readonly baseUrl: String = 'http://localhost:8080/api/soils';
+  private readonly baseUrl: String = 'http://localhost:8081/api/soils';
 
   private soils: Soil[] = [];
 

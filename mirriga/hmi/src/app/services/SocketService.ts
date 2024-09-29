@@ -7,7 +7,7 @@ import { Subscription } from 'rxjs';
   providedIn: 'root',
 })
 export class SocketService {
-  subject = webSocket('ws://localhost:8080/mirriga-web-socket');
+  subject = webSocket('ws://localhost:8081/mirriga-web-socket');
 
   constructor(private toastService: ToastService) {}
 

@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
   providedIn: 'root',
 })
 export class AreaService {
-  private readonly baseUrl: String = 'http://localhost:8080/api/areas';
+  private readonly baseUrl: String = 'http://localhost:8081/api/areas';
 
   private areas: Area[] = [];
 
