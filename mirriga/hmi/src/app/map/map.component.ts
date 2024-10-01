@@ -16,6 +16,7 @@ import { FooterComponent } from '../footer/footer.component';
 import { SocketService } from '../services/SocketService';
 import { MapService } from '../services/map/map.service';
 import { SensorService } from '../services/sensor/sensor.service';
+import { SensorMeasurementsService } from '../services/sensor/sensor-measurements.service';
 
 Icon.Default.imagePath = 'leaflet/';
 @Component({
@@ -48,6 +49,7 @@ export class MapComponent implements OnInit, OnDestroy {
     private areaService: AreaService,
     private mapService: MapService,
     private sensorService: SensorService,
+    private sensorMeasurementsService: SensorMeasurementsService,
     private socketService: SocketService
   ) {}
 
@@ -63,24 +65,36 @@ export class MapComponent implements OnInit, OnDestroy {
         .drawAreas()
         .forEach((polygon) => this.layers.push(polygon));
     });
-    let sub3 = this.sensorService.sensorListChanged$.subscribe((_sensors) => {
-      this.layers.forEach((layer) => {
-        if (layer instanceof Marker) {
-          layer.remove();
+
+    let sub3 =
+      this.sensorMeasurementsService.mostRecentMeasurementsListChanged$.subscribe(
+        {
+          next: (_value) => {
+            this.layers.forEach((layer) => {
+              if (layer instanceof Marker) {
+                layer.remove();
+              }
+            });
+            this.mapService
+              .getSensorsMarkers()
+              .forEach((sensorMarker) => this.layers.push(sensorMarker));
+          },
         }
-      });
-      this.mapService
-        .getSensorsMarkers()
-        .forEach((sensorMarker) => this.layers.push(sensorMarker));
+      );
+
+    let sub4 = this.sensorService.sensorListChanged$.subscribe((_sensors) => {
+      this.sensorMeasurementsService.fetchEachSensorMostRecentMeasurement();
     });
 
-    let sub4 = this.mapService.elementToFocusOnMap$.subscribe(
+    let sub5 = this.mapService.elementToFocusOnMap$.subscribe(
       (elementToFit) => (this.elementToFitOnMap = elementToFit)
     );
+
     this.areaService.fetchAreas();
     this.sensorService.fetchSensors();
+    this.sensorMeasurementsService.fetchEachSensorMostRecentMeasurement();
     this.layers = this.mapService.drawAreas();
-    this.subscriptions.push(sub1, sub2, sub3, sub4);
+    this.subscriptions.push(sub1, sub2, sub3, sub4, sub5);
   }
 
   ngOnDestroy(): void {

@@ -24,6 +24,8 @@ import { Sensor } from '../../models/sensor/sensor.model';
 import { SensorService } from '../sensor/sensor.service';
 import { SensorMenuComponent } from '../../sensor/sensor-menu/sensor-menu.component';
 import { WaterStatusComponent } from '../../water-status/water-status.component';
+import { SensorMeasurementsService } from '../sensor/sensor-measurements.service';
+import { SensorMeasurement } from '../../models/sensor/sensor-measurements.model';
 
 @Injectable({
   providedIn: 'root',
@@ -39,17 +41,18 @@ export class MapService {
   readonly AREA_WITH_PLANATATION_COLOR: string = '#228B22';
   readonly NO_NETWORK_KEY_SENSOR_ICON: string =
     '../../assets/images/icons/sensor-marker/metering-no-network-key.png';
-  readonly NEVER_SEEN_SENSOR_ICON: string =
+  readonly CRITICAL_SENSOR_ICON: string =
+    '../../assets/images/icons/sensor-marker/metering-critical.png';
+  readonly WARNING_SENSOR_ICON: string =
     '../../assets/images/icons/sensor-marker/metering-warning.png';
-  readonly OFFLINE_SENSOR_ICON: string =
-    '../../assets/images/icons/sensor-marker/metering-unhealthy.png';
   readonly HEALTHY_SENSOR_ICON: string =
     '../../assets/images/icons/sensor-marker/metering-healthy.png';
 
   constructor(
     injector: Injector,
     private areaService: AreaService,
-    private sensorService: SensorService
+    private sensorService: SensorService,
+    private sensorMeasurementsService: SensorMeasurementsService
   ) {
     const AreaMenuElement = createCustomElement(AreaMenuComponent, {
       injector: injector,
@@ -101,9 +104,12 @@ export class MapService {
   }
 
   public getSensorsMarkers(): Marker<Sensor>[] {
-    return this.sensorService.sensorsList.map((sensor) =>
-      this.createMarker(sensor)
-    );
+    return this.sensorService.sensorsList.map((sensor) => {
+      let measurement = this.sensorMeasurementsService
+        .sensorsMostRecentMeasurements()
+        .find((measurement) => sensor.deviceEui == measurement.deviceEui);
+      return this.createMarker(sensor, measurement);
+    });
   }
 
   public focusAreaOnMap(areaId: number): void {
@@ -191,9 +197,12 @@ export class MapService {
     }
   }
 
-  private createMarker(sensor: Sensor): Marker<Sensor> {
+  private createMarker(
+    sensor: Sensor,
+    mostRecentMeasurement: SensorMeasurement
+  ): Marker<Sensor> {
     let icon: Icon = new Icon({
-      iconUrl: this.defineMarkerIcon(sensor),
+      iconUrl: this.defineMarkerIcon(sensor, mostRecentMeasurement),
       iconSize: [50, 50],
       iconAnchor: [25, 50],
     });
@@ -226,11 +235,27 @@ export class MapService {
     marker.setPopupContent(sensorMenuComponent).openPopup(event.latlng);
   }
 
-  private defineMarkerIcon(sensor: Sensor): string {
+  private defineMarkerIcon(
+    sensor: Sensor,
+    mostRecentMeasurement: SensorMeasurement
+  ): string {
     let iconUrl = this.NO_NETWORK_KEY_SENSOR_ICON;
     if (sensor.networkKey) {
-      iconUrl = this.NEVER_SEEN_SENSOR_ICON;
+      iconUrl = this.HEALTHY_SENSOR_ICON;
+    }
+
+    let date = new Date(mostRecentMeasurement.timestamp);
+    if (this.getDateMinutesAgo(5) > date.getTime()) {
+      iconUrl = this.WARNING_SENSOR_ICON;
+    }
+
+    if (this.getDateMinutesAgo(10) > date.getTime()) {
+      iconUrl = this.CRITICAL_SENSOR_ICON;
     }
     return iconUrl;
+  }
+
+  private getDateMinutesAgo(minutesAgo: number): number {
+    return Date.now() - minutesAgo * 60000;
   }
 }

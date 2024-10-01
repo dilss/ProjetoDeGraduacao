@@ -5,7 +5,7 @@
 -   [x] 3 - Adicionar marcadores de sensores no mapa (criar com entradas por coordenadas)
 -   [x] 4 - Adicionar funcionalidade de edição de sensores
 -   [x] 5 - Adicionar funcionalidade de exclusão de sensores
--   [ ] 6 - Mudar cor de marcadores de acordo com o health status do sensor
+-   [x] 6 - Mudar cor de marcadores de acordo com o health status do sensor
 -   [ ] 7 - Clicar nos marcadores mostra uma tabela com os últimos dados enviados pelo sensor
 -   [x] 8 - Abrir o context menu do sensor (clique direito do mouse) possibilita excluir ou abrir a edição
 -   [ ] 9 - Se a coordenda do sensor não estiver dentro de uma área demarcada mostrar a mensagem:"Sensor fora de área demarcada" - (Usar componente 'toast' para isso)
@@ -74,7 +74,7 @@
 -   [ ] 1 - Clicar na plantação mostra o status hídrico do solo (quantidade de água presente e proximidade desse status do PMP e da CC)
 -   [ ] 2 - Clicar na plantação mostra também a lâmina de água a ser aplicada para elevar a umidade do solo até a CC
 -   [ ] 3 - Clicar na plantação mostra ainda o tempo de atividade do sistema de irrigação para que a lâmina seja completamente aplicada
--   [ ] 4 - É possível alternar entre diferentes sistemas de irrigação e ver esse tempo on do sistema selecionado
+-   [ ] 4 - É possível alternar entre diferentes sistemas de irrigação e ver esse tempo *on* do sistema selecionado
 
 ## Autenticação e Autorização
 

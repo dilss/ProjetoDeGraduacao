@@ -12,6 +12,8 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.mirriga.influxdb.InfluxdbSensorData;
+import com.mirriga.influxdb.MirrigaInfluxdbService;
 import com.mirriga.websocket.WebSocketPayload;
 import com.mirriga.websocket.WebSocketServer;
 
@@ -25,6 +27,9 @@ public class MqttMirrigaConsumer {
 
     @Inject
     private WebSocketServer webSocketServer;
+
+    @Inject
+    private MirrigaInfluxdbService mirrigaInfluxdbService;
 
     @Incoming("mirriga")
     public CompletionStage<Void> consume(Message<byte[]> message) {
@@ -40,12 +45,15 @@ public class MqttMirrigaConsumer {
             LOG.info("Dados recebidos do sensor \"{}\" - Umidade do solo: {}", payload.getDeviceInfo().getDeviceName(),
                     value);
 
+            // IrrigationData irrigationData = new
+            // IrrigationData(irrigationService.calculateIrrigation(sensorEui));
 
+            // Enviar os dados da medida mais recente do sensor para evitar uma chamada http
+            // por parte do front
+            InfluxdbSensorData sensorData = this.mirrigaInfluxdbService
+                    .getMostRecentMeasurementFromSensor(payload.getDeviceInfo().getDevEui());
+            webSocketServer.sendData(new WebSocketPayload(sensorData));
 
-        //    IrrigationData irrigationData = new IrrigationData(irrigationService.calculateIrrigation(sensorEui));
-
-
-            webSocketServer.sendData(new WebSocketPayload(payload.getDeviceInfo().getDeviceName(), value));
             return message.ack();
 
         } catch (Exception e) {

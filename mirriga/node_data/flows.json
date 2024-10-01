@@ -130,7 +130,7 @@
         "type": "function",
         "z": "7fe3cd913adbb799",
         "name": "Prepare Data to InfluxDB",
-        "func": "let valueAsString = new utilDecoder.TextDecoder().decode(msg.payload.data);\nlet soilWaterContent  = parseFloat(valueAsString);\n\nlet dataToInfluxDB = [\n     {\n          \"soilWaterContent\": soilWaterContent,\n          \"rssi\": msg.payload.rxInfo[0].rssi\n     },\n     {\n          \"sensor_name\": msg.payload.deviceInfo.deviceName,\n          \"device_eui\": msg.payload.deviceInfo.devEui\n     }\n\n];\n\nmsg.payload = dataToInfluxDB;\n\nreturn msg;",
+        "func": "let valueAsString = new utilDecoder.TextDecoder().decode(msg.payload.data);\nlet soilWaterContent  = parseFloat(valueAsString);\n\nlet dataToInfluxDB = [\n     {\n          \"soilWaterContent\": soilWaterContent,\n          \"rssi\": msg.payload.rxInfo[0].rssi\n     },\n     {\n          \"sensor_name\": msg.payload.deviceInfo.deviceName,\n          \"device_eui\": msg.payload.deviceInfo.devEui\n     },\n\n];\n\nmsg.payload = dataToInfluxDB;\n\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,

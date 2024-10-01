@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { webSocket } from 'rxjs/webSocket';
 import { ToastService } from './toast.service';
 import { Subscription } from 'rxjs';
+import { SensorMeasurementsService } from './sensor/sensor-measurements.service';
+import { SensorMeasurement } from '../models/sensor/sensor-measurements.model';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +11,10 @@ import { Subscription } from 'rxjs';
 export class SocketService {
   subject = webSocket('ws://localhost:8081/mirriga-web-socket');
 
-  constructor(private toastService: ToastService) {}
+  constructor(
+    private toastService: ToastService,
+    private sensorMeasurementsService: SensorMeasurementsService
+  ) {}
 
   listen(): Subscription {
     return this.subject.subscribe({
@@ -17,6 +22,15 @@ export class SocketService {
       next: (message: Map<string, string>) => {
         this.toastService.showInfo(
           `Novos dados recebidos do sensor \" ${message['sensorName']}\". Umidade do solo: ${message['data']} g/g`
+        );
+        let measurement: SensorMeasurement = {
+          deviceEui: message['sensorEui'],
+          sensorName: message['sensorName'],
+          soilWaterContent: message['data'],
+          timestamp: message['timestamp'],
+        };
+        this.sensorMeasurementsService.updateMostRecentMeasurementsList(
+          measurement
         );
       },
 
