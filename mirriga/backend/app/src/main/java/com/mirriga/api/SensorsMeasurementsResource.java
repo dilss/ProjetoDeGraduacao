@@ -4,6 +4,7 @@ import com.mirriga.influxdb.MirrigaInfluxdbService;
 
 import io.quarkus.security.Authenticated;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
@@ -14,6 +15,7 @@ import jakarta.ws.rs.core.Response;
 @Path("/sensors-measurements")
 @Consumes(MediaType.APPLICATION_JSON + "; charset=utf-8")
 @Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
+@Transactional(Transactional.TxType.SUPPORTS)
 @Authenticated
 public class SensorsMeasurementsResource {
 

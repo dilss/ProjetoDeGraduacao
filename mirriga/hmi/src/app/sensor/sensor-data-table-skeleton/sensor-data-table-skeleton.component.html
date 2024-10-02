@@ -1,0 +1,14 @@
+<p-table [value]="measurements" [tableStyle]="{ 'min-width': '50rem' }">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Umidade medida (g/g)</th>
+            <th>Hora de aferição (horário local)</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-measurement>
+        <tr>
+            <td><p-skeleton /></td>
+            <td><p-skeleton /></td>
+        </tr>
+    </ng-template>
+</p-table>

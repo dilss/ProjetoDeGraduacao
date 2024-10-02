@@ -1,4 +1,4 @@
-import { Injectable, Injector } from '@angular/core';
+import { ElementRef, Injectable, Injector, ViewChild } from '@angular/core';
 import {
   createCustomElement,
   NgElement,
@@ -26,6 +26,7 @@ import { SensorMenuComponent } from '../../sensor/sensor-menu/sensor-menu.compon
 import { WaterStatusComponent } from '../../water-status/water-status.component';
 import { SensorMeasurementsService } from '../sensor/sensor-measurements.service';
 import { SensorMeasurement } from '../../models/sensor/sensor-measurements.model';
+import { CrossCommunicationService } from '../cross-communication.service';
 
 @Injectable({
   providedIn: 'root',
@@ -35,6 +36,8 @@ export class MapService {
     new Subject<{ latitude: number; longitude: number }>();
 
   elementToFocusOnMap$: Subject<LatLngBounds> = new Subject<LatLngBounds>();
+
+  navigateToDataTableSection$: Subject<void> = new Subject<void>();
 
   readonly NEW_AREA_COLOR: string = 'grey';
   readonly AREA_WITH_SOIL_ONLY_COLOR: string = '#926829';
@@ -52,7 +55,8 @@ export class MapService {
     injector: Injector,
     private areaService: AreaService,
     private sensorService: SensorService,
-    private sensorMeasurementsService: SensorMeasurementsService
+    private sensorMeasurementsService: SensorMeasurementsService,
+    private crossCommunicationService: CrossCommunicationService
   ) {
     const AreaMenuElement = createCustomElement(AreaMenuComponent, {
       injector: injector,
@@ -106,8 +110,9 @@ export class MapService {
   public getSensorsMarkers(): Marker<Sensor>[] {
     return this.sensorService.sensorsList.map((sensor) => {
       let measurement = this.sensorMeasurementsService
-        .sensorsMostRecentMeasurements()
-        .find((measurement) => sensor.deviceEui == measurement.deviceEui);
+        .getSensorsMostRecentMeasurements()
+        .find((measurement) => sensor.deviceEui == measurement?.deviceEui);
+        console.log(measurement)
       return this.createMarker(sensor, measurement);
     });
   }
@@ -214,6 +219,9 @@ export class MapService {
       .clearAllEventListeners()
       .addEventListener('contextmenu', (event: LeafletMouseEvent) => {
         this.sensorContextMenuPopup(event, marker, sensor);
+      })
+      .addEventListener('click', (_event: LeafletMouseEvent) => {
+        this.sensorOnLeftClick(sensor);
       });
     marker
       .getPopup()
@@ -240,22 +248,38 @@ export class MapService {
     mostRecentMeasurement: SensorMeasurement
   ): string {
     let iconUrl = this.NO_NETWORK_KEY_SENSOR_ICON;
+
     if (sensor.networkKey) {
-      iconUrl = this.HEALTHY_SENSOR_ICON;
+      iconUrl = this.CRITICAL_SENSOR_ICON;
     }
 
-    let date = new Date(mostRecentMeasurement.timestamp);
-    if (this.getDateMinutesAgo(5) > date.getTime()) {
-      iconUrl = this.WARNING_SENSOR_ICON;
+    if (!mostRecentMeasurement) {
+      return iconUrl;
     }
 
+    let date = new Date(mostRecentMeasurement?.timestamp);
     if (this.getDateMinutesAgo(10) > date.getTime()) {
       iconUrl = this.CRITICAL_SENSOR_ICON;
     }
+
+    if (this.getDateMinutesAgo(5) > date.getTime()) {
+      iconUrl = this.WARNING_SENSOR_ICON;
+    } else {
+      iconUrl = this.HEALTHY_SENSOR_ICON;
+    }
+
     return iconUrl;
   }
 
   private getDateMinutesAgo(minutesAgo: number): number {
     return Date.now() - minutesAgo * 60000;
+  }
+
+  private sensorOnLeftClick(sensor: Sensor): void {
+    this.navigateToDataTableSection$.next();
+    this.crossCommunicationService.showTableSkeleton();
+    this.sensorMeasurementsService.fetchMeasurementsFromSensorSince(
+      sensor.deviceEui
+    );
   }
 }

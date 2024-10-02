@@ -1,4 +1,4 @@
-export interface SensorMeasurement {
+export class SensorMeasurement {
   deviceEui: string;
   sensorName: string;
   soilWaterContent: number;

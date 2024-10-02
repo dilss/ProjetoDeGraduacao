@@ -15,7 +15,13 @@ export class LoadingInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
+
+    if (req.url.includes('sensors-measurements') ) {
+      return next.handle(req);
+    }
     this.spinnerService.show();
-    return next.handle(req).pipe(finalize(() => this.spinnerService.hide()));
+    return next.handle(req).pipe(finalize(() => {
+      this.spinnerService.hide();
+    }));
   }
 }

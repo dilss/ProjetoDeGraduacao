@@ -7,6 +7,7 @@ import { Subject } from 'rxjs';
 export class CrossCommunicationService {
   private $openSideMenu: Subject<boolean> = new Subject<boolean>();
   private isMenuOpen: boolean = false;
+  showTableSkeleton$: Subject<boolean> = new Subject<boolean>();
 
   toggleSideMenu(): void {
     this.isMenuOpen = !this.isMenuOpen;
@@ -15,5 +16,17 @@ export class CrossCommunicationService {
 
   sideMenuOservable() {
     return this.$openSideMenu.asObservable();
+  }
+
+  tableSkeleton() {
+    return this.showTableSkeleton$.asObservable();
+  }
+
+  showTableSkeleton() {
+    this.showTableSkeleton$.next(true);
+  }
+
+  hideTableSkeleton() {
+    this.showTableSkeleton$.next(false);
   }
 }

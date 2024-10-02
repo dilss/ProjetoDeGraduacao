@@ -1,4 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import {
   Icon,
@@ -17,10 +24,20 @@ import { SocketService } from '../services/SocketService';
 import { MapService } from '../services/map/map.service';
 import { SensorService } from '../services/sensor/sensor.service';
 import { SensorMeasurementsService } from '../services/sensor/sensor-measurements.service';
+import { SensorDataTableComponent } from '../sensor/sensor-data-table/sensor-data-table.component';
+import { CommonModule } from '@angular/common';
+import { CrossCommunicationService } from '../services/cross-communication.service';
+import { SensorDataTableSkeletonComponent } from '../sensor/sensor-data-table-skeleton/sensor-data-table-skeleton.component';
 
 Icon.Default.imagePath = 'leaflet/';
 @Component({
-  imports: [LeafletModule, FooterComponent],
+  imports: [
+    CommonModule,
+    LeafletModule,
+    FooterComponent,
+    SensorDataTableComponent,
+    SensorDataTableSkeletonComponent,
+  ],
   standalone: true,
   selector: 'app-map',
   templateUrl: './map.component.html',
@@ -28,6 +45,14 @@ Icon.Default.imagePath = 'leaflet/';
 })
 export class MapComponent implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];
+
+  tableData: { soilWaterContent: number; localDateTime: string }[] = [];
+  nameCurrentSensorClikced: string = '...';
+
+  showTableSkeleton: boolean = false;
+
+  @ViewChild('sensorDataTable') dataTableElementRef: ElementRef;
+  @ViewChild('mirrigaMap') mapElementRef: ElementRef;
 
   options: MapOptions = {
     layers: [
@@ -50,7 +75,9 @@ export class MapComponent implements OnInit, OnDestroy {
     private mapService: MapService,
     private sensorService: SensorService,
     private sensorMeasurementsService: SensorMeasurementsService,
-    private socketService: SocketService
+    private socketService: SocketService,
+    private crossCommunicationService: CrossCommunicationService,
+    private changeDetector: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -82,19 +109,58 @@ export class MapComponent implements OnInit, OnDestroy {
         }
       );
 
-    let sub4 = this.sensorService.sensorListChanged$.subscribe((_sensors) => {
+    let sub4 =
+      this.sensorMeasurementsService.singleSensorMeasurementsListChanged$.subscribe(
+        {
+          next: (measurements) => {
+            this.showTableSkeleton = false;
+            this.tableData = [
+              ...measurements.map((m) => {
+                return {
+                  soilWaterContent: m.soilWaterContent,
+                  localDateTime: new Date(m.timestamp).toLocaleString(),
+                };
+              }),
+            ];
+            this.nameCurrentSensorClikced = measurements.at(0)?.sensorName;
+            this.changeDetector.detectChanges();
+          },
+        }
+      );
+
+    let sub5 = this.sensorService.sensorListChanged$.subscribe((_sensors) => {
       this.sensorMeasurementsService.fetchEachSensorMostRecentMeasurement();
     });
 
-    let sub5 = this.mapService.elementToFocusOnMap$.subscribe(
+    let sub6 = this.mapService.elementToFocusOnMap$.subscribe(
       (elementToFit) => (this.elementToFitOnMap = elementToFit)
     );
+
+    let sub7 = this.crossCommunicationService.showTableSkeleton$.subscribe({
+      next: (show: boolean) => (this.showTableSkeleton = show),
+    });
+
+    let sub8 = this.mapService.navigateToDataTableSection$.subscribe({
+      next: () => {
+        this.dataTableElementRef.nativeElement.scrollIntoView({
+          behavior: 'smooth',
+        });
+      },
+    });
 
     this.areaService.fetchAreas();
     this.sensorService.fetchSensors();
     this.sensorMeasurementsService.fetchEachSensorMostRecentMeasurement();
     this.layers = this.mapService.drawAreas();
-    this.subscriptions.push(sub1, sub2, sub3, sub4, sub5);
+    this.subscriptions.push(sub1, sub2, sub3, sub4, sub5, sub6, sub7, sub8);
+  }
+
+  closeSensorDataTable() {
+    this.tableData = [];
+    this.changeDetector.detectChanges();
+    this.mapElementRef.nativeElement.scrollIntoView({
+      behavior: 'smooth',
+    });
   }
 
   ngOnDestroy(): void {

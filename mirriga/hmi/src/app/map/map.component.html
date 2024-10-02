@@ -1,3 +1,20 @@
-<div class="map" leaflet [leafletOptions]="options" [leafletLayers]="layers" [leafletFitBounds]="elementToFitOnMap"></div>
+<div
+  #mirrigaMap
+  class="map"
+  leaflet
+  [leafletOptions]="options"
+  [leafletLayers]="layers"
+  [leafletFitBounds]="elementToFitOnMap"
+></div>
+<div #sensorDataTable>
+  <app-sensor-data-table
+    [measurements]="tableData"
+    [sensorName]="nameCurrentSensorClikced"
+    (onButtonCliked)="closeSensorDataTable()"
+    *ngIf="tableData.length != 0"
+  ></app-sensor-data-table>
+</div>
+<div *ngIf="showTableSkeleton">
+  <app-sensor-data-table-skeleton></app-sensor-data-table-skeleton>
+</div>
 <app-footer></app-footer>
-

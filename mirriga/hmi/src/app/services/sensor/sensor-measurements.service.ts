@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject, zip } from 'rxjs';
+import { catchError, Observable, of, Subject, take, zip } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { ToastService } from '../toast.service';
 import { SensorMeasurement } from '../../models/sensor/sensor-measurements.model';
@@ -16,9 +16,16 @@ export class SensorMeasurementsService {
 
   private eachSensorMostRecentMeasurement: SensorMeasurement[] = [];
 
+  private singleSensorMeasurements: SensorMeasurement[] = [];
+
+  readonly handleError = (error: any) => of({ error: error });
+
   measurementsListChanged$: Subject<SensorMeasurement[]> = new Subject<
     SensorMeasurement[]
   >();
+
+  singleSensorMeasurementsListChanged$: Subject<SensorMeasurement[]> =
+    new Subject<SensorMeasurement[]>();
 
   mostRecentMeasurementsListChanged$: Subject<SensorMeasurement[]> =
     new Subject<SensorMeasurement[]>();
@@ -43,37 +50,60 @@ export class SensorMeasurementsService {
       });
   }
 
-  getMeasurementsFromSensorSince(
+  fetchMeasurementsFromSensorSince(
     sensorEui: string,
-    timeAgo: string
-  ): Observable<SensorMeasurement[]> {
-    return this.http.get<SensorMeasurement[]>(
-      `${this.baseUrl}/${sensorEui}/${timeAgo}`,
-      {
+    timeAgo: string = '1d'
+  ): void {
+    this.http
+      .get<SensorMeasurement[]>(`${this.baseUrl}/${sensorEui}/${timeAgo}`, {
         responseType: 'json',
-      }
-    );
+      })
+      .subscribe({
+        next: (measurements) => {
+          this.singleSensorMeasurements = [...measurements].slice(0, 5);
+          this.singleSensorMeasurementsListChanged$.next([
+            ...this.singleSensorMeasurements,
+          ]);
+        },
+
+        error: (_error) =>
+          this.toastService.showError(
+            `Um erro ocorreu a buscar as medições do sensor de com id "${sensorEui}"`
+          ),
+      });
   }
 
   fetchEachSensorMostRecentMeasurement(): void {
-    let measurements = this.sensorService.sensorsList.map((sensor) =>
-      this.fetchMostRecentMeasurementFromSensor(sensor.deviceEui)
+    let mostRecentMeasurements = this.sensorService.sensorsList.map((sensor) =>
+      this.fetchMostRecentMeasurementFromSensor(sensor.deviceEui).pipe(
+        catchError((error, caught) => this.handleError(error))
+      )
     );
-    zip(measurements).subscribe((result) => {
-      this.eachSensorMostRecentMeasurement = [...result];
-      this.mostRecentMeasurementsListChanged$.next([...result]);
+    zip(mostRecentMeasurements).subscribe((result) => {
+      let measurements = result.map((value) => {
+        if (value instanceof SensorMeasurement) {
+          return value;
+        }
+      });
+      this.eachSensorMostRecentMeasurement = [...measurements];
+      this.mostRecentMeasurementsListChanged$.next([...measurements]);
     });
   }
 
   fetchOneSensorMostRecentMeasurement(sensorEui: string): void {
     this.fetchMostRecentMeasurementFromSensor(sensorEui).subscribe(
-      (measurement) => this.updateMostRecentMeasurementsList(measurement)
+      (measurement) => {
+        if (!measurement) {
+          return;
+        }
+        this.updateMostRecentMeasurementsList(measurement);
+      }
     );
   }
 
-  public updateMostRecentMeasurementsList(newMeasurement: SensorMeasurement) {
+  updateMostRecentMeasurementsList(newMeasurement: SensorMeasurement) {
     let index = this.eachSensorMostRecentMeasurement.findIndex(
-      (measurement) => newMeasurement.deviceEui == measurement.deviceEui
+      (measurement) => newMeasurement.deviceEui == measurement?.deviceEui
     );
 
     if (index) {
@@ -96,7 +126,11 @@ export class SensorMeasurementsService {
     );
   }
 
-  sensorsMostRecentMeasurements(): SensorMeasurement[] {
+  getSensorsMostRecentMeasurements(): SensorMeasurement[] {
     return [...this.eachSensorMostRecentMeasurement];
+  }
+
+  getSingleSensorMeasurements(): SensorMeasurement[] {
+    return [...this.singleSensorMeasurements];
   }
 }
