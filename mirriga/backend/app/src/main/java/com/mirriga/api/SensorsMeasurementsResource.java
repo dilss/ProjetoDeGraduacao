@@ -29,6 +29,12 @@ public class SensorsMeasurementsResource {
     }
 
     @GET
+    @Path("/each-sensor-most-recent")
+    public Response getMostRecentMeasurementFromEachSensor() {
+        return GenerateResponse.run(() -> this.mirrigaInfluxdbService.getMostRecentMeasurementFromEachSensor());
+    }
+
+    @GET
     @Path("{sensorEui}/{interval}")
     public Response getMeasurementsFromSensorSince(String sensorEui, String interval) {
         return GenerateResponse
@@ -40,4 +46,5 @@ public class SensorsMeasurementsResource {
     public Response getMostRecentMeasurementFromSensor(String sensorEui) {
         return GenerateResponse.run(() -> this.mirrigaInfluxdbService.getMostRecentMeasurementFromSensor(sensorEui));
     }
+
 }

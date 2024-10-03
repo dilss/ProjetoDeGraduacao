@@ -7,5 +7,6 @@ export class Sensor {
   name: string;
   latitude: number;
   longitude: number;
+  mostRecentMeasurementTimestamp?: string;
   plantation?: Plantation;
 }

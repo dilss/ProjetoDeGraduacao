@@ -119,4 +119,37 @@ public class MirrigaInfluxdbService {
 
         return new InfluxdbSensorData(tables.get(0).getRecords().get(0));
     }
+
+    public List<InfluxdbSensorData> getMostRecentMeasurementFromEachSensor() throws MirrigaException {
+        InfluxDBClient influxDBClient = InfluxDBClientFactory.create(serverUrl.get(), token.get().toCharArray(),
+                organization,
+                bucket);
+        String flux = """
+                from(bucket: "mirriga")
+                |> range(start: 0, stop: now())
+                |> filter(fn: (r) => r["_measurement"] == "soil-water-content")
+                |> filter(fn: (r) => r["_field"] == "soilWaterContent")
+                |> last()
+                              """;
+        QueryApi queryApi = influxDBClient.getQueryApi();
+
+        List<FluxTable> tables;
+
+        try {
+            tables = queryApi.query(flux);
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOG.error(e.getMessage());
+            throw new MirrigaException(MirrigaErrorEnum.ERROR_GETTING_EACH_SENSOR_MOST_RECENT_MEASUREMENT);
+        }
+        influxDBClient.close();
+        List<InfluxdbSensorData> eachSensorMostRecenMeasurementList = new ArrayList<>();
+
+        tables.forEach(table -> {
+            eachSensorMostRecenMeasurementList
+                    .addAll(table.getRecords().stream().map(InfluxdbSensorData::new).collect(Collectors.toList()));
+        });
+
+        return eachSensorMostRecenMeasurementList;
+    }
 }

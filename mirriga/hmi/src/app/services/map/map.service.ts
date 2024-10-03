@@ -24,7 +24,6 @@ import { Sensor } from '../../models/sensor/sensor.model';
 import { SensorMenuComponent } from '../../sensor/sensor-menu/sensor-menu.component';
 import { WaterStatusComponent } from '../../water-status/water-status.component';
 import { SensorMeasurementsService } from '../sensor/sensor-measurements.service';
-import { SensorMeasurement } from '../../models/sensor/sensor-measurements.model';
 import { CrossCommunicationService } from '../cross-communication.service';
 import { MirrigaSensorMarker } from '../../models/mirriga-map-marker/MirrigaMapMarker';
 
@@ -239,15 +238,27 @@ export class MapService {
       .getPopup()
       .addEventListener('mouseup', (_event) => marker.closePopup());
     marker.setMirrigaId(sensor.deviceEui);
-    return marker;
+
+    if (!sensor.networkKey) {
+      return marker;
+    }
+    return this.updateSensorMarker(marker, sensor);
   }
 
   updateSensorMarker(
     marker: MirrigaSensorMarker,
-    measurement: SensorMeasurement
+    sensor: Sensor
   ): MirrigaSensorMarker {
     let iconUrl: string = marker?.getIcon().options.iconUrl;
-    let date = new Date(measurement?.timestamp);
+    let newIcon = marker.getIcon();
+
+    if (!sensor.mostRecentMeasurementTimestamp) {
+      newIcon.options.iconUrl = this.CRITICAL_SENSOR_ICON;
+      marker.setIcon(newIcon);
+      return marker;
+    }
+
+    let date = new Date(sensor!.mostRecentMeasurementTimestamp);
     if (date.getTime() < this.getDateMinutesAgo(5)) {
       iconUrl = this.WARNING_SENSOR_ICON;
     }
@@ -257,10 +268,9 @@ export class MapService {
     }
 
     if (date.getTime() > this.getDateMinutesAgo(5)) {
-      iconUrl = this.HEALTHY_SENSOR_ICON;      
+      iconUrl = this.HEALTHY_SENSOR_ICON;
     }
 
-    let newIcon = marker.getIcon();
     newIcon.options.iconUrl = iconUrl;
     marker.setIcon(newIcon);
 

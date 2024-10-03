@@ -83,6 +83,9 @@ public enum MirrigaErrorEnum implements IAppError {
         ERROR_GETTING_SENSOR_MEASUREMENTS("601", "Erro ao buscar as medições do sensor no Influxdb",
                         Status.INTERNAL_SERVER_ERROR),
         ERROR_GETTING_SENSOR_MOST_RECENT_MEASUREMENT("602", "Erro ao buscar a medição mais recente do sensor",
+                        Status.INTERNAL_SERVER_ERROR),
+        ERROR_GETTING_EACH_SENSOR_MOST_RECENT_MEASUREMENT("603",
+                        "Erro ao buscar a medição mais recente de cada um dos sensores",
                         Status.INTERNAL_SERVER_ERROR);
 
         private final String code;
