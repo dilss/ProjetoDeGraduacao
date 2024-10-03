@@ -4,6 +4,7 @@ import { ToastService } from './toast.service';
 import { Subscription } from 'rxjs';
 import { SensorMeasurementsService } from './sensor/sensor-measurements.service';
 import { SensorMeasurement } from '../models/sensor/sensor-measurements.model';
+import { MapService } from './map/map.service';
 
 @Injectable({
   providedIn: 'root',
@@ -29,7 +30,8 @@ export class SocketService {
           soilWaterContent: message['data'],
           timestamp: message['timestamp'],
         };
-        this.sensorMeasurementsService.updateMostRecentMeasurementsList(
+
+        this.sensorMeasurementsService.sensorPushedMeasurement$.next(
           measurement
         );
       },

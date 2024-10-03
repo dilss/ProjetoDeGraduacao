@@ -1,4 +1,4 @@
-import { ElementRef, Injectable, Injector, ViewChild } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import {
   createCustomElement,
   NgElement,
@@ -21,12 +21,12 @@ import { Coordinate } from '../../models/area/coordinate.model';
 import { AreaService } from '../area/area.service';
 import { Subject } from 'rxjs';
 import { Sensor } from '../../models/sensor/sensor.model';
-import { SensorService } from '../sensor/sensor.service';
 import { SensorMenuComponent } from '../../sensor/sensor-menu/sensor-menu.component';
 import { WaterStatusComponent } from '../../water-status/water-status.component';
 import { SensorMeasurementsService } from '../sensor/sensor-measurements.service';
 import { SensorMeasurement } from '../../models/sensor/sensor-measurements.model';
 import { CrossCommunicationService } from '../cross-communication.service';
+import { MirrigaSensorMarker } from '../../models/mirriga-map-marker/MirrigaMapMarker';
 
 @Injectable({
   providedIn: 'root',
@@ -54,7 +54,6 @@ export class MapService {
   constructor(
     injector: Injector,
     private areaService: AreaService,
-    private sensorService: SensorService,
     private sensorMeasurementsService: SensorMeasurementsService,
     private crossCommunicationService: CrossCommunicationService
   ) {
@@ -104,16 +103,6 @@ export class MapService {
         .getPopup()
         .addEventListener('mouseup', (_event) => polygon.closePopup()); // Close with event from the popup itself
       return polygon;
-    });
-  }
-
-  public getSensorsMarkers(): Marker<Sensor>[] {
-    return this.sensorService.sensorsList.map((sensor) => {
-      let measurement = this.sensorMeasurementsService
-        .getSensorsMostRecentMeasurements()
-        .find((measurement) => sensor.deviceEui == measurement?.deviceEui);
-        console.log(measurement)
-      return this.createMarker(sensor, measurement);
     });
   }
 
@@ -202,33 +191,6 @@ export class MapService {
     }
   }
 
-  private createMarker(
-    sensor: Sensor,
-    mostRecentMeasurement: SensorMeasurement
-  ): Marker<Sensor> {
-    let icon: Icon = new Icon({
-      iconUrl: this.defineMarkerIcon(sensor, mostRecentMeasurement),
-      iconSize: [50, 50],
-      iconAnchor: [25, 50],
-    });
-    let marker: Marker<Sensor> = new Marker<Sensor>(
-      new LatLng(sensor.latitude, sensor.longitude),
-      { icon: icon, title: sensor.name }
-    )
-      .bindPopup(new Popup(), { interactive: true })
-      .clearAllEventListeners()
-      .addEventListener('contextmenu', (event: LeafletMouseEvent) => {
-        this.sensorContextMenuPopup(event, marker, sensor);
-      })
-      .addEventListener('click', (_event: LeafletMouseEvent) => {
-        this.sensorOnLeftClick(sensor);
-      });
-    marker
-      .getPopup()
-      .addEventListener('mouseup', (_event) => marker.closePopup());
-    return marker;
-  }
-
   private sensorContextMenuPopup(
     event: LeafletMouseEvent,
     marker: Marker<Sensor>,
@@ -243,34 +205,6 @@ export class MapService {
     marker.setPopupContent(sensorMenuComponent).openPopup(event.latlng);
   }
 
-  private defineMarkerIcon(
-    sensor: Sensor,
-    mostRecentMeasurement: SensorMeasurement
-  ): string {
-    let iconUrl = this.NO_NETWORK_KEY_SENSOR_ICON;
-
-    if (sensor.networkKey) {
-      iconUrl = this.CRITICAL_SENSOR_ICON;
-    }
-
-    if (!mostRecentMeasurement) {
-      return iconUrl;
-    }
-
-    let date = new Date(mostRecentMeasurement?.timestamp);
-    if (this.getDateMinutesAgo(10) > date.getTime()) {
-      iconUrl = this.CRITICAL_SENSOR_ICON;
-    }
-
-    if (this.getDateMinutesAgo(5) > date.getTime()) {
-      iconUrl = this.WARNING_SENSOR_ICON;
-    } else {
-      iconUrl = this.HEALTHY_SENSOR_ICON;
-    }
-
-    return iconUrl;
-  }
-
   private getDateMinutesAgo(minutesAgo: number): number {
     return Date.now() - minutesAgo * 60000;
   }
@@ -281,5 +215,55 @@ export class MapService {
     this.sensorMeasurementsService.fetchMeasurementsFromSensorSince(
       sensor.deviceEui
     );
+  }
+
+  createMirrigaMarker(sensor: Sensor): MirrigaSensorMarker {
+    let icon: Icon = new Icon({
+      iconUrl: this.NO_NETWORK_KEY_SENSOR_ICON,
+      iconSize: [50, 50],
+      iconAnchor: [25, 50],
+    });
+    let marker: MirrigaSensorMarker = new MirrigaSensorMarker(
+      new LatLng(sensor.latitude, sensor.longitude),
+      { icon: icon, title: sensor.name }
+    )
+      .bindPopup(new Popup(), { interactive: true })
+      .clearAllEventListeners()
+      .addEventListener('contextmenu', (event: LeafletMouseEvent) => {
+        this.sensorContextMenuPopup(event, marker, sensor);
+      })
+      .addEventListener('click', (_event: LeafletMouseEvent) => {
+        this.sensorOnLeftClick(sensor);
+      });
+    marker
+      .getPopup()
+      .addEventListener('mouseup', (_event) => marker.closePopup());
+    marker.setMirrigaId(sensor.deviceEui);
+    return marker;
+  }
+
+  updateSensorMarker(
+    marker: MirrigaSensorMarker,
+    measurement: SensorMeasurement
+  ): MirrigaSensorMarker {
+    let iconUrl: string = marker?.getIcon().options.iconUrl;
+    let date = new Date(measurement?.timestamp);
+    if (date.getTime() < this.getDateMinutesAgo(5)) {
+      iconUrl = this.WARNING_SENSOR_ICON;
+    }
+
+    if (date.getTime() < this.getDateMinutesAgo(10)) {
+      iconUrl = this.CRITICAL_SENSOR_ICON;
+    }
+
+    if (date.getTime() > this.getDateMinutesAgo(5)) {
+      iconUrl = this.HEALTHY_SENSOR_ICON;      
+    }
+
+    let newIcon = marker.getIcon();
+    newIcon.options.iconUrl = iconUrl;
+    marker.setIcon(newIcon);
+
+    return marker;
   }
 }

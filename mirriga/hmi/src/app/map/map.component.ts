@@ -12,7 +12,6 @@ import {
   LatLngBounds,
   Layer,
   MapOptions,
-  Marker,
   Polygon,
   latLng,
   tileLayer,
@@ -28,6 +27,8 @@ import { SensorDataTableComponent } from '../sensor/sensor-data-table/sensor-dat
 import { CommonModule } from '@angular/common';
 import { CrossCommunicationService } from '../services/cross-communication.service';
 import { SensorDataTableSkeletonComponent } from '../sensor/sensor-data-table-skeleton/sensor-data-table-skeleton.component';
+import { MirrigaSensorMarker } from '../models/mirriga-map-marker/MirrigaMapMarker';
+import { SensorMeasurement } from '../models/sensor/sensor-measurements.model';
 
 Icon.Default.imagePath = 'leaflet/';
 @Component({
@@ -44,6 +45,14 @@ Icon.Default.imagePath = 'leaflet/';
   styleUrl: './map.component.css',
 })
 export class MapComponent implements OnInit, OnDestroy {
+  readonly NO_NETWORK_KEY_SENSOR_ICON: string =
+    '../../assets/images/icons/sensor-marker/metering-no-network-key.png';
+  readonly CRITICAL_SENSOR_ICON: string =
+    '../../assets/images/icons/sensor-marker/metering-critical.png';
+  readonly WARNING_SENSOR_ICON: string =
+    '../../assets/images/icons/sensor-marker/metering-warning.png';
+  readonly HEALTHY_SENSOR_ICON: string =
+    '../../assets/images/icons/sensor-marker/metering-healthy.png';
   subscriptions: Subscription[] = [];
 
   tableData: { soilWaterContent: number; localDateTime: string }[] = [];
@@ -67,6 +76,8 @@ export class MapComponent implements OnInit, OnDestroy {
   };
 
   layers: Layer[] = [];
+
+  markers: MirrigaSensorMarker[] = [];
 
   elementToFitOnMap: LatLngBounds;
 
@@ -93,21 +104,55 @@ export class MapComponent implements OnInit, OnDestroy {
         .forEach((polygon) => this.layers.push(polygon));
     });
 
-    let sub3 =
-      this.sensorMeasurementsService.mostRecentMeasurementsListChanged$.subscribe(
-        {
-          next: (_value) => {
-            this.layers.forEach((layer) => {
-              if (layer instanceof Marker) {
-                layer.remove();
-              }
-            });
-            this.mapService
-              .getSensorsMarkers()
-              .forEach((sensorMarker) => this.layers.push(sensorMarker));
-          },
-        }
-      );
+    let markersSubs: Subscription[] = [];
+
+    let sub3 = this.sensorService.sensorListChanged$.subscribe({
+      next: (sensors) => {
+        this.layers.forEach((layer) => {
+          if (layer instanceof MirrigaSensorMarker) {
+            layer.remove();
+            this.markers = [];
+          }
+        });
+        sensors.forEach((sensor) => {
+          let newMarker: MirrigaSensorMarker =
+            this.mapService.createMirrigaMarker(sensor);
+          this.markers.push(newMarker);
+        });
+        this.layers.push(...this.markers);
+        // markersSubs = this.markers.map((marker) =>
+        //   this.sensorMeasurementsService
+        //     .fetchMostRecentMeasurementFromSensor(marker.getMirrigaId())
+        //     .subscribe({
+        //       next: (measurement) => {
+        //         let newMarker = this.mapService.updateSensorMarker(
+        //           marker,
+        //           measurement
+        //         );
+        //         let index = this.markers.findIndex(
+        //           (m) => m.getMirrigaId() == newMarker.getMirrigaId()
+        //         );
+
+        //         if (-1 == index) {
+        //           this.markers.push(newMarker);
+        //         } else {
+        //           this.markers.splice(index, index, newMarker);
+        //         }
+
+        //         this.layers.forEach((layer) => {
+        //           if (layer instanceof MirrigaSensorMarker) {
+        //             if (layer.getMirrigaId() == marker.getMirrigaId()) {
+        //               layer.remove();
+        //               this.layers.push(newMarker);
+        //             }
+        //           }
+        //         });
+        //       },
+        //       error: (err) => {},
+        //     })
+        // );
+      },
+    });
 
     let sub4 =
       this.sensorMeasurementsService.singleSensorMeasurementsListChanged$.subscribe(
@@ -128,9 +173,10 @@ export class MapComponent implements OnInit, OnDestroy {
         }
       );
 
-    let sub5 = this.sensorService.sensorListChanged$.subscribe((_sensors) => {
-      this.sensorMeasurementsService.fetchEachSensorMostRecentMeasurement();
-    });
+    let sub5 =
+      this.sensorMeasurementsService.sensorPushedMeasurement$.subscribe({
+        next: (measurement) => this.updateSensorMarker(measurement),
+      });
 
     let sub6 = this.mapService.elementToFocusOnMap$.subscribe(
       (elementToFit) => (this.elementToFitOnMap = elementToFit)
@@ -150,9 +196,18 @@ export class MapComponent implements OnInit, OnDestroy {
 
     this.areaService.fetchAreas();
     this.sensorService.fetchSensors();
-    this.sensorMeasurementsService.fetchEachSensorMostRecentMeasurement();
     this.layers = this.mapService.drawAreas();
-    this.subscriptions.push(sub1, sub2, sub3, sub4, sub5, sub6, sub7, sub8);
+    this.subscriptions.push(
+      sub1,
+      sub2,
+      sub3,
+      sub4,
+      sub5,
+      sub6,
+      sub7,
+      sub8,
+      ...markersSubs
+    );
   }
 
   closeSensorDataTable() {
@@ -160,6 +215,33 @@ export class MapComponent implements OnInit, OnDestroy {
     this.changeDetector.detectChanges();
     this.mapElementRef.nativeElement.scrollIntoView({
       behavior: 'smooth',
+    });
+  }
+
+  updateSensorMarker(measurement: SensorMeasurement) {
+    let marker = this.markers.find(
+      (marker) => measurement.deviceEui == marker.getMirrigaId()
+    );
+
+    let newMarker = this.mapService.updateSensorMarker(marker, measurement);
+
+    let index = this.markers.findIndex(
+      (m) => m.getMirrigaId() == newMarker.getMirrigaId()
+    );
+
+    if (-1 == index) {
+      this.markers.push(newMarker);
+    } else {
+      this.markers.splice(index, index, newMarker);
+    }
+
+    this.layers.forEach((layer) => {
+      if (layer instanceof MirrigaSensorMarker) {
+        if (layer.getMirrigaId() == marker.getMirrigaId()) {
+          layer.remove();
+          this.layers.push(newMarker);
+        }
+      }
     });
   }
 
