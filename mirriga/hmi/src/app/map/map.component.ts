@@ -154,6 +154,11 @@ export class MapComponent implements OnInit, OnDestroy {
         }
       );
 
+    let sub5_1 =
+      this.sensorMeasurementsService.sensorPushedMeasurement$.subscribe({
+        next: (_measurement) => this.sensorService.fetchSensors(),
+      });
+
     let sub6 = this.mapService.elementToFocusOnMap$.subscribe(
       (elementToFit) => (this.elementToFitOnMap = elementToFit)
     );
@@ -173,7 +178,7 @@ export class MapComponent implements OnInit, OnDestroy {
     this.areaService.fetchAreas();
     this.sensorService.fetchSensors();
     this.layers = this.mapService.drawAreas();
-    this.subscriptions.push(sub1, sub2, sub3, sub4, sub5, sub6, sub7, sub8);
+    this.subscriptions.push(sub1, sub2, sub3, sub4, sub5, sub6, sub7, sub8, sub5_1);
   }
 
   closeSensorDataTable() {
