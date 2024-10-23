@@ -55,7 +55,7 @@ Os softwares utilizados para esta solução, todos de código aberto (*open sour
 
 
 
-### Execultando a Aplicação
+### Executando a Aplicação
 
 - **Keycloak**:
 
